@@ -1,0 +1,5 @@
+{
+  "level": "level",
+  "notification_one": "You have {{count}} notification",
+  "notification_other": "You have {{count}} notifications"
+}

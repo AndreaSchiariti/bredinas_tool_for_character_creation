@@ -1,0 +1,5 @@
+{
+  "level": "livello",
+  "notification_one": "Hai {{count}} notifica",
+  "notification_other": "Hai {{count}} notifiche"
+}
