@@ -1,0 +1,56 @@
+[
+  {
+    "id": "str",
+    "name": "strength",
+    "baseScore": 10,
+    "currentScore": 10,
+    "modifier": 0,
+    "trackModifications": [],
+    "maxLimit" : 20
+  },
+  {
+    "id": "dex",
+    "name": "dexterity",
+    "baseScore": 10,
+    "currentScore": 10,
+    "modifier": 0,
+    "trackModifications": [],
+    "maxLimit" : 20
+  },
+  {
+    "id": "con",
+    "name": "constitution",
+    "baseScore": 10,
+    "currentScore": 10,
+    "modifier": 0,
+    "trackModifications": [],
+    "maxLimit": 20
+  },
+  {
+    "id": "int",
+    "name": "intelligence",
+    "baseScore": 10,
+    "currentScore": 10,
+    "modifier": 0,
+    "trackModifications": [],
+    "maxLimit": 20
+  },
+  {
+    "id": "wis",
+    "name": "wisdom",
+    "baseScore": 10,
+    "currentScore": 10,
+    "modifier": 0,
+    "trackModifications": [],
+    "maxLimit": 20
+  },
+  {
+    "id": "cha",
+    "name": "charisma",
+    "baseScore": 10,
+    "currentScore": 10,
+    "modifier": 0,
+    "trackModifications": [],
+    "maxLimit": 20
+  }
+]

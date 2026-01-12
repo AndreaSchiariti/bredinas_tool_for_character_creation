@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import type { Character } from "../utils/types/character";
+import type { Character } from "../types/character";
 
 export const CharacterContex = createContext<Character | undefined>(undefined)
 

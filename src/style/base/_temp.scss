@@ -1,0 +1,10 @@
+.theme-button {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: var(--primary-box);
+    color: var(--text);
+    padding: 5px 10px;
+    border: 2px solid var(--primary-details);
+    border-radius: 4px;
+}

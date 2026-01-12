@@ -1,0 +1,200 @@
+[
+  {
+    "name": "acrobatics",
+    "ability": "dexterity",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": true,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "animalHandling",
+    "ability": "wisdom",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": false,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "arcana",
+    "ability": "intelligence",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": false,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "athletics",
+    "ability": "strength",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": true,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "deception",
+    "ability": "charisma",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": false,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "history",
+    "ability": "intelligence",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": false,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "insight",
+    "ability": "wisdom",
+    "baseScore": 3,
+    "currentScore": 3,
+    "hasProficiency": true,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "intimidation",
+    "ability": "charisma",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": false,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "investigation",
+    "ability": "intelligence",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": true,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "medicine",
+    "ability": "wisdom",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": false,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "nature",
+    "ability": "intelligence",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": true,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "perception",
+    "ability": "wisdom",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": true,
+    "hasExpertise": true,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "performance",
+    "ability": "charisma",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": false,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "persuasion",
+    "ability": "charsima",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": false,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "religion",
+    "ability": "intelligence",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": false,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "sleightOfHand",
+    "ability": "dexterity",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": true,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "stealth",
+    "ability": "dexterity",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": true,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  },
+  {
+    "name": "survival",
+    "ability": "wisdom",
+    "baseScore": 0,
+    "currentScore": 0,
+    "hasProficiency": true,
+    "hasExpertise": false,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
+    "trackModifications": []
+  }
+]

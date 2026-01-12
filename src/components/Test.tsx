@@ -6,7 +6,7 @@ export function Test() {
   const { t } = useTranslation();
 
   return (
-    <p className="hello-scss">
+    <p className="">
       {`${character.name}, ${t("level")} ${character.level}. ${t(
         "notification",
         { count: 1 }
