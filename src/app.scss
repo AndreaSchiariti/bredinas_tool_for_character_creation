@@ -1,8 +1,26 @@
-.hello-scss {
-  display: flex;
-  width: 100vw;
-  align-items: center;
-  justify-content: center;
-  font-size: 3em;
-  background-color: rgb(159, 159, 159);
+@use "./style/index" as *;
+
+:root {
+  @include theme($light-theme);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+[data-theme="dark"] {
+  @include theme($dark-theme);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    @include theme($dark-theme);
+  }
 }

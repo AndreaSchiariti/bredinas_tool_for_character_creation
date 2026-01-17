@@ -1,10 +1,11 @@
 import { createContext, useContext } from "react";
+import characterJson from "../mock-json/character_json.json";
 
-import type { Character } from "../utils/types/character";
+import type { Character } from "../types/character";
 
-export const CharacterContex = createContext<Character | undefined>(undefined)
+export const CharacterContex = createContext<Character | undefined>(characterJson as Character)
 
-export function useCharacterContext(){
+export function useCharacterContext(): Character{
     const character = useContext(CharacterContex)
 
     if (character === undefined) {

@@ -1,0 +1,82 @@
+[
+  {
+    "type": "acid",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "cold",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "fire",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "force",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "lightning",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "necrotic",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "poison",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "psychic",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "radiant",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "thunder",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "bludgeoning",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "nonMagicalBludgeoning",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "piercing",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "nonMagicalPiercing",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "slashing",
+    "isResistant": false,
+    "isImmune": false
+  },
+  {
+    "type": "nonMagicalSlashing",
+    "isResistant": false,
+    "isImmune": false
+  }
+]
