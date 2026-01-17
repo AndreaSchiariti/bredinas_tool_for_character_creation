@@ -1,0 +1,76 @@
+[
+  {
+    "name": "monk",
+    "subclass": ["warriorOfOpenHand"],
+    "primaryAbility": "dexterityAndWisdom",
+    "hitDie": "d8",
+    "savingThrowProficiency": ["strength", "dexterity"],
+    "weaponProficiency": [
+      {
+        "type": "simple",
+        "details": ""
+      },
+      {
+        "type": "martial",
+        "details": "withLightProperty"
+      }
+    ],
+    "skillProficiency": {
+      "choosingNumber": 2,
+      "skills": [
+        "acrobatics",
+        "athletics",
+        "history",
+        "insight",
+        "religion",
+        "stealth"
+      ]
+    },
+    "toolProficiency": [
+      {
+        "toolToChoose": "chooseAnyArtisanalOrInstrument",
+        "choosingNumber": 1
+      }
+    ],
+    "armorTraining": [],
+    "startingEquipment": {
+      "a": [
+        {
+          "name": "spear",
+          "quantity": 1
+        },
+        {
+          "name": "dagger",
+          "quantity": 5
+        },
+        {
+          "name": "artisanOrInstrumentChose",
+          "quantity": 1
+        },
+        {
+          "name": "esplorerPack",
+          "quantity": 1
+        },
+        {
+          "name": "goldPiece",
+          "quantity": 11
+        }
+      ],
+      "b": [
+        {
+          "name": "goldPiece",
+          "quantity": 50
+        }
+      ]
+    },
+    "becomingClass": [
+      {
+        "level1": ["gainAllTraits", "gainLevel1Features"],
+        "multiclass": ["gainHitDie", "gainLevel1Features"]
+      }
+    ],
+    "classFeature": [],
+    "spellcasting": [],
+    "counters" : []
+  }
+]

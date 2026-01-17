@@ -1,0 +1,13 @@
+.character-sheet {
+    width: 100%;
+    padding: 15px;
+    display: grid;
+    justify-content: center;
+    gap: 15px;
+    grid-template-areas: 
+    "info"
+    "defence"
+    "divider-1"
+    "initiative-movement-and-senses"
+    "proficiency-abilities-skills-and-inspiration";
+}

@@ -1,10 +1,23 @@
-.theme-button {
-    position: fixed;
-    top: 0;
-    right: 0;
-    background-color: var(--primary-box);
-    color: var(--text);
-    padding: 5px 10px;
-    border: 2px solid var(--primary-details);
-    border-radius: 4px;
+.temp-buttons-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 3px;
+  z-index: 10;
+}
+
+.temp-button {
+  background-color: var(--primary-box);
+  color: var(--text);
+  padding: 5px 10px;
+  border: 2px solid var(--primary-details);
+  border-radius: 4px;
+}
+
+
+.temp-togglie-skills-with-abilitites-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }

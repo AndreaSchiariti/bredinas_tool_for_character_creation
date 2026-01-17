@@ -11,7 +11,14 @@
     align-items: flex-start;
 }
 
-.flex-centered {
+.flex-v-centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-h-centered {
     display: flex;
     justify-content: center;
     align-items: center;

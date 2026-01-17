@@ -30,5 +30,5 @@ export function ThemeToggleButton(): JSX.Element {
     setTheme(newTheme);
   }
 
-  return <button onClick={onToggleTheme} className="theme-button">{`to ${theme === "light" ? "Dark" : "Light"}`}</button>;
+  return <button onClick={onToggleTheme} className="temp-button">{`to ${theme === "light" ? "Dark" : "Light"}`}</button>;
 }

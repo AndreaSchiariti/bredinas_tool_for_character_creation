@@ -36,4 +36,43 @@ export const characterInitiative = {
   currentScore: 0,
   ability: "dexterity",
   trackModifications: [],
+  isWearingLightArmor: false,
+  isWearingMediumArmor: false,
+  isWearingHeavyArmor: false
 };
+
+export const characterClass = {
+  name: "",
+  subclass : "",
+  primaryAbility: "",
+  hitDie: "",
+  savingThrowProficiency: [],
+  weaponProficiency: [],
+  skillProficiency: {
+    choosingNumber: 0,
+    skills: []
+  },
+  toolProficiency: [],
+  armorTraining: [],
+  startingEquipment: {
+    a : [],
+    b: []
+  },
+  classFeature: [],
+  spellcasting:[],
+  becomingClass: {
+    level1: [],
+    multiclass: []
+  },
+  counters : []
+}
+
+export const classFeature = {
+  name : "",
+  description: "",
+  modification: "",
+  modificationChangableValue: 0,
+  affects: [],
+  limitations: [],
+  show: false
+}

@@ -1,6 +1,18 @@
 export type Units = "meters" | "feet" | "squares";
 
-type Ability =
+export type UnitsAbbreviations = "m" | "ft" | "sq";
+
+export type HitDice = "d6" | "d8" | "d10" | "d12";
+
+export type Sizes =
+  | "tiny"
+  | "small"
+  | "medium"
+  | "large"
+  | "huge"
+  | "gargantuan";
+
+export type Ability =
   | "strength"
   | "dexterity"
   | "constitution"
@@ -8,7 +20,7 @@ type Ability =
   | "wisdom"
   | "charisma";
 
-type Skill =
+export type Skill =
   | "acrobatics"
   | "animalHandling"
   | "arcana"
@@ -28,9 +40,19 @@ type Skill =
   | "stealth"
   | "survival";
 
-type ModificationTarget = Ability | Skill | "speed" | "initiative";
+export type SavingThrow =
+  | "strengthSavingThrow"
+  | "dexteritySavingThrow"
+  | "constitutionSavingThrow"
+  | "intelligenceSavingThrow"
+  | "wisdomSavingThrow"
+  | "charismaSavingThrow";
 
-type ModificationOperation =
+export type SkillPropType = "skill" | "savingThrow";
+
+export type ModificationTarget = Ability | Skill | "speed" | "initiative";
+
+export type ModificationOperation =
   | "add"
   | "subtract"
   | "set"
@@ -38,7 +60,7 @@ type ModificationOperation =
   | "advantage"
   | "disadvantage";
 
-type DamageTypes =
+export type DamageTypes =
   | "acid"
   | "cold"
   | "fire"
@@ -56,16 +78,17 @@ type DamageTypes =
   | "slashing"
   | "nonMagicalSlashing";
 
-interface TrackModifications {
+export interface TrackModifications {
   source: string;
   target: ModificationTarget;
   operation: ModificationOperation;
   value: number | null;
 }
 
-interface HitDice {
-  numberOfDices: number;
-  typeOfDice: string;
+export interface HitDiceProp {
+  spent: number;
+  max: number;
+  diceType: HitDice;
 }
 
 export interface Hp {
@@ -73,7 +96,16 @@ export interface Hp {
   currentMax: number;
   current: number;
   temp: number;
-  hitDices: HitDice[];
+  hitDices: HitDiceProp[];
+}
+
+export interface Initiative {
+  ability: "dexterity";
+  baseScore: number;
+  currentScore: number;
+  hasAdvantage: boolean;
+  hasDisadvantage: boolean;
+  trackModifications: TrackModifications[];
 }
 
 export interface AbilityProp {
@@ -84,10 +116,12 @@ export interface AbilityProp {
   modifier: number;
   trackModifications: TrackModifications[];
   maxLimit: number;
+  difficultyClass: number;
 }
 
 export interface SkillProp {
-  name: Skill;
+  name: Skill | SavingThrow;
+  type: SkillPropType;
   ability: Ability;
   baseScore: number;
   currentScore: number;
@@ -109,17 +143,14 @@ export interface ArmorClass {
   baseScore: number;
   currentScore: number;
   trackModifications: TrackModifications[];
-}
-
-export interface Initiative {
-  baseScore: number;
-  currentScore: number;
-  ability: "dexterity";
-  trackModifications: TrackModifications[];
+  isWearingLightArmor: boolean;
+  isWearingMediumArmor: boolean;
+  isWearingHeavyArmor: boolean;
 }
 
 export interface DamageTypeProp {
   type: DamageTypes;
   isResistant: boolean;
   isImmune: boolean;
+  isVulnerable: boolean;
 }

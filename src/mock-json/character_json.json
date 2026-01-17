@@ -1,21 +1,23 @@
 {
   "name": "Brilix",
+  "size": "medium",
   "level": 1,
   "proficiency": 2,
   "xp": 0,
   "hp": {
     "basicMax": 8,
     "currentMax": 8,
-    "current": 8,
-    "temp": 0,
+    "current": 6,
+    "temp": 2,
     "hitDices": [
       {
-        "numberOfDices": 1,
-        "typeOfDice": "d8"
+        "spent": 0,
+        "max": 1,
+        "diceType": "d8"
       }
     ]
   },
-  "isInspired": false,
+  "isInspired": true,
   "abilities": [
     {
       "name": "strength",
@@ -25,7 +27,8 @@
       "modifier": 1,
       "description": "strDescription",
       "trackModifications": [],
-      "maxLimit": 20
+      "maxLimit": 20,
+      "difficultyClass": 11
     },
     {
       "name": "dexterity",
@@ -35,7 +38,8 @@
       "modifier": 2,
       "description": "dexDescription",
       "trackModifications": [],
-      "maxLimit": 20
+      "maxLimit": 20,
+      "difficultyClass": 12
     },
     {
       "name": "constitution",
@@ -45,7 +49,8 @@
       "modifier": 2,
       "description": "conDescription",
       "trackModifications": [],
-      "maxLimit": 20
+      "maxLimit": 20,
+      "difficultyClass": 12
     },
     {
       "name": "intelligence",
@@ -55,7 +60,8 @@
       "modifier": 0,
       "description": "intDescription",
       "trackModifications": [],
-      "maxLimit": 20
+      "maxLimit": 20,
+      "difficultyClass": 10
     },
     {
       "name": "wisdom",
@@ -65,7 +71,8 @@
       "modifier": 1,
       "description": "wisDescription",
       "trackModifications": [],
-      "maxLimit": 20
+      "maxLimit": 20,
+      "difficultyClass": 11
     },
     {
       "name": "charisma",
@@ -75,12 +82,14 @@
       "modifier": -1,
       "description": "chaDescription",
       "trackModifications": [],
-      "maxLimit": 20
+      "maxLimit": 20,
+      "difficultyClass": 9
     }
   ],
   "skills": [
     {
       "name": "acrobatics",
+      "type": "skill",
       "ability": "dexterity",
       "baseScore": 3,
       "currentScore": 3,
@@ -91,7 +100,8 @@
       "trackModifications": []
     },
     {
-      "name": "animal handling",
+      "name": "animalHandling",
+      "type": "skill",
       "ability": "wisdom",
       "baseScore": 2,
       "currentScore": 2,
@@ -102,7 +112,8 @@
       "trackModifications": []
     },
     {
-      "name": "Arcana",
+      "name": "arcana",
+      "type": "skill",
       "ability": "intelligence",
       "baseScore": 0,
       "currentScore": 0,
@@ -114,6 +125,7 @@
     },
     {
       "name": "athletics",
+      "type": "skill",
       "ability": "strength",
       "baseScore": 2,
       "currentScore": 2,
@@ -125,6 +137,7 @@
     },
     {
       "name": "deception",
+      "type": "skill",
       "ability": "charisma",
       "baseScore": -1,
       "currentScore": -1,
@@ -136,6 +149,7 @@
     },
     {
       "name": "history",
+      "type": "skill",
       "ability": "intelligence",
       "baseScore": 0,
       "currentScore": 0,
@@ -147,6 +161,7 @@
     },
     {
       "name": "insight",
+      "type": "skill",
       "ability": "wisdom",
       "baseScore": 3,
       "currentScore": 3,
@@ -158,6 +173,7 @@
     },
     {
       "name": "intimidation",
+      "type": "skill",
       "ability": "charisma",
       "baseScore": -1,
       "currentScore": -1,
@@ -169,6 +185,7 @@
     },
     {
       "name": "investigation",
+      "type": "skill",
       "ability": "intelligence",
       "baseScore": 1,
       "currentScore": 1,
@@ -180,6 +197,7 @@
     },
     {
       "name": "medicine",
+      "type": "skill",
       "ability": "wisdom",
       "baseScore": 2,
       "currentScore": 2,
@@ -191,6 +209,7 @@
     },
     {
       "name": "nature",
+      "type": "skill",
       "ability": "intelligence",
       "baseScore": 1,
       "currentScore": 1,
@@ -202,6 +221,7 @@
     },
     {
       "name": "perception",
+      "type": "skill",
       "ability": "wisdom",
       "baseScore": 4,
       "currentScore": 4,
@@ -213,6 +233,7 @@
     },
     {
       "name": "performance",
+      "type": "skill",
       "ability": "charisma",
       "baseScore": -1,
       "currentScore": -1,
@@ -224,7 +245,8 @@
     },
     {
       "name": "persuasion",
-      "ability": "charsima",
+      "type": "skill",
+      "ability": "charisma",
       "baseScore": -1,
       "currentScore": -1,
       "hasProficiency": false,
@@ -235,6 +257,7 @@
     },
     {
       "name": "religion",
+      "type": "skill",
       "ability": "intelligence",
       "baseScore": 0,
       "currentScore": 0,
@@ -245,7 +268,8 @@
       "trackModifications": []
     },
     {
-      "name": "sleight of hand",
+      "name": "sleightOfHand",
+      "type": "skill",
       "ability": "dexterity",
       "baseScore": 3,
       "currentScore": 3,
@@ -257,6 +281,7 @@
     },
     {
       "name": "stealth",
+      "type": "skill",
       "ability": "dexterity",
       "baseScore": 3,
       "currentScore": 3,
@@ -268,10 +293,83 @@
     },
     {
       "name": "survival",
+      "type": "skill",
       "ability": "wisdom",
       "baseScore": 3,
       "currentScore": 3,
       "hasProficiency": true,
+      "hasExpertise": false,
+      "hasAdvantage": false,
+      "hasDisadvantage": false,
+      "trackModifications": []
+    },
+    {
+      "name": "strengthSavingThrow",
+      "type": "savingThrow",
+      "ability": "strength",
+      "baseScore": 3,
+      "currentScore": 3,
+      "hasProficiency": true,
+      "hasExpertise": false,
+      "hasAdvantage": false,
+      "hasDisadvantage": false,
+      "trackModifications": []
+    },
+    {
+      "name": "dexteritySavingThrow",
+      "type": "savingThrow",
+      "ability": "dexterity",
+      "baseScore": 4,
+      "currentScore": 4,
+      "hasProficiency": true,
+      "hasExpertise": false,
+      "hasAdvantage": false,
+      "hasDisadvantage": false,
+      "trackModifications": []
+    },
+    {
+      "name": "constitutionSavingThrow",
+      "type": "savingThrow",
+      "ability": "constitution",
+      "baseScore": 2,
+      "currentScore": 2,
+      "hasProficiency": false,
+      "hasExpertise": false,
+      "hasAdvantage": false,
+      "hasDisadvantage": false,
+      "trackModifications": []
+    },
+    {
+      "name": "intelligenceSavingThrow",
+      "type": "savingThrow",
+      "ability": "intelligence",
+      "baseScore": 0,
+      "currentScore": 0,
+      "hasProficiency": false,
+      "hasExpertise": false,
+      "hasAdvantage": false,
+      "hasDisadvantage": false,
+      "trackModifications": []
+    },
+    {
+      "name": "wisdomSavingThrow",
+      "type": "savingThrow",
+      "ability": "wisdom",
+      "baseScore": 1,
+      "currentScore": 1,
+      "hasProficiency": false,
+      "hasExpertise": false,
+      "hasAdvantage": false,
+      "hasDisadvantage": false,
+      "trackModifications": []
+    },
+    {
+      "name": "charismaSavingThrow",
+      "type": "savingThrow",
+      "ability": "charisma",
+      "baseScore": -1,
+      "currentScore": -1,
+      "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
       "hasDisadvantage": false,
@@ -282,93 +380,114 @@
   "armorClass": {
     "baseScore": 12,
     "currentScore": 14,
-    "trackModifications": []
+    "trackModifications": [],
+    "isWearingLightArmor": false,
+    "isWearingMediumArmor": false,
+    "isWearingHeavyArmor": false
   },
   "damageResistances": [
     {
       "type": "acid",
-      "isResistant": false,
-      "isImmune": false
+      "isResistant": true,
+      "isImmune": true,
+      "isVulnerable": false
     },
     {
       "type": "cold",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "fire",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "force",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "lightning",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "necrotic",
       "isResistant": true,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "poison",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "psychic",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": true
     },
     {
       "type": "radiant",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "thunder",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "bludgeoning",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "nonMagicalBludgeoning",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "piercing",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "nonMagicalPiercing",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "slashing",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     },
     {
       "type": "nonMagicalSlashing",
       "isResistant": false,
-      "isImmune": false
+      "isImmune": false,
+      "isVulnerable": false
     }
   ],
   "initiative": {
     "baseScore": 2,
     "currentScore": 2,
+    "hasAdvantage": false,
+    "hasDisadvantage": false,
     "ability": "dexterity",
     "trackModifications": []
   },

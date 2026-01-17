@@ -1,4 +1,4 @@
-import type { AbilityProp, ArmorClass, CharacterSpeed, DamageTypeProp, Hp, Initiative, SkillProp } from "./character_utils";
+import type { AbilityProp, ArmorClass, CharacterSpeed, DamageTypeProp, Hp, Initiative, Sizes, SkillProp } from "./character_utils";
 
 export interface Character {
   name: string;
@@ -14,4 +14,5 @@ export interface Character {
   damageResistances: DamageTypeProp[];
   initiative: Initiative;
   speed: CharacterSpeed[];
+  size: Sizes;
 }

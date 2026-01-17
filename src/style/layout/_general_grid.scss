@@ -1,0 +1,118 @@
+// character-sheet areas
+
+.grid-area-info {
+  grid-area: info;
+}
+
+.grid-area-defence {
+  grid-area: defence;
+}
+
+.grid-area-divider-1 {
+  grid-area: divider-1;
+}
+
+.grid-area-initiative-movement-and-senses {
+  grid-area: initiative-movement-and-senses;
+}
+
+.grid-area-proficiency-abilities-skills-and-inspiration {
+  grid-area: proficiency-abilities-skills-and-inspiration;
+}
+// character-info-and-defence areas
+
+.grid-area-name {
+  grid-area: pc;
+}
+
+.grid-area-bg {
+  grid-area: bg;
+}
+
+.grid-area-class {
+  grid-area: class;
+}
+
+.grid-area-species {
+  grid-area: species;
+}
+
+.grid-area-hp {
+  grid-area: hp;
+}
+
+.grid-area-ac {
+  grid-area: ac;
+}
+
+.grid-area-resistances {
+  grid-area: resistances;
+}
+
+.grid-area-immunities {
+  grid-area: immunities;
+}
+
+.grid-area-hit-dice {
+  grid-area: hit-dice;
+}
+
+.grid-area-vulnerabilities {
+  grid-area: vulnerabilities;
+}
+
+// initiative-movement-and-senses grid areas
+
+.grid-area-initiative {
+  grid-area: initiative
+}
+
+.greed-area-movement {
+  grid-area: movement;
+}
+
+.grid-area-character-size {
+  grid-area: character-size;
+}
+
+.grid-area-passive-perception {
+  grid-area: passive-perception;
+}
+
+// proficiency-abilitites-skills-and-inspiration grid areas
+
+.grid-area-proficiencyBonus {
+  grid-area: proficiencyBonus;
+}
+
+.grid-area-heroicInspiration {
+  grid-area: heroicInspiration
+}
+
+.grid-area-strength {
+  grid-area: strength
+}
+
+.grid-area-dexterity {
+  grid-area: dexterity
+}
+
+.grid-area-constitution {
+  grid-area: constitution
+}
+
+.grid-area-intelligence {
+  grid-area: intelligence
+}
+
+.grid-area-wisdom {
+  grid-area: wisdom
+}
+
+.grid-area-charisma {
+  grid-area: charisma
+}
+
+.grid-area-skills {
+  grid-area: skills;
+}
