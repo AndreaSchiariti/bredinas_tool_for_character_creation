@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import type { Ability } from "../../types/character_utils";
+import type { Ability } from "../../types/characterUtils.type";
 import { AbilityBox } from "./AbilityBox";
 import { SkillBox } from "./SkillBox";
 
@@ -10,7 +10,6 @@ export interface AbilitiesAndSkillProp {
 export function AbilitiesAndSkills({
   ability,
 }: AbilitiesAndSkillProp): JSX.Element {
-
   return (
     <div className={`abilities-and-skills-container grid-area-${ability}`}>
       <AbilityBox ability={ability} />

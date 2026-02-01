@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import type { Ability } from "../../types/character_utils";
+import type { Ability } from "../../types/characterUtils.type";
 import { AbilityBox } from "./AbilityBox";
 import { SkillBox } from "./SkillBox";
 

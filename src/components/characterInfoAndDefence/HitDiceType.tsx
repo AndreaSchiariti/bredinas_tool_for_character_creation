@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import type { HitDiceProp } from "../../types/character_utils";
+import type { HitDiceProp } from "../../types/characterUtils.type";
 import { CharacterSingleInfo } from "./CharacterSingleInfo";
 
 export function HitDiceType({

@@ -1,4 +1,4 @@
-import type { SkillProp } from "../types/character_utils";
+import type { SkillProp } from "../types/characterUtils.type";
 
 export function calculateModifier(abilityScore: number): number {
   return Math.floor((abilityScore - 10) / 2);
@@ -6,7 +6,7 @@ export function calculateModifier(abilityScore: number): number {
 
 export function calculateAbilityDC(
   proficiency: number,
-  abilityModifier: number
+  abilityModifier: number,
 ): number {
   return 8 + proficiency + abilityModifier;
 }
@@ -23,16 +23,16 @@ export function calculatePassiveSkill(skill: SkillProp): number {
   }
 }
 
-export function calculateProficiency (level : number) : number {
-   if (level >= 17) {
-      return 6
-   } else if (level >= 13) {
-      return 5
-   } else if (level >= 9) {
-      return 4
-   } else if (level >= 5) {
-      return 3
-   } else {
-      return 2
-   }
+export function calculateProficiency(level: number): number {
+  if (level >= 17) {
+    return 6;
+  } else if (level >= 13) {
+    return 5;
+  } else if (level >= 9) {
+    return 4;
+  } else if (level >= 5) {
+    return 3;
+  } else {
+    return 2;
+  }
 }

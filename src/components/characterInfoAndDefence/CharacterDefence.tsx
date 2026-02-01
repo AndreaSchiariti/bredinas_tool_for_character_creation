@@ -1,5 +1,5 @@
 import { useMemo, type JSX } from "react";
-import type { DamageTypeProp } from "../../types/character_utils";
+import type { DamageTypeProp } from "../../types/characterUtils.type";
 import { CharacterArmorClass } from "./CharacterArmorClass";
 import { useCharacterContext } from "../../context/CharacterContext";
 import { CharacterResistancesAndImmunities } from "./CharacterResistancesAndImmunities";
@@ -15,14 +15,15 @@ export function CharacterDefence(): JSX.Element {
 
   const resistances = useMemo<DamageTypeProp[]>(() => {
     return character.damageResistances.filter(
-      (resistance) => resistance.isResistant && !resistance.isImmune
+      (resistance) => resistance.isResistant && !resistance.isImmune,
     );
   }, [character]);
 
-  const vulnerabilities = useMemo<DamageTypeProp[]>(()=> {
-    return character.damageResistances.filter((vulnerability) => vulnerability.isVulnerable)
-  }, [character])
-
+  const vulnerabilities = useMemo<DamageTypeProp[]>(() => {
+    return character.damageResistances.filter(
+      (vulnerability) => vulnerability.isVulnerable,
+    );
+  }, [character]);
 
   return (
     <div className="character-defence-container">

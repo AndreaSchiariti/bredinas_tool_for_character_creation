@@ -1,0 +1,99 @@
+import type { Character } from "../types/character.types";
+import type { CharacterClassesName } from "../types/characterClassesUtils.types";
+import type { AbilityProp } from "../types/characterUtils.type";
+import { isDiceCounter, type CountersInterface } from "../types/counters.types";
+import type { DiceInterface } from "../types/generalRules.types";
+import type { ConditionalTargetInterface } from "../types/targets.types";
+import { devConsoleWarn } from "../utils/general";
+import type { Ability } from "./arrayOfFeatures";
+
+export interface ConditionalTargetMap {
+  abilityModifier: {
+    condition: Ability;
+    value: number;
+  };
+  classLevel: {
+    condition: CharacterClassesName;
+    value: number;
+  };
+  counterDiceById: {
+    condition: string;
+    value: DiceInterface | null;
+  };
+}
+
+type ConditionalTargetResolver = {
+  [K in keyof ConditionalTargetMap]: (
+    character: Character,
+    condition: ConditionalTargetMap[K]["condition"],
+  ) => ConditionalTargetMap[K]["value"];
+};
+
+function findAbilityModifier (character: Character, condition: Ability) : number {
+  const ability: AbilityProp | undefined = character.abilities.find(ability => ability.name === condition)
+
+  if (!ability) {
+    devConsoleWarn(`Couldn't find ${condition} modifier`, character.abilities)
+    return 0
+  }
+
+  return ability.modifier
+}
+
+function findClassLevel(
+  character: Character,
+  condition: CharacterClassesName,
+): number {
+  const characterClass = character.classes.find(
+    (element) => element.name === condition,
+  );
+
+  if (!characterClass) {
+    devConsoleWarn(
+      `Class ${condition} not found for character`,
+      character.classes,
+    );
+
+    return 0;
+  }
+  return characterClass.level;
+}
+
+function findCounterDiceById(
+  character: Character,
+  condition: string,
+): DiceInterface | null {
+  const counter: CountersInterface | undefined = character.counters.find(
+    (counter) => counter.id === condition,
+  );
+
+  if (!counter) {
+    devConsoleWarn(
+      `Counter ${condition} not found on character`,
+      character.counters,
+    );
+
+    return null;
+  }
+
+  if (!isDiceCounter(counter)) {
+    devConsoleWarn(`Counter ${counter.name} has no dice property`, counter);
+
+    return null;
+  }
+
+  return counter.dice;
+}
+
+export const conditionalTargetResolver: ConditionalTargetResolver = {
+  abilityModifier: findAbilityModifier,
+  classLevel: findClassLevel,
+  counterDiceById: findCounterDiceById,
+};
+
+export function getConditionalTarget<K extends keyof ConditionalTargetMap>(
+  character: Character,
+  target: ConditionalTargetInterface<K>,
+): ConditionalTargetMap[K]["value"] {
+  return conditionalTargetResolver[target.target](character, target.condition);
+}

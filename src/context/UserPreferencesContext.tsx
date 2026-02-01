@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import type { Units } from "../types/character_utils";
-import type { ChildrenInterface } from "../types/react-types";
+import type { Units } from "../types/characterUtils.type";
+import type { ChildrenInterface } from "../types/reactBase.types";
 
 interface UserPreferences {
   preferredUnit: Units;
@@ -40,15 +40,14 @@ export function getUserPreferences(): UserPreferences {
 function updateUserPreferences(
   key: PreferenceKey,
   newValue: PreferenceNewValue,
-  preferenceObj: UserPreferences
+  preferenceObj: UserPreferences,
 ): UserPreferences {
   return { ...preferenceObj, [key]: newValue };
 }
 
 export function UserPreferencesContext(): ContextUserPreferences {
-  const [userPreferences, setUserPreferences] = useState<UserPreferences>(
-    getUserPreferences()
-  );
+  const [userPreferences, setUserPreferences] =
+    useState<UserPreferences>(getUserPreferences());
 
   useEffect((): void => {
     localStorage.setItem("userPreferences", JSON.stringify(userPreferences));
@@ -56,7 +55,7 @@ export function UserPreferencesContext(): ContextUserPreferences {
 
   function onChangePreferredUnit(selectedUnit: Units): void {
     setUserPreferences(
-      updateUserPreferences("preferredUnit", selectedUnit, userPreferences)
+      updateUserPreferences("preferredUnit", selectedUnit, userPreferences),
     );
   }
 
@@ -65,8 +64,8 @@ export function UserPreferencesContext(): ContextUserPreferences {
       updateUserPreferences(
         "skillsWithAbilities",
         !userPreferences.skillsWithAbilities,
-        userPreferences
-      )
+        userPreferences,
+      ),
     );
   }
 
@@ -94,7 +93,7 @@ export function useUserPreferencesContext(): ContextUserPreferences {
 
   if (!userPreferencesContext) {
     throw new Error(
-      "useUserPreferencesContext must be used inside UserPreferencesProvider"
+      "useUserPreferencesContext must be used inside UserPreferencesProvider",
     );
   }
 

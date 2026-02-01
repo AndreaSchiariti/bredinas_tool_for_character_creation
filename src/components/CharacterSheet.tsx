@@ -1,6 +1,6 @@
 import type { JSX } from "react";
-import { CharacterInfo } from "./character_info_&_defence/CharacterInfo";
-import { CharacterDefence } from "./character_info_&_defence/CharacterDefence";
+import { CharacterInfo } from "./characterInfoAndDefence/CharacterInfo";
+import { CharacterDefence } from "./characterInfoAndDefence/CharacterDefence";
 import { InitiativeMovementAndSenses } from "./abilities_skills_and_movement/InitiativeMovementAndSenses";
 import { ProficiencyAbilitiesSkillsAndInspiration } from "./abilities_skills_and_movement/ProficiencyAbilitiesSkillsAndInspiration";
 

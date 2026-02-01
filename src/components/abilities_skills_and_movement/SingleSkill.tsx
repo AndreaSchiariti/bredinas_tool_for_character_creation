@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import type { SkillProp } from "../../types/character_utils";
+import type { SkillProp } from "../../types/characterUtils.type";
 import { useTranslation } from "react-i18next";
 import { useUserPreferencesContext } from "../../context/UserPreferencesContext";
 

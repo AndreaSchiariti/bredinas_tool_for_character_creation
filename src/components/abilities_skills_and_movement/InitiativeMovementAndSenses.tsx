@@ -1,48 +1,33 @@
 import { useMemo, type JSX } from "react";
 import { useCharacterContext } from "../../context/CharacterContext";
 import { InitiativeMovementAndSensesBox } from "./IniziativeMovementAndSensesBox";
-import { useUserPreferencesContext } from "../../context/UserPreferencesContext";
-import { type CharacterSpeed, type UnitsAbbreviations } from "../../types/character_utils";
-import { useTranslation } from "react-i18next";
+import {
+  type SkillProp,
+} from "../../types/characterUtils.type";
+import { usePreferredUnit } from "../../custom_hooks/usePreferredUnit";
 
 export function InitiativeMovementAndSenses(): JSX.Element {
   const character = useCharacterContext();
-  const { preferredUnit } = useUserPreferencesContext();
-  const {t} = useTranslation()
 
-  const characterSpeed = useMemo<string>(() => {
-    const newSpeedUnit: CharacterSpeed | undefined = character.speed.find(
-      (speed) => speed.unit === preferredUnit
+  const characterSpeed = usePreferredUnit(character.speed.currentScore)
+
+  const characterInitiative = useMemo<SkillProp>(() => {
+    const initiative = character.skills.find(
+      (skill) => skill.type === "initiative",
     );
 
-    if (newSpeedUnit === undefined) {
-      throw new Error("There is a problem when switching the units");
+    if (!initiative) {
+      throw new Error("Can't find Character's initiative");
     }
 
-    let unitAbbreviation : UnitsAbbreviations= "ft"
-
-    switch (newSpeedUnit.unit) {
-        case "feet":
-            unitAbbreviation = "ft"
-            break ;
-        case "meters":
-            unitAbbreviation = "m"
-            break ;
-        case "squares":
-            unitAbbreviation = "sq"
-            break;
-        default:
-            throw new Error("character.speed.unit doesn't match any unit")
-    }
-
-    return `${newSpeedUnit.currentScore} ${t(unitAbbreviation)}`;
-  }, [preferredUnit, character.speed]);
+    return initiative;
+  }, [character.skills]);
 
   return (
     <div className="initiative-movement-and-senses-container grid-area-initiative-movement-and-senses">
       <InitiativeMovementAndSensesBox
         info="initiative"
-        infoValue={`${character.initiative.currentScore}`}
+        infoValue={`${characterInitiative.currentScore}`}
         gridArea="initiative"
       />
       <InitiativeMovementAndSensesBox

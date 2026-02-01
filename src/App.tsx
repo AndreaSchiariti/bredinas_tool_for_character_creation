@@ -6,9 +6,9 @@ import { CharacterContex } from "./context/CharacterContext";
 import { UserPreferencesProvider } from "./context/UserPreferencesContext";
 
 //mock character
-import characterJson from "./mock-json/character_json.json";
-import type { Character } from "./types/character";
-import type { Units } from "./types/character_utils";
+import characterJson from "./mock-json/mockCharacter.json";
+import type { Character } from "./types/character.types";
+import type { Units } from "./types/characterUtils.type";
 
 const character: Character = characterJson as Character;
 

@@ -9,6 +9,10 @@
     "currentMax": 8,
     "current": 6,
     "temp": 2,
+    "isHealing": {
+      "isShown": false,
+      "information": null
+    },
     "hitDices": [
       {
         "spent": 0,
@@ -93,6 +97,7 @@
       "ability": "dexterity",
       "baseScore": 3,
       "currentScore": 3,
+      "gainedWithClass" : true,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -105,6 +110,7 @@
       "ability": "wisdom",
       "baseScore": 2,
       "currentScore": 2,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -117,6 +123,7 @@
       "ability": "intelligence",
       "baseScore": 0,
       "currentScore": 0,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -129,6 +136,7 @@
       "ability": "strength",
       "baseScore": 2,
       "currentScore": 2,
+      "gainedWithClass": false,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -141,6 +149,7 @@
       "ability": "charisma",
       "baseScore": -1,
       "currentScore": -1,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -153,6 +162,7 @@
       "ability": "intelligence",
       "baseScore": 0,
       "currentScore": 0,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -165,6 +175,7 @@
       "ability": "wisdom",
       "baseScore": 3,
       "currentScore": 3,
+      "gainedWithClass": false,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -177,6 +188,7 @@
       "ability": "charisma",
       "baseScore": -1,
       "currentScore": -1,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -189,6 +201,7 @@
       "ability": "intelligence",
       "baseScore": 1,
       "currentScore": 1,
+      "gainedWithClass": false,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -201,6 +214,7 @@
       "ability": "wisdom",
       "baseScore": 2,
       "currentScore": 2,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -213,6 +227,7 @@
       "ability": "intelligence",
       "baseScore": 1,
       "currentScore": 1,
+      "gainedWithClass": false,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -225,6 +240,7 @@
       "ability": "wisdom",
       "baseScore": 4,
       "currentScore": 4,
+      "gainedWithClass": false,
       "hasProficiency": true,
       "hasExpertise": true,
       "hasAdvantage": false,
@@ -237,6 +253,7 @@
       "ability": "charisma",
       "baseScore": -1,
       "currentScore": -1,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -249,6 +266,7 @@
       "ability": "charisma",
       "baseScore": -1,
       "currentScore": -1,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -261,6 +279,7 @@
       "ability": "intelligence",
       "baseScore": 0,
       "currentScore": 0,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -273,6 +292,7 @@
       "ability": "dexterity",
       "baseScore": 3,
       "currentScore": 3,
+      "gainedWithClass": false,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -285,6 +305,7 @@
       "ability": "dexterity",
       "baseScore": 3,
       "currentScore": 3,
+      "gainedWithClass": false,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -297,6 +318,7 @@
       "ability": "wisdom",
       "baseScore": 3,
       "currentScore": 3,
+      "gainedWithClass": false,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -309,6 +331,7 @@
       "ability": "strength",
       "baseScore": 3,
       "currentScore": 3,
+      "gainedWithClass": true,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -321,6 +344,7 @@
       "ability": "dexterity",
       "baseScore": 4,
       "currentScore": 4,
+      "gainedWithClass": true,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -333,6 +357,7 @@
       "ability": "constitution",
       "baseScore": 2,
       "currentScore": 2,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -345,6 +370,7 @@
       "ability": "intelligence",
       "baseScore": 0,
       "currentScore": 0,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -357,6 +383,7 @@
       "ability": "wisdom",
       "baseScore": 1,
       "currentScore": 1,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -369,6 +396,20 @@
       "ability": "charisma",
       "baseScore": -1,
       "currentScore": -1,
+      "gainedWithClass": false,
+      "hasProficiency": false,
+      "hasExpertise": false,
+      "hasAdvantage": false,
+      "hasDisadvantage": false,
+      "trackModifications": []
+    },
+    {
+      "name": "initiative",
+      "type": "initiative",
+      "ability": "dexterity",
+      "baseScore": 2,
+      "currentScore": 2,
+      "gainedWithClass": false,
       "hasProficiency": false,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -378,12 +419,14 @@
   ],
   "passivePerception": 14,
   "armorClass": {
-    "baseScore": 12,
-    "currentScore": 14,
+    "baseScore": 10,
+    "currentScore": 10,
+    "abilities": ["dexterity"],
     "trackModifications": [],
     "isWearingLightArmor": false,
     "isWearingMediumArmor": false,
-    "isWearingHeavyArmor": false
+    "isWearingHeavyArmor": false,
+    "isShieldEquipped": false
   },
   "damageResistances": [
     {
@@ -483,32 +526,38 @@
       "isVulnerable": false
     }
   ],
-  "initiative": {
-    "baseScore": 2,
-    "currentScore": 2,
-    "hasAdvantage": false,
-    "hasDisadvantage": false,
-    "ability": "dexterity",
+  "speed": {
+    "baseScore": 30,
+    "currentScore": 30,
     "trackModifications": []
   },
-  "speed": [
-    {
-      "unit": "meters",
-      "baseScore": 9,
-      "currentScore": 9,
-      "trackModifications": []
+
+  "turnEconomy": {
+    "actions": [],
+    "bonusActions": [],
+    "reactions": [],
+    "freeActions": []
+  },
+  "unarmedStrike": {
+    "baseDice": 1,
+    "currentDice": 1,
+    "abilities": ["strength"],
+    "defaultAbility": "strength",
+    "damageTypes": ["nonMagicalBludgeoning"],
+    "trackModifications": []
+  },
+  "equipped": {
+    "mainHand": null,
+    "offHand": null
+  },
+  "counters": [],
+  "conditions": {
+    "conditionsList": {
+      "charmed": { "isAffecting": false, "isImmune": false },
+      "frightened": { "isAffecting": false, "isImmune": false },
+      "incapacitated": { "isAffecting": false, "isImmune": false },
+      "poisoned": { "isAffecting": false, "isImmune": false }
     },
-    {
-      "unit": "feet",
-      "baseScore": 30,
-      "currentScore": 30,
-      "trackModifications": []
-    },
-    {
-      "unit": "squares",
-      "baseScore": 6,
-      "currentScore": 6,
-      "trackModifications": []
-    }
-  ]
+    "isCuringCondition": { "isShown": false, "conditionToCure": [] }
+  }
 }
