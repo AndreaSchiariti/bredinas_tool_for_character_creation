@@ -51,6 +51,16 @@ export interface AddValueModification extends BaseTrackModifications {
   value: number;
 }
 
+export interface AddValueToAbilityModification extends BaseTrackModifications {
+  type: "addValueToAbility",
+  value: number
+}
+
+export interface AddValueToSkillModification extends BaseTrackModifications {
+  type: "addValueToSkill";
+  value: number;
+}
+
 export interface AddValueBasedOnLevelModification extends BaseTrackModifications {
   type: "addValueBasedOnLevel";
   value: number
@@ -65,24 +75,42 @@ export interface AddProficiencyModification extends BaseTrackModifications {
   type: "addProficiency";
 }
 
+export interface AddResistanceEvent extends BaseTrackModifications {
+  type: "addResistanceEvent"
+}
+
+export interface IncreaseMaxLimitModification extends BaseTrackModifications {
+  type: "increaseMaxLimit",
+  newMaxValue: number
+}
+
 export type TrackModifications =
   | ChangeDiceTrackModifications
   | SettingAbilityModification
   | AddAbilityModification
   | AddValueModification
+  | AddValueToAbilityModification
+  | AddValueToSkillModification
   | AddValueBasedOnLevelModification
   | AddDamageTypeModification
   | AddProficiencyModification
-  | ChangeDiceBasedOnLevelTrackModification;
+  | ChangeDiceBasedOnLevelTrackModification
+  | AddResistanceEvent
+  | IncreaseMaxLimitModification;
 
 const trackModificationsTypeSet = new Set<TrackModifications["type"]>([
   "addAbility",
   "addDamageType",
   "addValue",
+  "addValueToAbility",
+  "addValueToSkill",
+  "addValueBasedOnLevel",
   "changeAbilityReference",
   "changeDice",
   "addProficiency",
-  "changeDiceBasedOnLevel"
+  "changeDiceBasedOnLevel",
+  "addResistanceEvent",
+  "increaseMaxLimit"
 ]);
 
 export function isTrackModifications(

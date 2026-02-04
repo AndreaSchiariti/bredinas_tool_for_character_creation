@@ -20,6 +20,10 @@ export interface ConditionalTargetMap {
     condition: string;
     value: DiceInterface | null;
   };
+  counterById: {
+    condition: string;
+    value: CountersInterface | null
+  }
 }
 
 type ConditionalTargetResolver = {
@@ -85,10 +89,21 @@ function findCounterDiceById(
   return counter.dice;
 }
 
+function findCounterById(character: Character, condition: string) : CountersInterface | null {
+  const counterToFetch = character.counters.find(counter => counter.id === condition)
+
+  if (!counterToFetch) {
+    return null
+  }
+
+  return counterToFetch
+}
+
 export const conditionalTargetResolver: ConditionalTargetResolver = {
   abilityModifier: findAbilityModifier,
   classLevel: findClassLevel,
   counterDiceById: findCounterDiceById,
+  counterById: findCounterById
 };
 
 export function getConditionalTarget<K extends keyof ConditionalTargetMap>(

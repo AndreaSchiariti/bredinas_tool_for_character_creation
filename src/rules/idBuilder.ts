@@ -24,6 +24,8 @@ const idBuilders: IdBuilders = {
   addDifficultyClassCounter: (mod) => `${mod.name}: ${mod.source}-${mod.type}`,
   addEventCounter: (mod) => `${mod.name}: ${mod.source}-${mod.type}`,
   addEventWithTriggerCounter: (mod) => `${mod.name}: ${mod.source}-${mod.type}`,
+  addContinousEventWithTriggerCounter: (mod) =>
+    `${mod.name}: ${mod.source}-${mod.type}`,
   addThrowingDiceEventTrackerCounter: (mod) =>
     `${mod.name}: ${mod.source}-${mod.type}`,
   addValueTrackerCounter: (mod) => `${mod.name}: ${mod.source}-${mod.type}`,
@@ -34,10 +36,17 @@ const idBuilders: IdBuilders = {
     `${mod.name}: ${mod.ability}-${mod.source}-${mod.type}`,
   addAbility: (mod) => `${mod.name}: ${mod.ability}-${mod.source}-${mod.type}`,
   addValue: (mod) => `${mod.name}: ${mod.value}-${mod.source}-${mod.type}`,
+  addValueToAbility: (mod) =>
+    `${mod.name}: ${mod.value}-${mod.source}-${mod.type}`,
+  addValueToSkill: (mod) =>
+    `${mod.name}: ${mod.value}-${mod.source}-${mod.type}`,
   addValueBasedOnLevel: (mod) => `${mod.name}: ${mod.source}-${mod.type}`,
   addDamageType: (mod) =>
     `${mod.name}: ${mod.damageType}-${mod.source}-${mod.type}`,
   addProficiency: (mod) => `${mod.name}: ${mod.source}-${mod.type}`,
+  addFeat: (mod) => `${mod.name}: ${mod.source}-${mod.type}-level${mod.level}`,
+  increaseMaxLimit: (mod) =>
+    `${mod.name}: ${mod.newMaxValue}-${mod.source}-${mod.type}`,
 };
 
 export function getModificationId<K extends ModificationsProp["type"]>(

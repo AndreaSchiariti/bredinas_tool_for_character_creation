@@ -1,0 +1,1148 @@
+{
+  "name": "monk",
+  "subclass": null,
+  "primaryAbilities": "dexterityAndWisdom",
+  "hitDie": "d8",
+  "savingThrowProficiency": ["strengthSavingThrow", "dexteritySavingThrow"],
+  "weaponProficiency": [
+    {
+      "type": "simpleWeapons",
+      "details": ""
+    },
+    {
+      "type": "martialWeapons",
+      "details": "withLightProperty"
+    }
+  ],
+  "skillProficiency": {
+    "choosingNumber": 2,
+    "skills": [
+      "acrobatics",
+      "athletics",
+      "history",
+      "insight",
+      "religion",
+      "stealth"
+    ]
+  },
+  "toolProficiency": [
+    {
+      "toolToChoose": "chooseAnyArtisanalOrInstrument",
+      "choosingNumber": 1
+    }
+  ],
+  "armorTraining": [],
+  "startingEquipment": {
+    "a": [
+      {
+        "name": "spear",
+        "quantity": 1
+      },
+      {
+        "name": "dagger",
+        "quantity": 5
+      },
+      {
+        "name": "artisanOrInstrumentChose",
+        "quantity": 1
+      },
+      {
+        "name": "explorerPack",
+        "quantity": 1
+      },
+      {
+        "name": "goldPieces",
+        "quantity": 11
+      }
+    ],
+    "b": [
+      {
+        "name": "goldPieces",
+        "quantity": 50
+      }
+    ]
+  },
+  "becomingClass": [
+    {
+      "level1": ["gainAllTraits", "gainLevel1Features"],
+      "multiclass": ["gainHitDie", "gainLevel1Features"]
+    }
+  ],
+  "classFeature": [
+    {
+      "name": "martialArts",
+      "level": 1,
+      "description": [
+        {
+          "content": "firstMartialArt",
+          "type": "general"
+        },
+        { "content": "simpleMeleeWeapons", "type": "list" },
+        {
+          "content": "martialMeleeWeaponWithLight",
+          "type": "list"
+        },
+        {
+          "content": "secondMartialArt",
+          "type": "general"
+        },
+        {
+          "name": "bonusUnarmedStrike",
+          "content": "bonusUnarmedStrike",
+          "type": "subfeature"
+        },
+        {
+          "name": "martialArtsDie",
+          "content": "martialArtDie",
+          "type": "subfeature"
+        },
+        {
+          "name": "dexterousAttacks",
+          "content": "dexterousAttacks",
+          "type": "subfeature"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "martialArtsDieModifier",
+          "type": "changeDiceBasedOnLevel",
+          "source": "monk",
+          "diceOnLevel": {
+            "level1": { "face": 6, "count": 1 },
+            "level2": { "face": 6, "count": 1 },
+            "level3": { "face": 6, "count": 1 },
+            "level4": { "face": 6, "count": 1 },
+            "level5": { "face": 8, "count": 1 },
+            "level6": { "face": 8, "count": 1 },
+            "level7": { "face": 8, "count": 1 },
+            "level8": { "face": 8, "count": 1 },
+            "level9": { "face": 8, "count": 1 },
+            "level10": { "face": 8, "count": 1 },
+            "level11": { "face": 10, "count": 1 },
+            "level12": { "face": 10, "count": 1 },
+            "level13": { "face": 10, "count": 1 },
+            "level14": { "face": 10, "count": 1 },
+            "level15": { "face": 10, "count": 1 },
+            "level16": { "face": 10, "count": 1 },
+            "level17": { "face": 12, "count": 1 },
+            "level18": { "face": 12, "count": 1 },
+            "level19": { "face": 12, "count": 1 },
+            "level20": { "face": 12, "count": 1 }
+          },
+          "levelRef": {
+            "target": "classLevel",
+            "type": "conditional",
+            "condition": "monk"
+          },
+          "targets": [
+            { "target": "unarmedStrike", "type": "direct" },
+            { "target": "mainHand", "type": "direct" },
+            { "target": "offHand", "type": "direct" }
+          ],
+          "limitations": [
+            "notWearingArmor",
+            "notEquippedShield",
+            "unarmedOrSimpleAndMartialMeleeWithLight"
+          ],
+          "isActive": false
+        },
+        {
+          "name": "martialArtsDie",
+          "type": "addDiceBasedOnLevelCounter",
+          "source": "monk",
+          "diceOnLevel": {
+            "level1": { "face": 6, "count": 1 },
+            "level2": { "face": 6, "count": 1 },
+            "level3": { "face": 6, "count": 1 },
+            "level4": { "face": 6, "count": 1 },
+            "level5": { "face": 8, "count": 1 },
+            "level6": { "face": 8, "count": 1 },
+            "level7": { "face": 8, "count": 1 },
+            "level8": { "face": 8, "count": 1 },
+            "level9": { "face": 8, "count": 1 },
+            "level10": { "face": 8, "count": 1 },
+            "level11": { "face": 10, "count": 1 },
+            "level12": { "face": 10, "count": 1 },
+            "level13": { "face": 10, "count": 1 },
+            "level14": { "face": 10, "count": 1 },
+            "level15": { "face": 10, "count": 1 },
+            "level16": { "face": 10, "count": 1 },
+            "level17": { "face": 12, "count": 1 },
+            "level18": { "face": 12, "count": 1 },
+            "level19": { "face": 12, "count": 1 },
+            "level20": { "face": 12, "count": 1 }
+          },
+          "levelRef": {
+            "target": "classLevel",
+            "type": "conditional",
+            "condition": "monk"
+          },
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "bonusUnarmedStrike",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "bonusUnarmedStrike",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "bonusActions", "type": "direct" }],
+          "limitations": [
+            "notWearingArmor",
+            "notEquippedShield",
+            "unarmedOrSimpleAndMartialMeleeWithLight"
+          ],
+          "isActive": false
+        },
+        {
+          "name": "dexterousAttacks",
+          "type": "addAbility",
+          "source": "monk",
+          "ability": "dexterity",
+          "targets": [{ "target": "unarmedStrike", "type": "direct" }],
+          "limitations": [
+            "notWearingArmor",
+            "notEquippedShield",
+            "unarmedOrSimpleAndMartialMeleeWithLight"
+          ],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "unarmoredDefense",
+      "level": 1,
+      "description": [
+        {
+          "content": "unarmoredDefense",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "unarmoredDefense",
+          "type": "addAbility",
+          "source": "monk",
+          "ability": "wisdom",
+          "targets": [{ "target": "classArmor", "type": "direct" }],
+          "limitations": ["notWearingArmor", "notEquippedShield"],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "monkFocus",
+      "level": 2,
+      "description": [
+        {
+          "content": "firstMonkFocus",
+          "type": "general"
+        },
+        {
+          "content": "secondMonkFocus",
+          "type": "paragraphGeneral"
+        },
+        {
+          "content": "thirdMonkFocus",
+          "type": "paragraphGeneral"
+        },
+        {
+          "content": "forthMonkFocus",
+          "type": "paragraphGeneral"
+        },
+        {
+          "name": "flurryOfBlows",
+          "content": "flurryOfBlows",
+          "type": "subfeature"
+        },
+        {
+          "name": "patientDefense",
+          "content": "patientDefense",
+          "type": "subfeature"
+        },
+        {
+          "name": "stepOfTheWind",
+          "content": "stepOfTheWind",
+          "type": "subfeature"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "focusPoints",
+          "type": "addTracerTrackerCounter",
+          "source": "monk",
+          "targetsToTrack": [
+            {
+              "target": "classLevel",
+              "type": "conditional",
+              "condition": "monk"
+            }
+          ],
+          "replenish": "shortRest",
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "focusPointsDC",
+          "type": "addDifficultyClassCounter",
+          "source": "monk",
+          "ability": "wisdom",
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "flurryOfBlows",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "flurryOfBlows",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "bonusActions", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "patientDefense",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "patientDefense",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "bonusActions", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "stepOfTheWind",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "stepOfTheWind",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "bonusActions", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "unarmoredMovement",
+      "level": 2,
+      "description": [
+        {
+          "content": "unarmoredMovement",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "unarmoredMovement",
+          "type": "addValueBasedOnLevel",
+          "source": "monk",
+          "valueOnLevel": {
+            "level1": 10,
+            "level2": 10,
+            "level3": 10,
+            "level4": 10,
+            "level5": 10,
+            "level6": 15,
+            "level7": 15,
+            "level8": 15,
+            "level9": 15,
+            "level10": 20,
+            "level11": 20,
+            "level12": 20,
+            "level13": 20,
+            "level14": 25,
+            "level15": 25,
+            "level16": 25,
+            "level17": 25,
+            "level18": 30,
+            "level19": 30,
+            "level20": 30
+          },
+          "levelRef": {
+            "target": "classLevel",
+            "type": "conditional",
+            "condition": "monk"
+          },
+          "targets": [{ "target": "speed", "type": "direct" }],
+          "limitations": ["notWearingArmor", "notEquippedShield"],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "uncannyMetabolism",
+      "level": 2,
+      "description": [
+        {
+          "content": "firstUncannyMetabolism",
+          "type": "general"
+        },
+        {
+          "content": "secondUncannyMetabolism",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "uncannyMetabolism",
+          "type": "addThrowingDiceEventTrackerWithValuesCounter",
+          "source": "monk",
+          "events": [
+            {
+              "target": [{ "target": "counters", "type": "direct" }],
+              "type": "replenishCounter",
+              "targetId": "focusPoints: monk-addTracerTrackerCounter"
+            },
+            {
+              "target": [{ "target": "hitPoints", "type": "direct" }],
+              "type": "trackerHeals",
+              "diceRoll": [
+                {
+                  "target": "classLevel",
+                  "type": "conditional",
+                  "condition": "monk"
+                },
+                {
+                  "target": "counterDiceById",
+                  "type": "conditional",
+                  "condition": "martialArtsDie: monk-addDiceCounter"
+                }
+              ]
+            }
+          ],
+          "replenish": "longRest",
+          "usages": 1,
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "deflectAttacks",
+      "level": 3,
+      "description": [
+        {
+          "content": "firstdeflectAttacks",
+          "type": "general"
+        },
+        {
+          "content": "secondDeflectAttacks",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "deflectAttacks",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "firstdeflectAttacks",
+              "type": "general"
+            },
+            {
+              "content": "secondDeflectAttacks",
+              "type": "paragraphGeneral"
+            }
+          ],
+          "targets": [
+            {
+              "target": "reactions",
+              "type": "direct"
+            }
+          ],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "deflectAttacksDeflection",
+          "type": "addDiceTrackerWithValuesCounter",
+          "source": "monk",
+          "diceRollFetches": [
+            {
+              "target": "classLevel",
+              "type": "conditional",
+              "condition": "monk"
+            },
+            {
+              "target": "abilityModifier",
+              "type": "conditional",
+              "condition": "dexterity"
+            }
+          ],
+          "dice": [{ "face": 10, "count": 1 }],
+          "targets": [
+            {
+              "target": "counters",
+              "type": "direct"
+            }
+          ],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "deflectAttacksDamage",
+          "type": "addDiceTrackerWithValuesCounter",
+          "source": "monk",
+          "diceRollFetches": [
+            {
+              "target": "abilityModifier",
+              "type": "conditional",
+              "condition": "dexterity"
+            },
+            {
+              "target": "counterDiceById",
+              "type": "conditional",
+              "condition": "martialArtsDie: monk-addDiceCounter",
+              "targetMod": [{ "type": "multiplyDiceCount", "multiplier": 2 }]
+            }
+          ],
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 4,
+      "description": [
+        {
+          "content": "abilityScoreImprovement",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "monk",
+          "level": 4,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "slowFall",
+      "level": 4,
+      "description": [
+        {
+          "content": "slowFall",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "slowFallDamageReduction",
+          "type": "addValueTrackerCounter",
+          "source": "monk",
+          "valuesToTrack": [
+            {
+              "target": "classLevel",
+              "type": "conditional",
+              "condition": "monk",
+              "targetMod": [{ "type": "multiplyValue", "multiplier": 5 }]
+            }
+          ],
+          "targets": [
+            {
+              "target": "counters",
+              "type": "direct"
+            }
+          ],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "slowFall",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "slowFall",
+              "type": "general"
+            }
+          ],
+          "targets": [
+            {
+              "target": "reactions",
+              "type": "direct"
+            }
+          ],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "extraAttack",
+      "level": 5,
+      "description": [
+        {
+          "content": "extraAttack",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "extraAttack",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "extraAttack",
+              "type": "general"
+            }
+          ],
+          "targets": [
+            {
+              "target": "freeActions",
+              "type": "direct"
+            }
+          ],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "stunningStrike",
+      "level": 5,
+      "description": [
+        {
+          "content": "stunningStrike",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "stunningStrike",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "stunningStrike",
+              "type": "general"
+            }
+          ],
+          "targets": [
+            {
+              "target": "freeActions",
+              "type": "direct"
+            }
+          ],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "empoweredStrike",
+      "level": 6,
+      "description": [
+        {
+          "content": "empoweredStrike",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "empoweredStrike",
+          "type": "addDamageType",
+          "source": "monk",
+          "damageType": "force",
+          "targets": [
+            {
+              "target": "unarmedStrike",
+              "type": "direct"
+            }
+          ],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "evasion",
+      "level": 7,
+      "description": [
+        {
+          "content": "firstEvasion",
+          "type": "general"
+        },
+        {
+          "content": "secondEvasion",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "evasion",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "firstEvasion",
+              "type": "general"
+            },
+            {
+              "content": "secondEvasion",
+              "type": "paragraphGeneral"
+            }
+          ],
+          "targets": [
+            {
+              "target": "freeActions",
+              "type": "direct"
+            }
+          ],
+          "limitations": ["notIncapacitated"],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 8,
+      "description": [
+        {
+          "content": "abilityScoreImprovement",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "monk",
+          "level": 8,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "acrobaticMovement",
+      "level": 9,
+      "description": [
+        {
+          "content": "acrobaticMovement",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "acrobaticMovement",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "acrobaticMovement",
+              "type": "general"
+            }
+          ],
+          "targets": [
+            {
+              "target": "freeActions",
+              "type": "direct"
+            }
+          ],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "heightenedFocus",
+      "level": 10,
+      "description": [
+        {
+          "content": "heightenedFocus",
+          "type": "general"
+        },
+        {
+          "name": "flurryOfBlows",
+          "content": "heightenedFlurryofBlows",
+          "type": "subfeature"
+        },
+        {
+          "name": "patientDefense",
+          "content": "heightenedPatientDefense",
+          "type": "subfeature"
+        },
+        {
+          "name": "stepOfTheWind",
+          "content": "heightenedStepOfTheWind",
+          "type": "subfeature"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "changeFlurryOfBlows",
+          "type": "changeDescriptionTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "heightenedFlurryofBlows",
+              "type": "general"
+            }
+          ],
+          "originalDescription": [
+            {
+              "content": "flurryofBlows",
+              "type": "general"
+            }
+          ],
+          "actionId": "flurryOfBlows: monk-addTurnEconomy",
+          "targets": [{ "target": "bonusActions", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "changePatientDefense",
+          "type": "changeDescriptionTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "heightenedPatientDefense",
+              "type": "general"
+            }
+          ],
+          "originalDescription": [
+            {
+              "content": "patientDefense",
+              "type": "general"
+            }
+          ],
+          "actionId": "patientDefense: monk-addTurnEconomy",
+          "targets": [{ "target": "bonusActions", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "changeStepOfTheWind",
+          "type": "changeDescriptionTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "heightenedStepOfTheWind",
+              "type": "general"
+            }
+          ],
+          "originalDescription": [
+            {
+              "content": "stepOfTheWind",
+              "type": "general"
+            }
+          ],
+          "actionId": "stepOfTheWind: monk-addTurnEconomy",
+          "targets": [{ "target": "bonusActions", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "selfRestoration",
+      "level": 10,
+      "description": [
+        {
+          "content": "firstSelfRestoration",
+          "type": "general"
+        },
+        {
+          "content": "secondSelfRestoration",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "selfRestoration",
+          "type": "addEventWithTriggerCounter",
+          "source": "monk",
+          "events": [
+            {
+              "target": [{ "target": "isCuringCondition", "type": "direct" }],
+              "type": "cureOneCondition",
+              "conditions": ["charmed", "frightened", "poisoned"]
+            }
+          ],
+          "trigger": "endTurn",
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 12,
+      "description": [
+        {
+          "content": "abilityScoreImprovement",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "monk",
+          "level": 12,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "deflectEnergy",
+      "level": 13,
+      "description": [
+        {
+          "content": "deflectEnergy",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "deflectEnergy",
+          "type": "addTurnEconomy",
+          "source": "monk",
+          "description": [
+            {
+              "content": "deflectEnergy",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "freeActions", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "disciplinedSurvivor",
+      "level": 14,
+      "description": [
+        {
+          "content": "firstDisciplinedSurvivor",
+          "type": "general"
+        },
+        {
+          "content": "secondDisciplinedSurvivor",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "disciplinedSurvivorSavingThrows",
+          "type": "addProficiency",
+          "source": "monk",
+          "targets": [
+            {
+              "target": "skills",
+              "type": "direct"
+            }
+          ],
+          "addProficiencyTo": [
+            "constitutionSavingThrow",
+            "intelligenceSavingThrow",
+            "wisdomSavingThrow",
+            "charismaSavingThrow"
+          ],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "perfectFocus",
+      "level": 15,
+      "description": [
+        {
+          "content": "perfectFocus",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "perfectFocus",
+          "type": "addEventWithTriggerCounter",
+          "source": "monk",
+          "events": [
+            {
+              "target": [{ "type": "direct", "target": "counters" }],
+              "type": "replenishToValueCounter",
+              "targetId": "focusPoints: monk-addTracerTrackerCounter",
+              "value": 4
+            }
+          ],
+          "trigger": "whenRollingInitiative",
+          "targets": [{ "type": "direct", "target": "counters" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 16,
+      "description": [
+        {
+          "content": "abilityScoreImprovement",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "monk",
+          "level": 16,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "superiorDefense",
+      "level": 18,
+      "description": [
+        {
+          "content": "superiorDefense",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "superiorDefense",
+          "type": "addContinousEventWithTriggerCounter",
+          "source": "monk",
+          "events": [
+            {
+              "target": [{ "target": "counters", "type": "direct" }],
+              "type": "useResource",
+              "targetId": "focusPoints: monk-addTracerTrackerCounter",
+              "resourcesToUse": 3,
+              "message": "notEnough",
+              "isResetCounterRef": {
+                "target": "counterById",
+                "type": "conditional",
+                "condition": "superiorDefense: monk-addContinousEventWithTriggerCounter"
+              }
+            },
+            {
+              "target": [{ "target": "damageResistances", "type": "direct" }],
+              "type": "addResistanceEvent",
+              "addResistancesTo": [
+                "acid",
+                "cold",
+                "fire",
+                "lightning",
+                "necrotic",
+                "poison",
+                "psychic",
+                "radiant",
+                "thunder",
+                "bludgeoning",
+                "nonMagicalBludgeoning",
+                "piercing",
+                "nonMagicalPiercing",
+                "slashing",
+                "nonMagicalSlashing"
+              ],
+              "isActiveCounterRef": {
+                "target": "counterById",
+                "type": "conditional",
+                "condition": "superiorDefense: monk-addContinousEventWithTriggerCounter"
+              }
+            }
+          ],
+          "trigger": "startOfTurn",
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "limitations": [],
+          "eventsStatus": "inactive",
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "epicBoon",
+      "level": 19,
+      "description": [
+        {
+          "content": "epicBoon",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "monk",
+          "level": 4,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "bodyAndMind",
+      "level": 20,
+      "description": [
+        {
+          "content": "bodyAndMind",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "bodyAndMind",
+          "type": "increaseMaxLimit",
+          "source": "monk",
+          "targets": [{ "target": "abilities", "type": "direct" }],
+          "toWhichAbility": ["dexterity", "wisdom"],
+          "newMaxValue": 25,
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "bodyAndMind",
+          "type": "addValueToAbility",
+          "source": "monk",
+          "targets": [{ "target": "abilities", "type": "direct" }],
+          "toWhichFeature": ["dexterity", "wisdom"],
+          "value": 4,
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    }
+  ]
+}

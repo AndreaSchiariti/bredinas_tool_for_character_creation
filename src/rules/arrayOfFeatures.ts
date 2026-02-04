@@ -108,6 +108,8 @@ export const rests = ["shortRest", "longRest", "fullRest"] as const;
 
 export type Replenish = (typeof rests)[number];
 
+export const replenishSet = new Set<Replenish>(rests)
+
 // Conditions array and its types
 
 export const conditions = [
@@ -158,3 +160,9 @@ export function hasIsCuringConditionProperty(
     isCuring.conditionToCure.every(isCondition)
   );
 }
+
+export const featTypes = [
+  "origin", "fightingStyle", "general", "epicBoon"
+] as const
+
+export type FeatType = (typeof featTypes)[number]

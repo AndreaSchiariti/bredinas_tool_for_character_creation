@@ -1,6 +1,7 @@
 import type {
   Ability,
   DamageTypes,
+  FeatType,
   SavingThrow,
   Skill,
 } from "../rules/arrayOfFeatures";
@@ -8,6 +9,7 @@ import type { ClassFeatureDescription } from "./characterClassesUtils.types";
 import type { TrackModifications } from "./trackModifications.types";
 import type { DiceInterface } from "./generalRules.types";
 import type { ShieldInterface, WeaponInterface } from "./items.types";
+import type { ModificationsProp } from "./ModificationProps.type";
 
 export type Units = "meters" | "feet" | "squares";
 
@@ -55,6 +57,7 @@ export interface AbilityProp {
   modifier: number;
   trackModifications: TrackModifications[];
   maxLimit: number;
+  baseMaxLimit: number
   difficultyClass: number;
 }
 
@@ -104,6 +107,30 @@ export interface DamageTypeProp {
   isResistant: boolean;
   isImmune: boolean;
   isVulnerable: boolean;
+  trackModifications: TrackModifications[];
+}
+
+export interface Feat {
+  name: string;
+  description: string;
+  modifications: ModificationsProp[];
+  addedBy: string;
+}
+
+export type IsAddingFeats =
+  | {
+      isShown: false;
+      addedBy: null;
+    }
+  | {
+      isShown: true;
+      addedBy: string;
+      type?: FeatType;
+    };
+
+export interface CharacterFeats {
+  feats: Feat[];
+  isAddingFeats: IsAddingFeats;
 }
 
 export interface TurnEconomyProp {
@@ -133,4 +160,49 @@ export interface CharacterUnarmedStrike {
 export interface CharacterEquipment {
   mainHand: WeaponInterface | ShieldInterface | null;
   offHand: WeaponInterface | ShieldInterface | null;
+}
+
+export interface InfoForUser {
+  message: string;
+  property?: string;
+}
+
+export type CharacterMessage =
+  | { isShown: false; message: null }
+  | { isShown: true; message: InfoForUser };
+
+export function isCharacterMessage(data: unknown): data is CharacterMessage {
+  if (data === null || typeof data !== "object") {
+    return false;
+  }
+
+  const characterMessage = data as {
+    isShown?: unknown;
+    message?: unknown;
+  };
+
+  if (typeof characterMessage.isShown !== "boolean") {
+    return false;
+  }
+
+  if (characterMessage.isShown === false) {
+    return characterMessage.message === null;
+  }
+
+  if (
+    characterMessage.message === null ||
+    typeof characterMessage !== "object"
+  ) {
+    return false;
+  }
+
+  const message = characterMessage.message as {
+    message?: unknown;
+    property?: unknown;
+  };
+
+  return (
+    typeof message.message === "string" &&
+    (message.property === undefined || typeof message.property === "string")
+  );
 }

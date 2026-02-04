@@ -18,7 +18,7 @@ import type { CountersInterface } from "./counters.types";
 
 export interface RuleClass {
   name: CharacterClassesName;
-  subclass: (Subclasses | CustomSubclasses)[];
+  subclass: Subclasses | CustomSubclasses | null;
   level: number;
   primaryAbility: PrimaryClassAbilities | CustomPrimaryClassAbilities;
   hitDie: HitDice;
@@ -30,6 +30,6 @@ export interface RuleClass {
   startingEquipment: CharacterStartingEquipment;
   becomingClass: BecomingClass;
   classFeature: CharacterModifications[];
-  spellcasting: [];
+  spellcasting?: [];
   counters: CountersInterface[];
 }

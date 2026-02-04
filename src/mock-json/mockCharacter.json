@@ -32,6 +32,7 @@
       "description": "strDescription",
       "trackModifications": [],
       "maxLimit": 20,
+      "baseMaxLimit": 20,
       "difficultyClass": 11
     },
     {
@@ -43,6 +44,7 @@
       "description": "dexDescription",
       "trackModifications": [],
       "maxLimit": 20,
+      "baseMaxLimit": 20,
       "difficultyClass": 12
     },
     {
@@ -54,6 +56,7 @@
       "description": "conDescription",
       "trackModifications": [],
       "maxLimit": 20,
+      "baseMaxLimit": 20,
       "difficultyClass": 12
     },
     {
@@ -65,6 +68,7 @@
       "description": "intDescription",
       "trackModifications": [],
       "maxLimit": 20,
+      "baseMaxLimit": 20,
       "difficultyClass": 10
     },
     {
@@ -76,6 +80,7 @@
       "description": "wisDescription",
       "trackModifications": [],
       "maxLimit": 20,
+      "baseMaxLimit": 20,
       "difficultyClass": 11
     },
     {
@@ -87,6 +92,7 @@
       "description": "chaDescription",
       "trackModifications": [],
       "maxLimit": 20,
+      "baseMaxLimit": 20,
       "difficultyClass": 9
     }
   ],
@@ -97,7 +103,7 @@
       "ability": "dexterity",
       "baseScore": 3,
       "currentScore": 3,
-      "gainedWithClass" : true,
+      "gainedWithClass": true,
       "hasProficiency": true,
       "hasExpertise": false,
       "hasAdvantage": false,
@@ -433,97 +439,113 @@
       "type": "acid",
       "isResistant": true,
       "isImmune": true,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "cold",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "fire",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "force",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "lightning",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "necrotic",
       "isResistant": true,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "poison",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "psychic",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": true
+      "isVulnerable": true,
+      "trackModifications": []
     },
     {
       "type": "radiant",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "thunder",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "bludgeoning",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "nonMagicalBludgeoning",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "piercing",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "nonMagicalPiercing",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "slashing",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     },
     {
       "type": "nonMagicalSlashing",
       "isResistant": false,
       "isImmune": false,
-      "isVulnerable": false
+      "isVulnerable": false,
+      "trackModifications": []
     }
   ],
   "speed": {
@@ -531,7 +553,6 @@
     "currentScore": 30,
     "trackModifications": []
   },
-
   "turnEconomy": {
     "actions": [],
     "bonusActions": [],
@@ -551,6 +572,12 @@
     "offHand": null
   },
   "counters": [],
+  "feats": {
+    "feats": [],
+    "isAddingFeats": { "isShown": false, "addedBy": null },
+    "hasEpicBoon": false,
+    "hasFightingStyle": false
+  },
   "conditions": {
     "conditionsList": {
       "charmed": { "isAffecting": false, "isImmune": false },
@@ -559,5 +586,6 @@
       "poisoned": { "isAffecting": false, "isImmune": false }
     },
     "isCuringCondition": { "isShown": false, "conditionToCure": [] }
-  }
+  },
+  "message": { "isShown": false, "message": null }
 }

@@ -3,11 +3,7 @@ import type {
   ClassFeatureDescription,
 } from "../types/characterClassesUtils.types";
 import type { EventCounterProp } from "../types/EventCounterProp.type";
-import type {
-  
-  ModificationsProp,
-  
-} from "../types/ModificationProps.type";
+import type { ModificationsProp } from "../types/ModificationProps.type";
 import type { ModifyTarget, TargetInterface } from "../types/targets.types";
 
 const modification: CharacterModifications = {
@@ -45,7 +41,7 @@ const descriptionSubfeature: ClassFeatureDescription = {
 const changeDiceMod: Extract<ModificationsProp, { type: "changeDice" }> = {
   name: "",
   type: "changeDice",
-  source: "monk",
+  source: "barbarian",
   dice: { count: 0, face: 8 },
   targets: [],
   limitations: [],
@@ -58,7 +54,7 @@ const chageDiceBasedOnLevelMod: Extract<
 > = {
   name: "",
   type: "changeDiceBasedOnLevel",
-  source: "monk",
+  source: "barbarian",
   diceOnLevel: {
     level1: { face: 6, count: 1 },
     level2: { face: 6, count: 1 },
@@ -84,7 +80,7 @@ const chageDiceBasedOnLevelMod: Extract<
   levelRef: {
     target: "classLevel",
     type: "conditional",
-    condition: "monk",
+    condition: "barbarian",
   },
   targets: [],
   limitations: [],
@@ -97,7 +93,7 @@ const addDiceCounterMod: Extract<
 > = {
   name: "",
   type: "addDiceCounter",
-  source: "monk",
+  source: "barbarian",
   dice: { count: 0, face: 8 },
   targets: [],
   limitations: [],
@@ -110,7 +106,7 @@ const addDiceBaseOnLevelCounterMod: Extract<
 > = {
   name: "",
   type: "addDiceBasedOnLevelCounter",
-  source: "monk",
+  source: "barbarian",
   diceOnLevel: {
     level1: { face: 6, count: 1 },
     level2: { face: 6, count: 1 },
@@ -136,7 +132,7 @@ const addDiceBaseOnLevelCounterMod: Extract<
   levelRef: {
     target: "classLevel",
     type: "conditional",
-    condition: "monk",
+    condition: "barbarian",
   },
   targets: [{ target: "counters", type: "direct" }],
   limitations: [],
@@ -149,7 +145,7 @@ const addDiceTrackerWithValuesMod: Extract<
 > = {
   name: "",
   type: "addDiceTrackerWithValuesCounter",
-  source: "monk",
+  source: "barbarian",
   diceRollFetches: [],
   targets: [],
   limitations: [],
@@ -164,7 +160,7 @@ const addTurnEconomyMod: Extract<
 > = {
   name: "",
   type: "addTurnEconomy",
-  source: "monk",
+  source: "barbarian",
   description: [],
   targets: [{ target: "freeActions", type: "direct" }],
   limitations: [],
@@ -177,10 +173,10 @@ const changeDescriptionTurnEconomyMod: Extract<
 > = {
   name: "",
   type: "changeDescriptionTurnEconomy",
-  source: "monk",
+  source: "barbarian",
   description: [],
   originalDescription: [],
-  actionId: "flurryOfBlows: monk-addTurnEconomy",
+  actionId: "flurryOfBlows: barbarian-addTurnEconomy",
   targets: [{ target: "bonusActions", type: "direct" }],
   limitations: [],
   isActive: false,
@@ -192,7 +188,7 @@ const changeAbilityReferenceMod: Extract<
 > = {
   name: "",
   type: "changeAbilityReference",
-  source: "monk",
+  source: "barbarian",
   ability: "dexterity",
   targets: [],
   limitations: [],
@@ -202,7 +198,7 @@ const changeAbilityReferenceMod: Extract<
 const addAbilityMod: Extract<ModificationsProp, { type: "addAbility" }> = {
   name: "",
   type: "addAbility",
-  source: "monk",
+  source: "barbarian",
   ability: "dexterity",
   targets: [],
   limitations: [],
@@ -215,7 +211,7 @@ const addTracerTrackerCounterMod: Extract<
 > = {
   name: "",
   type: "addTracerTrackerCounter",
-  source: "monk",
+  source: "barbarian",
   targetsToTrack: [],
   targets: [],
   limitations: [],
@@ -229,7 +225,7 @@ const addThrowingDiceEventTrackerCounterMod: Extract<
 > = {
   name: "",
   type: "addThrowingDiceEventTrackerCounter",
-  source: "monk",
+  source: "barbarian",
   usages: 0,
   events: [],
   targets: [],
@@ -244,7 +240,7 @@ const addValueTrackerCounterMod: Extract<
 > = {
   name: "",
   type: "addValueTrackerCounter",
-  source: "monk",
+  source: "barbarian",
   valuesToTrack: [],
   targets: [],
   limitations: [],
@@ -257,7 +253,7 @@ const addEventWithTriggerCounterMod: Extract<
 > = {
   name: "",
   type: "addEventWithTriggerCounter",
-  source: "monk",
+  source: "barbarian",
   events: [],
   trigger: "",
   targets: [],
@@ -271,7 +267,7 @@ const addDifficultyClassCounterMod: Extract<
 > = {
   name: "",
   type: "addDifficultyClassCounter",
-  source: "monk",
+  source: "barbarian",
   ability: "wisdom",
   targets: [],
   limitations: [],
@@ -281,9 +277,37 @@ const addDifficultyClassCounterMod: Extract<
 const addValueMod: Extract<ModificationsProp, { type: "addValue" }> = {
   name: "",
   type: "addValue",
-  source: "monk",
+  source: "barbarian",
   value: 0,
   targets: [],
+  limitations: [],
+  isActive: false,
+};
+
+const addValueToAbilityMod: Extract<
+  ModificationsProp,
+  { type: "addValueToAbility" }
+> = {
+  name: "",
+  type: "addValueToAbility",
+  source: "barbarian",
+  targets: [{ target: "abilities", type: "direct" }],
+  toWhichFeature: [],
+  value: 0,
+  limitations: [],
+  isActive: false,
+};
+
+const addValueToSkillMod: Extract<
+  ModificationsProp,
+  { type: "addValueToSkill" }
+> = {
+  name: "",
+  type: "addValueToSkill",
+  source: "barbarian",
+  targets: [{ target: "abilities", type: "direct" }],
+  toWhichFeature: [],
+  value: 0,
   limitations: [],
   isActive: false,
 };
@@ -294,9 +318,33 @@ const addProficiencyMod: Extract<
 > = {
   name: "",
   type: "addProficiency",
-  source: "monk",
+  source: "barbarian",
   targets: [],
   addProficiencyTo: [],
+  limitations: [],
+  isActive: false,
+};
+
+const addFeatMod: Extract<ModificationsProp, { type: "addFeat" }> = {
+  name: "abilityScoreImprovement",
+  type: "addFeat",
+  source: "barbarian",
+  level: 4,
+  targets: [{ target: "feats", type: "direct" }],
+  limitations: [],
+  isActive: false,
+};
+
+const increaseMaxLimitMod: Extract<
+  ModificationsProp,
+  { type: "increaseMaxLimit" }
+> = {
+  name: "",
+  type: "increaseMaxLimit",
+  source: "barbarian",
+  targets: [{ target: "abilities", type: "direct" }],
+  toWhichAbility: [],
+  newMaxValue: 20,
   limitations: [],
   isActive: false,
 };
@@ -357,11 +405,38 @@ const trackerHealsEvent: Extract<EventCounterProp, { type: "trackerHeals" }> = {
   diceRoll: [],
 };
 
-const cureOneCondition: Extract<
+const cureOneConditionEvent: Extract<
   EventCounterProp,
   { type: "cureOneCondition" }
 > = {
   target: [{ target: "isCuringCondition", type: "direct" }],
   type: "cureOneCondition",
   conditions: [],
+};
+
+const useResourceEvent: Extract<EventCounterProp, { type: "useResource" }> = {
+  target: [{ target: "counters", type: "direct" }],
+  type: "useResource",
+  targetId: "",
+  resourcesToUse: 3,
+  message: "",
+  isResetCounterRef: {
+    target: "counterById",
+    type: "conditional",
+    condition: "superiorDefense: barbarian-addContinousEventWithTriggerCounter",
+  },
+};
+
+const addResistanceEvent: Extract<
+  EventCounterProp,
+  { type: "addResistanceEvent" }
+> = {
+  target: [{ target: "damageResistances", type: "direct" }],
+  type: "addResistanceEvent",
+  addResistancesTo: [],
+  isActiveCounterRef: {
+    target: "counterById",
+    type: "conditional",
+    condition: "superiorDefense: barbarian-addContinousEventWithTriggerCounter",
+  },
 };

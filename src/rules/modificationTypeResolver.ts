@@ -1,10 +1,13 @@
 import type { Character } from "../types/character.types";
-import type { SkillProp, TurnEconomyProp } from "../types/characterUtils.type";
+import type {
+  AbilityProp,
+  CharacterFeats,
+  SkillProp,
+  TurnEconomyProp,
+} from "../types/characterUtils.type";
 import type { CountersInterface } from "../types/counters.types";
 
-import {
-  type ModificationsProp,
-} from "../types/ModificationProps.type";
+import { type ModificationsProp } from "../types/ModificationProps.type";
 import {
   type HasAbilitiesWithTracking,
   type HasCurrentAndBaseDiceWithTracking,
@@ -37,8 +40,8 @@ export interface ModificationTypeMap {
   addDiceBasedOnLevelCounter: {
     character: Character;
     target: CountersInterface[];
-    mod: Extract<ModificationsProp, {type: "addDiceBasedOnLevelCounter"}>
-  }
+    mod: Extract<ModificationsProp, { type: "addDiceBasedOnLevelCounter" }>;
+  };
   addDiceTrackerWithValuesCounter: {
     character: Character;
     target: CountersInterface[];
@@ -107,18 +110,43 @@ export interface ModificationTypeMap {
   };
   addValue: {
     character: Character;
-    target: HasScoresWithTracking ;
+    target: HasScoresWithTracking;
     mod: Extract<ModificationsProp, { type: "addValue" }>;
+  };
+  addValueToAbility: {
+    character: Character;
+    target: AbilityProp[];
+    mod: Extract<ModificationsProp, { type: "addValueToAbility" }>;
+  };
+  addValueToSkill: {
+    character: Character;
+    target: SkillProp[];
+    mod: Extract<ModificationsProp, { type: "addValueToSkill" }>;
+  };
+  addValueBasedOnLevel: {
+    character: Character;
+    target: HasScoresWithTracking;
+    mod: Extract<ModificationsProp, { type: "addValueBasedOnLevel" }>;
   };
   addDamageType: {
     character: Character;
-    target: HasDamageTypes ;
+    target: HasDamageTypes;
     mod: Extract<ModificationsProp, { type: "addDamageType" }>;
   };
   addProficiency: {
     character: Character;
     target: SkillProp[];
     mod: Extract<ModificationsProp, { type: "addProficiency" }>;
+  };
+  addFeat: {
+    character: Character;
+    target: CharacterFeats;
+    mod: Extract<ModificationsProp, { type: "addFeat" }>;
+  };
+  increaseMaxLimit: {
+    character: Character;
+    target: AbilityProp[];
+    mod: Extract<ModificationsProp, { type: "increaseMaxLimit" }>;
   };
 }
 
@@ -137,8 +165,6 @@ export type ModificationTypeResolver = {
     ) => ModificationTypeMap[K]["target"];
   };
 };
-
-
 
 export const modificationTypeResolver: ModificationTypeResolver = {
   ...diceTypeResolver,

@@ -1,8 +1,14 @@
-import type { Condition } from "../rules/arrayOfFeatures";
+import type { Condition, DamageTypes } from "../rules/arrayOfFeatures";
+import type { InfoForUser } from "./characterUtils.type";
 import type { TargetInterface } from "./targets.types";
 
 interface BaseEventCounter {
   target: TargetInterface[];
+}
+
+export interface EventReturn<T> {
+  result: T;
+  message?: InfoForUser;
 }
 
 interface ReplenishEventCounter extends BaseEventCounter {
@@ -30,9 +36,25 @@ interface CureOneConditionEventCounter extends BaseEventCounter {
   conditions: Condition[];
 }
 
+interface UseResourceEventCounter extends BaseEventCounter {
+  type: "useResource";
+  targetId: string;
+  resourcesToUse: number;
+  message: string;
+  isResetCounterRef: TargetInterface;
+}
+
+interface AddResistanceEventCounter extends BaseEventCounter {
+  type: "addResistanceEvent";
+  addResistancesTo: DamageTypes[];
+  isActiveCounterRef: TargetInterface;
+}
+
 export type EventCounterProp =
   | ReplenishEventCounter
   | ReplenishToValueEventCounter
   | HealsEventCounter
   | TrackerHealsEventCounter
-  | CureOneConditionEventCounter;
+  | CureOneConditionEventCounter
+  | UseResourceEventCounter
+  | AddResistanceEventCounter;

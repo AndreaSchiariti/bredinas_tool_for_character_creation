@@ -11,6 +11,8 @@ import type {
   SkillProp,
   CharacterTurnEconomy,
   CharacterEquipment,
+  CharacterMessage,
+  CharacterFeats,
 } from "./characterUtils.type";
 import type { CountersInterface } from "./counters.types";
 
@@ -32,6 +34,8 @@ export interface Character {
   unarmedStrike: CharacterUnarmedStrike;
   equipped: CharacterEquipment;
   counters: CountersInterface[];
+  feats: CharacterFeats;
   classes: RuleClass[];
-  conditions: CharacterConditions
+  conditions: CharacterConditions;
+  message: CharacterMessage
 }

@@ -11,6 +11,8 @@ import {
   type TrackModifications,
 } from "./trackModifications.types";
 import { isDiceInterface, type DiceInterface } from "./generalRules.types";
+import type { FeatureWithName } from "./ModificationProps.type";
+import type { AbilityProp, SkillProp } from "./characterUtils.type";
 
 interface MultiplyDiceCountTarget {
   type: "multiplyDiceCount";
@@ -183,14 +185,13 @@ export function hasAbilitiesWithTrackingProperty(
   return hasAbilities && hasTrackModifications;
 }
 
-export type HasScoresWithTracking = Extract<
-  AllTargetValues,
-  {
-    baseScore: number;
-    currentScore: number;
-    trackModifications: TrackModifications[];
-  }
->;
+interface ScoreWithTracking {
+  baseScore: number;
+  currentScore: number;
+  trackModifications: TrackModifications[];
+}
+
+export type HasScoresWithTracking = Extract<AllTargetValues, ScoreWithTracking>;
 
 export function hasScoresWithTrackingProperty(
   object: unknown,
@@ -214,4 +215,47 @@ export function hasScoresWithTrackingProperty(
     scoreTarget.trackModifications.every(isTrackModifications);
 
   return hasBaseScore && hasCurrentScore && hasTrackModifications;
+}
+
+export interface ScoreWithTrackingAndName extends ScoreWithTracking {
+  name: FeatureWithName;
+}
+
+export type TargetWithName = SkillProp[] | AbilityProp[]
+
+export function hasScoresWithTrackingAndNameProperty(
+  data: unknown,
+): data is HasScoresWithTracking {
+  if (typeof data !== "object" || data === null) {
+    return false;
+  }
+
+  const scoreTarget = data as {
+    name?: unknown;
+    baseScore?: unknown;
+    currentScore?: unknown;
+    trackModifications?: unknown;
+  };
+
+  const hasName = typeof scoreTarget.name === "string";
+
+  const hasBaseScore = typeof scoreTarget.baseScore === "number";
+
+  const hasCurrentScore = typeof scoreTarget.currentScore === "number";
+
+  const hasTrackModifications =
+    Array.isArray(scoreTarget.trackModifications) &&
+    scoreTarget.trackModifications.every(isTrackModifications);
+
+  return hasName && hasBaseScore && hasCurrentScore && hasTrackModifications;
+}
+
+export function isArrayofScoresWithTrackingAndNameProperty(
+  data: unknown,
+): data is TargetWithName {
+  if (!Array.isArray(data)) {
+    return false;
+  }
+
+  return data.every(hasScoresWithTrackingAndNameProperty);
 }

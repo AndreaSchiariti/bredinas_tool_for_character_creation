@@ -1,8 +1,12 @@
 import type { Character } from "../types/character.types";
 import type {
+  AbilityProp,
   CharacterArmorClass,
+  CharacterFeats,
+  CharacterMessage,
   CharacterSpeed,
   CharacterUnarmedStrike,
+  DamageTypeProp,
   Hp,
   SkillProp,
   TurnEconomyProp,
@@ -23,7 +27,11 @@ export interface DirectTargetMap {
   speed: CharacterSpeed;
   hitPoints: Hp;
   isCuringCondition: IsCuringCondition;
-  skills: SkillProp[]
+  skills: SkillProp[];
+  message: CharacterMessage;
+  damageResistances: DamageTypeProp[];
+  feats: CharacterFeats;
+  abilities: AbilityProp[]
 }
 
 type DirectTargetResolver = {
@@ -44,5 +52,9 @@ export const directTargetResolver: DirectTargetResolver = {
   speed: (character: Character) => character.speed,
   hitPoints: (character: Character) => character.hp,
   isCuringCondition: (character: Character) => character.conditions.isCuringCondition,
-  skills: (character: Character) => character.skills
+  skills: (character: Character) => character.skills,
+  message: (character: Character) => character.message,
+  damageResistances: (character: Character) => character.damageResistances,
+  feats: (character: Character) => character.feats,
+  abilities: (character: Character) => character.abilities
 };

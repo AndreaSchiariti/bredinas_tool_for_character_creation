@@ -1,15 +1,17 @@
-import type { Ability, DamageTypes, Replenish } from "../rules/arrayOfFeatures";
+import type {
+  Ability,
+  DamageTypes,
+  FeatType,
+  Replenish,
+} from "../rules/arrayOfFeatures";
 import type {
   CharacterClassesName,
   ClassFeatureDescription,
 } from "./characterClassesUtils.types";
-import type {
-  ModificationLimitation,
-  TrackModifications,
-} from "./trackModifications.types";
+import type { ModificationLimitation } from "./trackModifications.types";
 import type { SkillPropName } from "./characterUtils.type";
 import type { EventCounterProp } from "./EventCounterProp.type";
-import type { DiceInterface } from "./generalRules.types";
+import type { DiceInterface, Level, LevelKey } from "./generalRules.types";
 import type { TargetInterface } from "./targets.types";
 
 interface BaseModification {
@@ -20,45 +22,17 @@ interface BaseModification {
   isActive: boolean;
 }
 
-export type Level =
-  | 1
-  | 2
-  | 3
-  | 4
-  | 5
-  | 6
-  | 7
-  | 8
-  | 9
-  | 10
-  | 11
-  | 12
-  | 13
-  | 14
-  | 15
-  | 16
-  | 17
-  | 18
-  | 19
-  | 20;
-
-type LevelKey = `level${Level}`;
-
-export function isLevel(value: unknown): value is Level {
-  return (
-    typeof value == "number" &&
-    Number.isInteger(value) &&
-    value >= 1 &&
-    value <= 20
-  );
-}
-
 export type DiceBasedOnLevel = Record<LevelKey, DiceInterface>;
 
 export type ValueBasedOnLevel = Record<LevelKey, number>;
 
 interface UsesDice extends BaseModification {
   dice: DiceInterface;
+}
+
+interface UsesUsagesAndReplanish extends BaseModification {
+  usages: number;
+  replenish: Replenish;
 }
 
 interface UsesDiceBasedOnLevel extends BaseModification {
@@ -93,10 +67,8 @@ interface AddDiceTrackerWithValuesCounter extends BaseModification {
   addValue?: number;
 }
 
-interface AddTracerCounter extends BaseModification {
+interface AddTracerCounter extends UsesUsagesAndReplanish {
   type: "addTracerCounter";
-  usages: number;
-  replenish: Replenish;
 }
 
 interface AddTracerTrackerCounter extends BaseModification {
@@ -105,24 +77,28 @@ interface AddTracerTrackerCounter extends BaseModification {
   targetsToTrack: TargetInterface[];
 }
 
-interface AddEventCounterBase {
+interface AddEventCounterBase extends BaseModification {
   events: EventCounterProp[];
-  replenish: Replenish;
-  usages: number;
 }
 
-interface AddEventCounter extends BaseModification, AddEventCounterBase {
+interface AddEventCounter
+  extends BaseModification, UsesUsagesAndReplanish, AddEventCounterBase {
   type: "addEventCounter";
 }
 
-interface AddEventWithTriggerCounter extends BaseModification {
+interface AddEventWithTriggerCounter extends AddEventCounterBase {
   type: "addEventWithTriggerCounter";
-  events: EventCounterProp[];
   trigger: string;
 }
 
+interface AddContinousEventWithTriggerCounter extends AddEventCounterBase {
+  type: "addContinousEventWithTriggerCounter";
+  trigger: string;
+  areEventActive: boolean;
+}
+
 interface AddThrowingDiceEventTrackerCounter
-  extends BaseModification, AddEventCounterBase {
+  extends AddEventCounterBase, UsesUsagesAndReplanish {
   type: "addThrowingDiceEventTrackerCounter";
 }
 
@@ -161,6 +137,24 @@ interface AddValue extends BaseModification {
   value: number;
 }
 
+export type FeatureWithName = Ability | SkillPropName;
+
+interface AddValueToFeature extends BaseModification {
+  value: number;
+}
+
+interface AddValueToAbility extends AddValueToFeature {
+  type: "addValueToAbility";
+  value: number;
+  toWhichFeature: Ability[];
+}
+
+interface AddValueToSkill extends AddValueToFeature {
+  type: "addValueToSkill";
+  value: number;
+  toWhichFeature: SkillPropName[];
+}
+
 interface AddValueBasedOnLevel extends BaseModification {
   type: "addValueBasedOnLevel";
   valueOnLevel: ValueBasedOnLevel;
@@ -175,6 +169,18 @@ interface AddDamageType extends BaseModification {
 interface AddProficiency extends BaseModification {
   type: "addProficiency";
   addProficiencyTo: SkillPropName[];
+}
+
+interface AddFeat extends BaseModification {
+  type: "addFeat";
+  level: Level;
+  featType?: FeatType;
+}
+
+interface IncreaseMaxLimit extends BaseModification {
+  type: "increaseMaxLimit",
+  toWhichAbility: Ability[]
+  newMaxValue: number
 }
 
 export type HasDiceRoll = Extract<
@@ -201,9 +207,14 @@ export type ModificationsProp =
   | AddValueTrackerCounter
   | AddDifficultyClassCounter
   | AddValue
+  | AddValueToAbility
+  | AddValueToSkill
   | AddValueBasedOnLevel
   | AddDamageType
   | AddEventCounter
   | AddEventWithTriggerCounter
+  | AddContinousEventWithTriggerCounter
   | AddThrowingDiceEventTrackerCounter
-  | AddProficiency;
+  | AddProficiency
+  | AddFeat
+  | IncreaseMaxLimit;

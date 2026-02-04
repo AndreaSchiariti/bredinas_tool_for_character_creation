@@ -1,0 +1,72 @@
+{
+  "name": "barbarian",
+  "subclass": null,
+  "primaryAbilities": "strength",
+  "hitDie": "d12",
+  "savingThrowProficiency": ["strengthSavingThrow", "constitutionSavingThrow"],
+  "weaponProficiency": [
+    {
+      "type": "simpleWeapons",
+      "details": ""
+    },
+    {
+      "type": "martialWeapons",
+      "details": ""
+    }
+  ],
+  "skillProficiency": {
+    "choosingNumber": 2,
+    "skills": [
+      "animalHandling",
+      "athletics",
+      "intimidation",
+      "nature",
+      "perception",
+      "survival"
+    ]
+  },
+  "toolProficiency": [
+    {
+      "toolToChoose": "chooseAnyArtisanalOrInstrument",
+      "choosingNumber": 1
+    }
+  ],
+  "armorTraining": [],
+  "startingEquipment": {
+    "a": [
+      {
+        "name": "spear",
+        "quantity": 1
+      },
+      {
+        "name": "dagger",
+        "quantity": 5
+      },
+      {
+        "name": "artisanOrInstrumentChose",
+        "quantity": 1
+      },
+      {
+        "name": "explorerPack",
+        "quantity": 1
+      },
+      {
+        "name": "goldPieces",
+        "quantity": 11
+      }
+    ],
+    "b": [
+      {
+        "name": "goldPieces",
+        "quantity": 50
+      }
+    ]
+  },
+  "becomingClass": [
+    {
+      "level1": ["gainAllTraits", "gainLevel1Features"],
+      "multiclass": ["gainHitDie", "gainLevel1Features"]
+    }
+  ],
+  "classFeature": []
+}
