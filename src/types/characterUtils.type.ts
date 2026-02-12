@@ -1,15 +1,11 @@
-import type {
-  Ability,
-  DamageTypes,
-  FeatType,
-  SavingThrow,
-  Skill,
-} from "../rules/arrayOfFeatures";
 import type { ClassFeatureDescription } from "./characterClassesUtils.types";
 import type { TrackModifications } from "./trackModifications.types";
-import type { DiceInterface } from "./generalRules.types";
+import type { AttackType, DiceInterface } from "./generalRules.types";
 import type { ShieldInterface, WeaponInterface } from "./items.types";
-import type { ModificationsProp } from "./ModificationProps.type";
+import type { Ability } from "./features.type.ts/abilitiesAndSkills.type";
+import type { DamageTypes } from "./features.type.ts/damageTypes.type";
+import type { CoreWeaponName } from "./features.type.ts/items.type";
+import type { TargetInterface } from "./targets.types";
 
 export type Units = "meters" | "feet" | "squares";
 
@@ -25,10 +21,6 @@ export type Sizes =
   | "huge"
   | "gargantuan";
 
-export type SkillPropType = "skill" | "savingThrow" | "initiative";
-
-export type SkillPropName = Skill | SavingThrow | "initiative";
-
 export interface HitDiceProp {
   spent: number;
   max: number;
@@ -38,6 +30,9 @@ export interface HitDiceProp {
 export interface IsHealing {
   isShown: boolean;
   information: string | null;
+  value1 ?: number | string
+  value2 ?: number | string
+  counterToAddCount ?: TargetInterface
 }
 
 export interface Hp {
@@ -48,42 +43,6 @@ export interface Hp {
   isHealing: IsHealing;
   hitDices: HitDiceProp[];
 }
-
-export interface AbilityProp {
-  id: "str" | "dex" | "con" | "int" | "wis" | "cha";
-  name: Ability;
-  baseScore: number;
-  currentScore: number;
-  modifier: number;
-  trackModifications: TrackModifications[];
-  maxLimit: number;
-  baseMaxLimit: number
-  difficultyClass: number;
-}
-
-export interface SkillBase {
-  name: SkillPropName;
-  type: SkillPropType;
-  ability: Ability;
-  baseScore: number;
-  currentScore: number;
-  hasExpertise: boolean;
-  hasAdvantage: boolean;
-  hasDisadvantage: boolean;
-  trackModifications: TrackModifications[];
-}
-
-interface SkillProficiencyNoClass extends SkillBase {
-  gainedWithClass: false;
-  hasProficiency: boolean;
-}
-
-interface SkillProficiencyWithClass extends SkillBase {
-  gainedWithClass: true;
-  hasProficiency: true;
-}
-
-export type SkillProp = SkillProficiencyNoClass | SkillProficiencyWithClass;
 
 export interface CharacterSpeed {
   baseScore: number;
@@ -100,37 +59,6 @@ export interface CharacterArmorClass {
   isWearingMediumArmor: boolean;
   isWearingHeavyArmor: boolean;
   isShieldEquipped: boolean;
-}
-
-export interface DamageTypeProp {
-  type: DamageTypes;
-  isResistant: boolean;
-  isImmune: boolean;
-  isVulnerable: boolean;
-  trackModifications: TrackModifications[];
-}
-
-export interface Feat {
-  name: string;
-  description: string;
-  modifications: ModificationsProp[];
-  addedBy: string;
-}
-
-export type IsAddingFeats =
-  | {
-      isShown: false;
-      addedBy: null;
-    }
-  | {
-      isShown: true;
-      addedBy: string;
-      type?: FeatType;
-    };
-
-export interface CharacterFeats {
-  feats: Feat[];
-  isAddingFeats: IsAddingFeats;
 }
 
 export interface TurnEconomyProp {
@@ -165,6 +93,33 @@ export interface CharacterEquipment {
 export interface InfoForUser {
   message: string;
   property?: string;
+}
+
+export interface CharacterAttacks {
+  name: string;
+  id: string;
+  type: AttackType;
+  damageDice: DiceInterface[];
+  baseDamageDice: DiceInterface | 1;
+  ability: Ability[];
+  abilityUsed: Ability;
+  addProficiency: boolean;
+  hasAdvantage: boolean;
+  hasDisadvantage: boolean;
+  addingValues: number;
+  trackModifications: TrackModifications[];
+}
+
+export interface CharacterWeaponMastery {
+  available: number;
+  weapons: CoreWeaponName[];
+  trackModifications: TrackModifications[];
+}
+
+export interface CharacterReminder {
+  name: string;
+  id: string;
+  content: string;
 }
 
 export type CharacterMessage =

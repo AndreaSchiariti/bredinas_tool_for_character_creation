@@ -1,9 +1,17 @@
-import type { Condition, DamageTypes } from "../rules/arrayOfFeatures";
+import type { InternalFeatureLimitationMap } from "../rules/internalFeatureLimitation";
 import type { InfoForUser } from "./characterUtils.type";
+import type {
+  Ability,
+  SkillPropName,
+} from "./features.type.ts/abilitiesAndSkills.type";
+import type { Condition } from "./features.type.ts/conditions.type";
+import type { DamageTypes } from "./features.type.ts/damageTypes.type";
+import type { DiceInterface, ModifyValue } from "./generalRules.types";
 import type { TargetInterface } from "./targets.types";
 
 interface BaseEventCounter {
   target: TargetInterface[];
+  limitations?: (keyof InternalFeatureLimitationMap)[]
 }
 
 export interface EventReturn<T> {
@@ -29,6 +37,7 @@ interface HealsEventCounter extends BaseEventCounter {
 interface TrackerHealsEventCounter extends BaseEventCounter {
   type: "trackerHeals";
   diceRoll: TargetInterface[];
+  message: string;
 }
 
 interface CureOneConditionEventCounter extends BaseEventCounter {
@@ -36,18 +45,59 @@ interface CureOneConditionEventCounter extends BaseEventCounter {
   conditions: Condition[];
 }
 
+interface CheckActiveCounterRef extends BaseEventCounter {
+  activeCounterRef: TargetInterface;
+}
+
 interface UseResourceEventCounter extends BaseEventCounter {
   type: "useResource";
   targetId: string;
   resourcesToUse: number;
   message: string;
-  isResetCounterRef: TargetInterface;
+  resetCounterRef: TargetInterface;
 }
 
-interface AddResistanceEventCounter extends BaseEventCounter {
+interface AddResistanceEventCounter extends CheckActiveCounterRef {
   type: "addResistanceEvent";
   addResistancesTo: DamageTypes[];
-  isActiveCounterRef: TargetInterface;
+}
+
+interface ActivateConditionEventCounter extends CheckActiveCounterRef {
+  type: "activateConditionEvent";
+  conditionsToActivate: Condition[];
+}
+
+interface AddAdvantageEventBase extends CheckActiveCounterRef {
+  type: "addAdvantageEvent";
+}
+
+interface AddAdvantageEventAttack extends AddAdvantageEventBase {
+  scope: "attacks";
+  features: Ability[];
+}
+
+interface AddAdvantageEventSkill extends AddAdvantageEventBase {
+  scope: "skills";
+  features: SkillPropName[];
+}
+
+type AddAdvantageEvent = AddAdvantageEventAttack | AddAdvantageEventSkill;
+
+interface AddReminderEvent extends CheckActiveCounterRef {
+  type: "addReminderEvent";
+  content: string;
+}
+
+interface addFetchedScoreEvent extends CheckActiveCounterRef {
+  type: "addFetchedScoreEvent";
+  fetchedFeature: TargetInterface;
+  modifyValue?: ModifyValue;
+}
+
+interface addDiceToAttackBasedOnAbilityEvent extends CheckActiveCounterRef {
+  type: "addDiceToAttackBasedOnAbilityEvent";
+  diceToAdd: DiceInterface | TargetInterface,
+  ability: Ability[]
 }
 
 export type EventCounterProp =
@@ -57,4 +107,18 @@ export type EventCounterProp =
   | TrackerHealsEventCounter
   | CureOneConditionEventCounter
   | UseResourceEventCounter
-  | AddResistanceEventCounter;
+  | AddResistanceEventCounter
+  | ActivateConditionEventCounter
+  | AddAdvantageEvent
+  | AddReminderEvent
+  | addFetchedScoreEvent
+  | addDiceToAttackBasedOnAbilityEvent;
+
+  export type HasDiceRoll = Extract<
+    EventCounterProp,
+    { diceRoll: TargetInterface[] }
+  >;
+  
+  export function hasDiceRoll(event: EventCounterProp): event is HasDiceRoll {
+    return "diceRoll" in event;
+  }

@@ -1,11 +1,14 @@
 import type { Character } from "../types/character.types";
 import type { ItemType, WeaponInterface } from "../types/items.types";
+import { devConsoleWarn } from "../utils/general";
 
 export interface LimitationsMap {
-  unarmedOrSimpleAndMartialMeleeWithLight: boolean;
-  notWearingArmor: boolean;
-  notEquippedShield: boolean;
-  notIncapacitated: boolean;
+  notEquippingOnlyunarmedOrSimpleAndMartialMeleeWithLight: boolean;
+  wearingArmor: boolean;
+  isEquippingShield: boolean;
+  isIncapacitated: boolean;
+  isNotEnraged: boolean;
+  wearingHeavyArmor: boolean;
 }
 
 type LimitationsResolver = {
@@ -13,9 +16,7 @@ type LimitationsResolver = {
 };
 
 //Checks if the Type of the equipped items is a weapon
-function isWeapon(
-  item: ItemType | null,
-): item is WeaponInterface {
+function isWeapon(item: ItemType | null): item is WeaponInterface {
   return !!item && "properties" in item;
 }
 
@@ -28,43 +29,79 @@ function isUnarmedOrLightSimpleAndMartialWeapon(character: Character): boolean {
   const { mainHand, offHand } = character.equipped;
 
   if (!mainHand && !offHand) {
-    return true;
+    return false;
   }
 
   if (isWeapon(mainHand) && (!offHand || isWeapon(offHand))) {
     if (!isLight(mainHand)) {
-      return false;
+      return true;
     }
 
     if (offHand && !isLight(offHand)) {
-      return false;
+      return true;
     }
 
-    return true;
+    
+
+    return false;
   }
 
-  return false;
+  return true;
 }
 
-function isNotWearingArmor(character: Character) {
+function isWearingArmor(character: Character): boolean {
   const { isWearingLightArmor, isWearingMediumArmor, isWearingHeavyArmor } =
     character.armorClass;
 
-  return !(isWearingLightArmor || isWearingMediumArmor || isWearingHeavyArmor);
+  return isWearingLightArmor && isWearingMediumArmor && isWearingHeavyArmor;
 }
 
-function isNotequippingShield(character: Character) {
-  return !character.armorClass.isShieldEquipped;
+function isEquippingShield(character: Character) {
+  return character.armorClass.isShieldEquipped;
 }
 
-function isNotIncapacitated(character: Character) {
-   return !character.conditions.conditionsList.incapacitated.isAffecting
+function isIncapacitated(character: Character): boolean {
+  const incapacitated = character.conditions.conditionsList.find(
+    (con) => con.name === "incapacitated",
+  );
+
+  if (!incapacitated) {
+    devConsoleWarn(
+      `Couldn't find incapacited in the condition array for the limitation`,
+      character.conditions.conditionsList,
+    );
+    return true;
+  }
+
+  return incapacitated.isAffecting;
+}
+
+function isNotEnraged(character: Character): boolean {
+  const enraged = character.conditions.conditionsList.find(
+    (con) => con.name === "enraged",
+  );
+
+  if (!enraged) {
+    devConsoleWarn(
+      `Couldn't find enraged in the condition array for the limitation`,
+      character.conditions.conditionsList,
+    );
+    return false;
+  }
+
+  return !enraged.isAffecting;
+}
+
+function isWearingHeavyArmor(character: Character): boolean {
+  return character.armorClass.isWearingHeavyArmor;
 }
 
 export const limitationsResolver: LimitationsResolver = {
-  unarmedOrSimpleAndMartialMeleeWithLight:
+  notEquippingOnlyunarmedOrSimpleAndMartialMeleeWithLight:
     isUnarmedOrLightSimpleAndMartialWeapon,
-  notWearingArmor: isNotWearingArmor,
-  notEquippedShield: isNotequippingShield,
-  notIncapacitated: isNotIncapacitated
+  wearingArmor: isWearingArmor,
+  isEquippingShield: isEquippingShield,
+  isIncapacitated: isIncapacitated,
+  isNotEnraged: isNotEnraged,
+  wearingHeavyArmor: isWearingHeavyArmor,
 };

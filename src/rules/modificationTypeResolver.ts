@@ -1,11 +1,16 @@
 import type { Character } from "../types/character.types";
 import type {
-  AbilityProp,
-  CharacterFeats,
-  SkillProp,
-  TurnEconomyProp,
+  CharacterTurnEconomy,
+  CharacterWeaponMastery,
+  Hp,
 } from "../types/characterUtils.type";
+
 import type { CountersInterface } from "../types/counters.types";
+import type {
+  AbilityProp,
+  CharacterSkills,
+} from "../types/features.type.ts/abilitiesAndSkills.type";
+import type { CharacterFeats } from "../types/features.type.ts/feat.type";
 
 import { type ModificationsProp } from "../types/ModificationProps.type";
 import {
@@ -19,6 +24,7 @@ import { diceTypeResolver } from "./modificationTypeResolver/diceTypeResolver";
 import { eventCounterTypeResolver } from "./modificationTypeResolver/eventCounterTypeResolver";
 import { generalAddingTypeResolver } from "./modificationTypeResolver/generalAddingTypeResolver";
 import { generalCounterTypeResolver } from "./modificationTypeResolver/generalCounterTyperResolver";
+import { openingMessageTypeResolver } from "./modificationTypeResolver/openingMessageTypeResolver";
 import { turnEconomyTypeResolver } from "./modificationTypeResolver/turnEconomyTypeResolver";
 
 export interface ModificationTypeMap {
@@ -55,6 +61,11 @@ export interface ModificationTypeMap {
     target: CountersInterface[];
     mod: Extract<ModificationsProp, { type: "addTracerCounter" }>;
   };
+  addTracerBasedOnLevelCounter: {
+    character: Character;
+    target: CountersInterface[];
+    mod: Extract<ModificationsProp, { type: "addTracerBasedOnLevelCounter" }>;
+  };
   addTracerTrackerCounter: {
     character: Character;
     target: CountersInterface[];
@@ -70,13 +81,10 @@ export interface ModificationTypeMap {
     target: CountersInterface[];
     mod: Extract<ModificationsProp, { type: "addEventCounter" }>;
   };
-  addThrowingDiceEventTrackingCounter: {
+  addTracerEventCounter: {
     character: Character;
     target: CountersInterface[];
-    mod: Extract<
-      ModificationsProp,
-      { type: "addThrowingDiceEventTrackerCounter" }
-    >;
+    mod: Extract<ModificationsProp, { type: "addTracerEventCounter" }>;
   };
   addEventWithTriggerCounter: {
     character: Character;
@@ -88,14 +96,27 @@ export interface ModificationTypeMap {
     target: CountersInterface[];
     mod: Extract<ModificationsProp, { type: "addValueTrackerCounter" }>;
   };
+  addValueBasedOnLevelCounter: {
+    character: Character;
+    target: CountersInterface[];
+    mod: Extract<ModificationsProp, { type: "addValueBasedOnLevelCounter" }>;
+  };
+  addContinuousEventWithTriggerCounter: {
+    character: Character;
+    target: CountersInterface[];
+    mod: Extract<
+      ModificationsProp,
+      { type: "addContinuousEventWithTriggerCounter" }
+    >;
+  };
   addTurnEconomy: {
     character: Character;
-    target: TurnEconomyProp[];
+    target: CharacterTurnEconomy;
     mod: Extract<ModificationsProp, { type: "addTurnEconomy" }>;
   };
   changeDescriptionTurnEconomy: {
     character: Character;
-    target: TurnEconomyProp[];
+    target: CharacterTurnEconomy;
     mod: Extract<ModificationsProp, { type: "changeDescriptionTurnEconomy" }>;
   };
   //changeAbilityReference: {
@@ -107,6 +128,11 @@ export interface ModificationTypeMap {
     character: Character;
     target: HasAbilitiesWithTracking;
     mod: Extract<ModificationsProp, { type: "addAbility" }>;
+  };
+  addAbilityToSkill: {
+    character: Character;
+    target: CharacterSkills;
+    mod: Extract<ModificationsProp, { type: "addAbilityToSkill" }>;
   };
   addValue: {
     character: Character;
@@ -120,7 +146,7 @@ export interface ModificationTypeMap {
   };
   addValueToSkill: {
     character: Character;
-    target: SkillProp[];
+    target: CharacterSkills;
     mod: Extract<ModificationsProp, { type: "addValueToSkill" }>;
   };
   addValueBasedOnLevel: {
@@ -135,7 +161,7 @@ export interface ModificationTypeMap {
   };
   addProficiency: {
     character: Character;
-    target: SkillProp[];
+    target: CharacterSkills;
     mod: Extract<ModificationsProp, { type: "addProficiency" }>;
   };
   addFeat: {
@@ -147,6 +173,39 @@ export interface ModificationTypeMap {
     character: Character;
     target: AbilityProp[];
     mod: Extract<ModificationsProp, { type: "increaseMaxLimit" }>;
+  };
+  addWeaponMasteryBasedOnLevel: {
+    character: Character;
+    target: CharacterWeaponMastery | null;
+    mod: Extract<ModificationsProp, { type: "addWeaponMasteryBasedOnLevel" }>;
+  };
+  addAdvantage: {
+    character: Character;
+    target: CharacterSkills;
+    mod: Extract<ModificationsProp, { type: "addAdvantage" }>;
+  };
+  addProficiencyWithChoice: {
+    character: Character;
+    target: CharacterSkills;
+    mod: Extract<ModificationsProp, { type: "addProficiencyWithChoice" }>;
+  };
+  openIsHealingWhenHP: {
+    character: Character;
+    target: Hp;
+    mod: Extract<ModificationsProp, { type: "openIsHealingWhenHP" }>;
+  };
+  addCountingCounter: {
+    character: Character;
+    target: CountersInterface[];
+    mod: Extract<ModificationsProp, { type: "addCountingCounter" }>;
+  };
+  setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility: {
+    character: Character;
+    target: CharacterSkills;
+    mod: Extract<
+      ModificationsProp,
+      { type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility" }
+    >;
   };
 }
 
@@ -173,4 +232,5 @@ export const modificationTypeResolver: ModificationTypeResolver = {
   ...turnEconomyTypeResolver,
   ...abilityAndSkillTypeResolver,
   ...generalAddingTypeResolver,
+  ...openingMessageTypeResolver,
 };

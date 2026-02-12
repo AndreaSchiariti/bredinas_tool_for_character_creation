@@ -1,11 +1,17 @@
 import type { Character } from "../types/character.types";
-import type { CharacterClassesName } from "../types/characterClassesUtils.types";
-import type { AbilityProp } from "../types/characterUtils.type";
 import { isDiceCounter, type CountersInterface } from "../types/counters.types";
+import type {
+  Ability,
+  AbilityProp,
+} from "../types/features.type.ts/abilitiesAndSkills.type";
+import type { CharacterClassesName } from "../types/features.type.ts/classes.type";
+import type {
+  Condition,
+  ConditionProp,
+} from "../types/features.type.ts/conditions.type";
 import type { DiceInterface } from "../types/generalRules.types";
 import type { ConditionalTargetInterface } from "../types/targets.types";
 import { devConsoleWarn } from "../utils/general";
-import type { Ability } from "./arrayOfFeatures";
 
 export interface ConditionalTargetMap {
   abilityModifier: {
@@ -22,8 +28,16 @@ export interface ConditionalTargetMap {
   };
   counterById: {
     condition: string;
-    value: CountersInterface | null
-  }
+    value: CountersInterface | null;
+  };
+  conditionByName: {
+    condition: Condition;
+    value: ConditionProp | null;
+  };
+  abilityCurrentScore: {
+    condition: Ability;
+    value: number;
+  };
 }
 
 type ConditionalTargetResolver = {
@@ -33,15 +47,17 @@ type ConditionalTargetResolver = {
   ) => ConditionalTargetMap[K]["value"];
 };
 
-function findAbilityModifier (character: Character, condition: Ability) : number {
-  const ability: AbilityProp | undefined = character.abilities.find(ability => ability.name === condition)
+function findAbilityModifier(character: Character, condition: Ability): number {
+  const ability: AbilityProp | undefined = character.abilities.find(
+    (ability) => ability.name === condition,
+  );
 
   if (!ability) {
-    devConsoleWarn(`Couldn't find ${condition} modifier`, character.abilities)
-    return 0
+    devConsoleWarn(`Couldn't find ${condition} modifier`, character.abilities);
+    return 0;
   }
 
-  return ability.modifier
+  return ability.modifier;
 }
 
 function findClassLevel(
@@ -89,21 +105,53 @@ function findCounterDiceById(
   return counter.dice;
 }
 
-function findCounterById(character: Character, condition: string) : CountersInterface | null {
-  const counterToFetch = character.counters.find(counter => counter.id === condition)
+function findCounterById(
+  character: Character,
+  condition: string,
+): CountersInterface | null {
+  const counterToFetch = character.counters.find(
+    (counter) => counter.id === condition,
+  );
 
-  if (!counterToFetch) {
-    return null
+  return counterToFetch ? counterToFetch : null;
+}
+
+function findConditionByName(
+  character: Character,
+  condition: Condition,
+): ConditionProp | null {
+  const conditionToFetch = character.conditions.conditionsList.find(
+    (singleCondition) => singleCondition.name === condition,
+  );
+
+  return conditionToFetch ? conditionToFetch : null;
+}
+
+function findAbilityCurrentScoreByAbility(
+  character: Character,
+  condition: Ability,
+): number {
+  const ability = character.abilities.find((ab) => ab.name === condition);
+
+  if (!ability) {
+    devConsoleWarn(
+      `couldn't find the ability by name in target "abilityCurrentScore"`,
+      condition,
+    );
+    return 0;
   }
+  const currentScore = ability.currentScore;
 
-  return counterToFetch
+  return currentScore;
 }
 
 export const conditionalTargetResolver: ConditionalTargetResolver = {
   abilityModifier: findAbilityModifier,
   classLevel: findClassLevel,
   counterDiceById: findCounterDiceById,
-  counterById: findCounterById
+  counterById: findCounterById,
+  conditionByName: findConditionByName,
+  abilityCurrentScore: findAbilityCurrentScoreByAbility,
 };
 
 export function getConditionalTarget<K extends keyof ConditionalTargetMap>(
@@ -112,3 +160,16 @@ export function getConditionalTarget<K extends keyof ConditionalTargetMap>(
 ): ConditionalTargetMap[K]["value"] {
   return conditionalTargetResolver[target.target](character, target.condition);
 }
+
+const conditionalTargetList: (keyof ConditionalTargetMap)[] = [
+  "abilityModifier",
+  "classLevel",
+  "counterDiceById",
+  "counterById",
+  "conditionByName",
+  "abilityCurrentScore",
+];
+
+export const conditionalTargetSet = new Set<keyof ConditionalTargetMap>(
+  conditionalTargetList,
+);

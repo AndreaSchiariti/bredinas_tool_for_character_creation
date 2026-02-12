@@ -3,8 +3,11 @@ import type { DirectTargetMap } from "../rules/directTargetResolver";
 import type { ModificationTypeMap } from "../rules/modificationTypeResolver";
 import type { WeaponProperty } from "./items.types";
 import type { ConditionalTargetMap } from "../rules/conditionalTargetResolver";
-import type { DiceInterface } from "./generalRules.types";
-import type { Ability, DamageTypes } from "../rules/arrayOfFeatures";
+import { type DiceInterface } from "./generalRules.types";
+import type { Ability } from "./features.type.ts/abilitiesAndSkills.type";
+import type { Condition } from "./features.type.ts/conditions.type";
+import type { DamageTypes } from "./features.type.ts/damageTypes.type";
+import type { CharacterClassesName } from "./features.type.ts/classes.type";
 
 export type ModificationTarget =
   | keyof DirectTargetMap
@@ -16,9 +19,11 @@ export type ModificationOperation = keyof ModificationTypeMap;
 
 export type ModificationLimitation = keyof LimitationsMap;
 
-interface HasAbility {
+interface HasAbility extends BaseTrackModifications {
   ability: Ability;
 }
+
+export type Source = CharacterClassesName | Condition;
 
 interface BaseTrackModifications {
   name: string;
@@ -26,68 +31,117 @@ interface BaseTrackModifications {
   source: string;
 }
 
-export interface ChangeDiceTrackModifications extends BaseTrackModifications {
-  type: "changeDice";
+interface HasValueModifications extends BaseTrackModifications {
+  value: number
+}
+
+interface hasDiceModifications extends BaseTrackModifications {
   dice: DiceInterface;
 }
 
-export interface ChangeDiceBasedOnLevelTrackModification extends BaseTrackModifications {
-  type: "changeDiceBasedOnLevel",
-  dice: DiceInterface
+interface ChangeDiceTrackModifications extends hasDiceModifications {
+  type: "changeDice";
 }
 
-export interface SettingAbilityModification
-  extends BaseTrackModifications, HasAbility {
+interface ChangeDiceBasedOnLevelTrackModification extends hasDiceModifications {
+  type: "changeDiceBasedOnLevel";
+}
+
+interface ChangingAbilityModification extends HasAbility {
   type: "changeAbilityReference";
 }
 
-export interface AddAbilityModification
-  extends BaseTrackModifications, HasAbility {
+interface AddAbilityModification extends HasAbility {
   type: "addAbility";
 }
 
-export interface AddValueModification extends BaseTrackModifications {
+interface AddAbilityToSkillModification extends HasAbility {
+  type: "addAbilityToSkill";
+}
+
+interface AddValueModification extends HasValueModifications {
   type: "addValue";
-  value: number;
 }
 
-export interface AddValueToAbilityModification extends BaseTrackModifications {
-  type: "addValueToAbility",
-  value: number
+interface AddValueToAbilityModification extends HasValueModifications {
+  type: "addValueToAbility";
 }
 
-export interface AddValueToSkillModification extends BaseTrackModifications {
+interface AddValueToSkillModification extends HasValueModifications {
   type: "addValueToSkill";
-  value: number;
 }
 
-export interface AddValueBasedOnLevelModification extends BaseTrackModifications {
+interface AddValueBasedOnLevelModification extends HasValueModifications {
   type: "addValueBasedOnLevel";
-  value: number
 }
 
-export interface AddDamageTypeModification extends BaseTrackModifications {
+interface AddDamageTypeModification extends BaseTrackModifications {
   type: "addDamageType";
   damageType: DamageTypes;
 }
 
-export interface AddProficiencyModification extends BaseTrackModifications {
+interface AddProficiencyModification extends BaseTrackModifications {
   type: "addProficiency";
 }
 
-export interface AddResistanceEvent extends BaseTrackModifications {
-  type: "addResistanceEvent"
+interface AddWeaponMasteryBasedOnLevelModification extends HasValueModifications {
+  type: "addWeaponMasteryBasedOnLevel";
 }
 
-export interface IncreaseMaxLimitModification extends BaseTrackModifications {
-  type: "increaseMaxLimit",
-  newMaxValue: number
+interface AddResistanceEventModification extends BaseTrackModifications {
+  type: "addResistanceEvent";
 }
+
+interface IncreaseMaxLimitModification extends BaseTrackModifications {
+  type: "increaseMaxLimit";
+  newMaxValue: number;
+}
+
+interface ActivateConditionEventModification extends BaseTrackModifications {
+  type: "activateConditionEvent";
+}
+
+interface AddResistanceConditionEventModification extends BaseTrackModifications {
+  type: "addResistanceConditionEvent";
+}
+
+interface AddValueToAttacksBasedOnAbilityConditionEventModification extends HasValueModifications {
+  type: "addValueToAttacksBasedOnAbilityConditionEvent";
+}
+
+interface StopConcentrationAndSpellcastingConditionEventModification extends BaseTrackModifications {
+  type: "stopConcentrationAndSpellcastingConditionEvent";
+}
+
+interface AddAdvantageModification extends BaseTrackModifications {
+  type: "addAdvantage";
+}
+
+interface AddAdvantageEventModification extends BaseTrackModifications {
+  type: "addAdvantageEvent";
+}
+
+interface AddProficiencyWithChoiceModification extends BaseTrackModifications {
+  type: "addProficiencyWithChoice";
+}
+
+ interface addFetchedScoreEventModification extends HasValueModifications {
+   type: "addFetchedScoreEvent";
+ }
+
+ interface addDiceToAttackBasedOnAbilityEventModification extends hasDiceModifications {
+   type: "addDiceToAttackBasedOnAbilityEvent";
+ }
+
+ interface SetAbilityScoreAsMinimumTotalToSkillsBasedOnAbilityModification extends HasValueModifications {
+   type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility";
+ }
 
 export type TrackModifications =
   | ChangeDiceTrackModifications
-  | SettingAbilityModification
+  | ChangingAbilityModification
   | AddAbilityModification
+  | AddAbilityToSkillModification
   | AddValueModification
   | AddValueToAbilityModification
   | AddValueToSkillModification
@@ -95,11 +149,23 @@ export type TrackModifications =
   | AddDamageTypeModification
   | AddProficiencyModification
   | ChangeDiceBasedOnLevelTrackModification
-  | AddResistanceEvent
-  | IncreaseMaxLimitModification;
+  | AddResistanceEventModification
+  | IncreaseMaxLimitModification
+  | AddWeaponMasteryBasedOnLevelModification
+  | ActivateConditionEventModification
+  | AddResistanceConditionEventModification
+  | AddValueToAttacksBasedOnAbilityConditionEventModification
+  | StopConcentrationAndSpellcastingConditionEventModification
+  | AddAdvantageModification
+  | AddAdvantageEventModification
+  | AddProficiencyWithChoiceModification
+  | addFetchedScoreEventModification
+  | addDiceToAttackBasedOnAbilityEventModification
+  | SetAbilityScoreAsMinimumTotalToSkillsBasedOnAbilityModification;
 
 const trackModificationsTypeSet = new Set<TrackModifications["type"]>([
   "addAbility",
+  "addAbilityToSkill",
   "addDamageType",
   "addValue",
   "addValueToAbility",
@@ -110,7 +176,17 @@ const trackModificationsTypeSet = new Set<TrackModifications["type"]>([
   "addProficiency",
   "changeDiceBasedOnLevel",
   "addResistanceEvent",
-  "increaseMaxLimit"
+  "increaseMaxLimit",
+  "addWeaponMasteryBasedOnLevel",
+  "activateConditionEvent",
+  "addResistanceConditionEvent",
+  "stopConcentrationAndSpellcastingConditionEvent",
+  "addAdvantage",
+  "addAdvantageEvent",
+  "addProficiencyWithChoice",
+  "addFetchedScoreEvent",
+  "addDiceToAttackBasedOnAbilityEvent",
+  "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility"
 ]);
 
 export function isTrackModifications(
@@ -152,3 +228,8 @@ export interface HasCurrentQuantityAndMaxQuantity {
   currentQuantity: number;
   maxQuantity: number;
 }
+
+export type TrackModificationWithValue = Extract<TrackModifications, {value: number}>
+
+export type TrackModificationWithDice = Extract<TrackModifications, {dice: DiceInterface}>
+

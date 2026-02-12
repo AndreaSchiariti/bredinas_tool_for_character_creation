@@ -1,17 +1,37 @@
-export type DiceFace = 2 | 3 | 4 | 6 | 8 | 10 | 12 | 100;
+export const diceFace = [2,3,4,6,8,10,12,100] as const
+
+export type DiceFace = (typeof diceFace)[number];
+
+export const diceFaceSet = new Set<DiceFace>(diceFace)
 
 export interface DiceInterface {
   face: DiceFace;
   count: number;
 }
 
-export function isDiceInterface(dice: unknown): dice is DiceInterface {
-  return (
-    typeof dice === "object" &&
-    dice !== null &&
-    "face" in dice &&
-    "count" in dice
-  );
+export const attackTypes = [
+  "unarmedStrike",
+  "weapon",
+  "spell",
+  "cantrip",
+] as const;
+
+export type AttackType = (typeof attackTypes)[number];
+
+export function isDiceInterface(data: unknown): data is DiceInterface {
+  if (data === null || typeof data !== "object") {
+    return false
+  }
+
+  const dice = data as {
+    face?: unknown;
+    count?: unknown
+  }
+
+  const hasFace = typeof dice.face === "number" && diceFaceSet.has(dice.face as DiceFace)
+  const hasCount = typeof dice.count === "number"
+  
+  return hasFace && hasCount;
 }
 
 export type Level =
@@ -45,4 +65,17 @@ export function isLevel(value: unknown): value is Level {
     value >= 1 &&
     value <= 20
   );
+}
+
+export const operations = ["add", "subtract", "multiply", "divide"] as const;
+
+export type Operation = (typeof operations)[number];
+
+export interface ModifyValue {
+  operation: Operation,
+  value: number
+}
+
+export interface HasDisadvantageProperty {
+  hasDisadvantage: boolean;
 }

@@ -1,16 +1,16 @@
 {
   "name": "monk",
+  "level": 1,
   "subclass": null,
-  "primaryAbilities": "dexterityAndWisdom",
-  "hitDie": "d8",
+  "primaryAbility": "dexterityAndWisdom",
+  "hitDie": 8,
   "savingThrowProficiency": ["strengthSavingThrow", "dexteritySavingThrow"],
   "weaponProficiency": [
     {
-      "type": "simpleWeapons",
-      "details": ""
+      "type": "simpleWeapon"
     },
     {
-      "type": "martialWeapons",
+      "type": "martialWeapon",
       "details": "withLightProperty"
     }
   ],
@@ -31,7 +31,12 @@
       "choosingNumber": 1
     }
   ],
-  "armorTraining": [],
+  "armorTraining": {
+    "light": false,
+    "medium": false,
+    "heavy": false,
+    "shields": false
+  },
   "startingEquipment": {
     "a": [
       {
@@ -62,12 +67,10 @@
       }
     ]
   },
-  "becomingClass": [
-    {
-      "level1": ["gainAllTraits", "gainLevel1Features"],
-      "multiclass": ["gainHitDie", "gainLevel1Features"]
-    }
-  ],
+  "becomingClass": {
+    "level1": ["gainAllTraits", "gainLevel1Features"],
+    "multiclass": ["gainMulticlassMonk", "gainLevel1Features"]
+  },
   "classFeature": [
     {
       "name": "martialArts",
@@ -140,9 +143,9 @@
             { "target": "offHand", "type": "direct" }
           ],
           "limitations": [
-            "notWearingArmor",
-            "notEquippedShield",
-            "unarmedOrSimpleAndMartialMeleeWithLight"
+            "wearingArmor",
+            "isEquippingShield",
+            "notEquippingOnlyunarmedOrSimpleAndMartialMeleeWithLight"
           ],
           "isActive": false
         },
@@ -178,7 +181,6 @@
             "condition": "monk"
           },
           "targets": [{ "target": "counters", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         },
         {
@@ -191,11 +193,12 @@
               "type": "general"
             }
           ],
-          "targets": [{ "target": "bonusActions", "type": "direct" }],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "bonusActions",
           "limitations": [
-            "notWearingArmor",
-            "notEquippedShield",
-            "unarmedOrSimpleAndMartialMeleeWithLight"
+            "wearingArmor",
+            "isEquippingShield",
+            "notEquippingOnlyunarmedOrSimpleAndMartialMeleeWithLight"
           ],
           "isActive": false
         },
@@ -206,9 +209,9 @@
           "ability": "dexterity",
           "targets": [{ "target": "unarmedStrike", "type": "direct" }],
           "limitations": [
-            "notWearingArmor",
-            "notEquippedShield",
-            "unarmedOrSimpleAndMartialMeleeWithLight"
+            "wearingArmor",
+            "isEquippingShield",
+            "notEquippingOnlyunarmedOrSimpleAndMartialMeleeWithLight"
           ],
           "isActive": false
         }
@@ -219,7 +222,7 @@
       "level": 1,
       "description": [
         {
-          "content": "unarmoredDefense",
+          "content": "unarmoredDefenseMonk",
           "type": "general"
         }
       ],
@@ -230,7 +233,7 @@
           "source": "monk",
           "ability": "wisdom",
           "targets": [{ "target": "classArmor", "type": "direct" }],
-          "limitations": ["notWearingArmor", "notEquippedShield"],
+          "limitations": ["wearingArmor", "isEquippingShield"],
           "isActive": false
         }
       ]
@@ -285,7 +288,6 @@
           ],
           "replenish": "shortRest",
           "targets": [{ "target": "counters", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         },
         {
@@ -294,7 +296,6 @@
           "source": "monk",
           "ability": "wisdom",
           "targets": [{ "target": "counters", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         },
         {
@@ -307,8 +308,8 @@
               "type": "general"
             }
           ],
-          "targets": [{ "target": "bonusActions", "type": "direct" }],
-          "limitations": [],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "bonusActions",
           "isActive": false
         },
         {
@@ -321,8 +322,8 @@
               "type": "general"
             }
           ],
-          "targets": [{ "target": "bonusActions", "type": "direct" }],
-          "limitations": [],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "bonusActions",
           "isActive": false
         },
         {
@@ -335,8 +336,8 @@
               "type": "general"
             }
           ],
-          "targets": [{ "target": "bonusActions", "type": "direct" }],
-          "limitations": [],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "bonusActions",
           "isActive": false
         }
       ]
@@ -383,7 +384,7 @@
             "condition": "monk"
           },
           "targets": [{ "target": "speed", "type": "direct" }],
-          "limitations": ["notWearingArmor", "notEquippedShield"],
+          "limitations": ["wearingArmor", "isEquippingShield"],
           "isActive": false
         }
       ]
@@ -404,7 +405,7 @@
       "modifications": [
         {
           "name": "uncannyMetabolism",
-          "type": "addThrowingDiceEventTrackerWithValuesCounter",
+          "type": "addTracerEventCounter",
           "source": "monk",
           "events": [
             {
@@ -426,13 +427,13 @@
                   "type": "conditional",
                   "condition": "martialArtsDie: monk-addDiceCounter"
                 }
-              ]
+              ],
+              "message" : "uncannyMetabolismHeals"
             }
           ],
           "replenish": "longRest",
           "usages": 1,
           "targets": [{ "target": "counters", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -467,11 +468,11 @@
           ],
           "targets": [
             {
-              "target": "reactions",
+              "target": "turnEconomy",
               "type": "direct"
             }
           ],
-          "limitations": [],
+          "actionType": "reactions",
           "isActive": false
         },
         {
@@ -497,7 +498,6 @@
               "type": "direct"
             }
           ],
-          "limitations": [],
           "isActive": false
         },
         {
@@ -518,7 +518,6 @@
             }
           ],
           "targets": [{ "target": "counters", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -528,7 +527,7 @@
       "level": 4,
       "description": [
         {
-          "content": "abilityScoreImprovement",
+          "content": "abilityScoreImprovementMonk",
           "type": "general"
         }
       ],
@@ -539,7 +538,6 @@
           "source": "monk",
           "level": 4,
           "targets": [{ "target": "feats", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -572,7 +570,6 @@
               "type": "direct"
             }
           ],
-          "limitations": [],
           "isActive": false
         },
         {
@@ -587,11 +584,11 @@
           ],
           "targets": [
             {
-              "target": "reactions",
+              "target": "turnEconomy",
               "type": "direct"
             }
           ],
-          "limitations": [],
+          "actionType": "reactions",
           "isActive": false
         }
       ]
@@ -612,17 +609,17 @@
           "source": "monk",
           "description": [
             {
-              "content": "extraAttack",
+              "content": "extraAttackMonk",
               "type": "general"
             }
           ],
           "targets": [
             {
-              "target": "freeActions",
+              "target": "turnEconomy",
               "type": "direct"
             }
           ],
-          "limitations": [],
+          "actionType": "freeActions",
           "isActive": false
         }
       ]
@@ -649,11 +646,11 @@
           ],
           "targets": [
             {
-              "target": "freeActions",
+              "target": "turnEconomy",
               "type": "direct"
             }
           ],
-          "limitations": [],
+          "actionType": "freeActions",
           "isActive": false
         }
       ]
@@ -679,7 +676,6 @@
               "type": "direct"
             }
           ],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -714,11 +710,12 @@
           ],
           "targets": [
             {
-              "target": "freeActions",
+              "target": "turnEconomy",
               "type": "direct"
             }
           ],
-          "limitations": ["notIncapacitated"],
+          "actionType": "freeActions",
+          "limitations": ["isIncapacitated"],
           "isActive": false
         }
       ]
@@ -728,7 +725,7 @@
       "level": 8,
       "description": [
         {
-          "content": "abilityScoreImprovement",
+          "content": "abilityScoreImprovementMonk",
           "type": "general"
         }
       ],
@@ -739,7 +736,6 @@
           "source": "monk",
           "level": 8,
           "targets": [{ "target": "feats", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -766,11 +762,11 @@
           ],
           "targets": [
             {
-              "target": "freeActions",
+              "target": "turnEconomy",
               "type": "direct"
             }
           ],
-          "limitations": [],
+          "actionType": "freeActions",
           "isActive": false
         }
       ]
@@ -817,8 +813,8 @@
             }
           ],
           "actionId": "flurryOfBlows: monk-addTurnEconomy",
-          "targets": [{ "target": "bonusActions", "type": "direct" }],
-          "limitations": [],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "bonusActions",
           "isActive": false
         },
         {
@@ -838,8 +834,8 @@
             }
           ],
           "actionId": "patientDefense: monk-addTurnEconomy",
-          "targets": [{ "target": "bonusActions", "type": "direct" }],
-          "limitations": [],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "bonusActions",
           "isActive": false
         },
         {
@@ -859,8 +855,8 @@
             }
           ],
           "actionId": "stepOfTheWind: monk-addTurnEconomy",
-          "targets": [{ "target": "bonusActions", "type": "direct" }],
-          "limitations": [],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "bonusActions",
           "isActive": false
         }
       ]
@@ -885,14 +881,13 @@
           "source": "monk",
           "events": [
             {
-              "target": [{ "target": "isCuringCondition", "type": "direct" }],
+              "target": [{ "target": "conditions", "type": "direct" }],
               "type": "cureOneCondition",
               "conditions": ["charmed", "frightened", "poisoned"]
             }
           ],
           "trigger": "endTurn",
           "targets": [{ "target": "counters", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -902,7 +897,7 @@
       "level": 12,
       "description": [
         {
-          "content": "abilityScoreImprovement",
+          "content": "abilityScoreImprovementMonk",
           "type": "general"
         }
       ],
@@ -913,7 +908,6 @@
           "source": "monk",
           "level": 12,
           "targets": [{ "target": "feats", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -938,8 +932,8 @@
               "type": "general"
             }
           ],
-          "targets": [{ "target": "freeActions", "type": "direct" }],
-          "limitations": [],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "reactions",
           "isActive": false
         }
       ]
@@ -974,7 +968,6 @@
             "wisdomSavingThrow",
             "charismaSavingThrow"
           ],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -1003,7 +996,6 @@
           ],
           "trigger": "whenRollingInitiative",
           "targets": [{ "type": "direct", "target": "counters" }],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -1013,7 +1005,7 @@
       "level": 16,
       "description": [
         {
-          "content": "abilityScoreImprovement",
+          "content": "abilityScoreImprovementMonk",
           "type": "general"
         }
       ],
@@ -1024,7 +1016,6 @@
           "source": "monk",
           "level": 16,
           "targets": [{ "target": "feats", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -1041,7 +1032,7 @@
       "modifications": [
         {
           "name": "superiorDefense",
-          "type": "addContinousEventWithTriggerCounter",
+          "type": "addContinuousEventWithTriggerCounter",
           "source": "monk",
           "events": [
             {
@@ -1050,7 +1041,7 @@
               "targetId": "focusPoints: monk-addTracerTrackerCounter",
               "resourcesToUse": 3,
               "message": "notEnough",
-              "isResetCounterRef": {
+              "resetCounterRef": {
                 "target": "counterById",
                 "type": "conditional",
                 "condition": "superiorDefense: monk-addContinousEventWithTriggerCounter"
@@ -1076,7 +1067,7 @@
                 "slashing",
                 "nonMagicalSlashing"
               ],
-              "isActiveCounterRef": {
+              "activeCounterRef": {
                 "target": "counterById",
                 "type": "conditional",
                 "condition": "superiorDefense: monk-addContinousEventWithTriggerCounter"
@@ -1085,8 +1076,6 @@
           ],
           "trigger": "startOfTurn",
           "targets": [{ "target": "counters", "type": "direct" }],
-          "limitations": [],
-          "eventsStatus": "inactive",
           "isActive": false
         }
       ]
@@ -1105,9 +1094,8 @@
           "name": "abilityScoreImprovement",
           "type": "addFeat",
           "source": "monk",
-          "level": 4,
+          "level": 19,
           "targets": [{ "target": "feats", "type": "direct" }],
-          "limitations": [],
           "isActive": false
         }
       ]
@@ -1129,7 +1117,6 @@
           "targets": [{ "target": "abilities", "type": "direct" }],
           "toWhichAbility": ["dexterity", "wisdom"],
           "newMaxValue": 25,
-          "limitations": [],
           "isActive": false
         },
         {
@@ -1139,7 +1126,6 @@
           "targets": [{ "target": "abilities", "type": "direct" }],
           "toWhichFeature": ["dexterity", "wisdom"],
           "value": 4,
-          "limitations": [],
           "isActive": false
         }
       ]

@@ -1,30 +1,14 @@
-import {
-  type Replenish,
-  type Ability,
-  replenishSet,
-} from "../rules/arrayOfFeatures";
+
 import type { EventCounterProp } from "./EventCounterProp.type";
+import type { Ability } from "./features.type.ts/abilitiesAndSkills.type";
+import { type Rest, restSet } from "./features.type.ts/rests.type";
 import type { DiceInterface } from "./generalRules.types";
-import type { DiceBasedOnLevel } from "./ModificationProps.type";
+import type {
+  DiceBasedOnLevel,
+  ValueBasedOnLevel,
+} from "./ModificationProps.type";
 import type { TargetInterface } from "./targets.types";
-
-const counterDice = [
-  "dice",
-  "diceBasedOnLevel",
-  "diceTrackerWithValues",
-  "tracer",
-  "tracerTracker",
-  "valueTracker",
-  "difficultyClass",
-  "event",
-  "throwingDiceEventTracker",
-  "eventWithTrigger",
-  "continousEventWithTrigger",
-] as const;
-
-type CounterType = (typeof counterDice)[number];
-
-const counterTypeSet = new Set<CounterType>(counterDice);
+import type { ModificationLimitation } from "./trackModifications.types";
 
 interface CounterBase {
   name: string;
@@ -32,10 +16,16 @@ interface CounterBase {
   source: string;
 }
 
-interface Replenishable extends CounterBase{
+interface AdditionalReplenish {
+  replenish: Rest;
+  value: number | TargetInterface;
+}
+
+interface Replenishable extends CounterBase {
   maxUses: number;
   remainingUses: number;
-  replenish: Replenish;
+  replenish: Rest;
+  additionalReplenish?: AdditionalReplenish;
 }
 
 export function hasReplenishMaxAndRemainingUses(
@@ -58,7 +48,7 @@ export function hasReplenishMaxAndRemainingUses(
     typeof replanishable.remainingUses === "number";
 
   const hasReplenish =
-    typeof replenish === "string" && replenishSet.has(replenish as Replenish);
+    typeof replenish === "string" && restSet.has(replenish as Rest);
 
   return hasUses && hasReplenish;
 }
@@ -75,14 +65,13 @@ interface DiceCounterInterface extends DiceCounterBase {
   type: "dice";
 }
 
-interface DiceBaseOnLevelCounterInterface extends CounterBase {
+interface DiceBaseOnLevelCounterInterface extends DiceCounterBase {
   type: "diceBasedOnLevel";
   diceOnLevel: DiceBasedOnLevel;
-  classLevel: TargetInterface;
+  levelRef: TargetInterface;
 }
 
-interface DiceCounterTrackerWithValuesInterface
-  extends TrackerBase {
+interface DiceCounterTrackerWithValuesInterface extends TrackerBase {
   type: "diceTrackerWithValues";
   dice: DiceInterface[];
   value: number;
@@ -92,6 +81,12 @@ interface DiceCounterTrackerWithValuesInterface
 
 export interface TracerCounterInterface extends Replenishable {
   type: "tracer";
+}
+
+interface TracerBasedOnLevel extends Replenishable {
+  type: "tracerBasedOnLevel";
+  usageOnLevel: ValueBasedOnLevel;
+  levelRef: TargetInterface;
 }
 
 export interface TracerTrackerCounterInterface
@@ -111,27 +106,43 @@ interface DifficultyClassCounterInterface extends CounterBase {
 
 interface EventCounterBase extends CounterBase {
   events: EventCounterProp[];
+  limitations?: ModificationLimitation[];
 }
 
 interface EventCounterInterface extends EventCounterBase, Replenishable {
   type: "event";
 }
 
-interface ThrowingDiceEventTrackerCounterInterface
-  extends EventCounterBase, TrackerBase , Replenishable{
-  type: "throwingDiceEventTracker";
+interface AddTracerEventCounterInterface
+  extends EventCounterBase, Replenishable {
+  type: "tracerEventCounter";
 }
 
-interface EventWithTriggerCounterInterface extends CounterBase {
+interface EventWithTriggerCounterInterface extends EventCounterBase {
   type: "eventWithTrigger";
-  events: EventCounterProp[];
   trigger: string;
 }
 
+export type ContinousEventStatus = "active" | "inactive" | "reset";
+
 interface ContinousEventWithTriggerCounterInterface extends EventCounterBase {
-  type: "continousEventWithTrigger"
-  trigger: string
-  eventsStatus: "active" | "inactive" | "reset"
+  type: "continuousEventWithTrigger";
+  trigger: string;
+  eventsStatus: "active" | "inactive" | "reset";
+}
+
+interface ValueBasedOnLevelCounter extends CounterBase {
+  type: "valueBasedOnLevel";
+  value: number;
+  valueBasedOnLevel: ValueBasedOnLevel;
+  levelRef: TargetInterface;
+}
+
+interface CountingCounter extends CounterBase {
+  type: "countingCounter",
+  value: number,
+  startingValue: number,
+  reset: Rest
 }
 
 export type CountersInterface =
@@ -140,12 +151,35 @@ export type CountersInterface =
   | DiceBaseOnLevelCounterInterface
   | DiceCounterTrackerWithValuesInterface
   | TracerCounterInterface
+  | TracerBasedOnLevel
   | TracerTrackerCounterInterface
   | ValueTrackerCounterInterface
   | EventCounterInterface
-  | ThrowingDiceEventTrackerCounterInterface
+  | AddTracerEventCounterInterface
   | EventWithTriggerCounterInterface
-  | ContinousEventWithTriggerCounterInterface;
+  | ContinousEventWithTriggerCounterInterface
+  | ValueBasedOnLevelCounter
+  | CountingCounter;
+
+const counterType: CountersInterface["type"][] = [
+  "dice",
+  "diceTrackerWithValues",
+  "tracer",
+  "tracerBasedOnLevel",
+  "tracerTracker",
+  "valueTracker",
+  "difficultyClass",
+  "event",
+  "tracerEventCounter",
+  "eventWithTrigger",
+  "continuousEventWithTrigger",
+  "valueBasedOnLevel",
+  "countingCounter"
+] as const;
+
+type CounterType = (typeof counterType)[number];
+
+const counterTypeSet = new Set<CounterType>(counterType);
 
 export type HasDiceCounter = Extract<
   CountersInterface,
@@ -199,17 +233,18 @@ export function isContinousEventWithTrigger(
     type?: unknown;
     trigger?: unknown;
     eventsStatus?: unknown;
-    
   };
 
   const hasCorrectType = counter.type === "continousEventWithTrigger";
   const hasTrigger = typeof counter.trigger === "string";
-  const hasEventsStatus = counter.eventsStatus === "inactive" || counter.eventsStatus === "reset";
-  
+  const hasEventsStatus =
+    counter.eventsStatus === "inactive" || counter.eventsStatus === "reset";
 
-  return hasCorrectType && hasTrigger && hasEventsStatus
+  return hasCorrectType && hasTrigger && hasEventsStatus;
 }
 
-export function isContinousEventWithTriggerCounter(data:unknown) : data is ContinousEventWithTriggerCounterInterface {
-  return isCountersInterface(data) && isContinousEventWithTrigger(data)
+export function isContinuousEventWithTriggerCounter(
+  data: unknown,
+): data is ContinousEventWithTriggerCounterInterface {
+  return isCountersInterface(data) && isContinousEventWithTrigger(data);
 }

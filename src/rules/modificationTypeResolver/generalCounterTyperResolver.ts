@@ -1,19 +1,24 @@
 import type { Character } from "../../types/character.types";
 import type { CountersInterface } from "../../types/counters.types";
+import { isLevel } from "../../types/generalRules.types";
 import type { ModificationsProp } from "../../types/ModificationProps.type";
-import  { hasOnlyNumbers } from "../../types/targets.types";
+import { hasOnlyNumbers } from "../../types/targets.types";
 import { devConsoleWarn } from "../../utils/general";
-import  { getModificationId } from "../idBuilder";
-import  { getTarget } from "../modificationsExecution";
+import { counterAlreadyPresent } from "../characterCalculations";
+import { getModificationId } from "../idBuilder";
+import { getTarget } from "../modificationsExecution";
 import type { ModificationTypeResolver } from "../modificationTypeResolver";
-import  { onRemovingCounter } from "./removingCounter";
+import { onRemovingCounter } from "./removingCounter";
 
 type GeneralCounterTypeResolver = Pick<
   ModificationTypeResolver,
   | "addTracerCounter"
+  | "addTracerBasedOnLevelCounter"
   | "addTracerTrackerCounter"
   | "addValueTrackerCounter"
   | "addDifficultyClassCounter"
+  | "addValueBasedOnLevelCounter"
+  | "addCountingCounter"
 >;
 
 function onAddingTracerCounter(
@@ -21,6 +26,12 @@ function onAddingTracerCounter(
   target: CountersInterface[],
   mod: Extract<ModificationsProp, { type: "addTracerCounter" }>,
 ): CountersInterface[] {
+  const counterId = getModificationId(mod);
+
+  if (counterAlreadyPresent(target, counterId)) {
+    return target
+  }
+
   return [
     ...target,
     {
@@ -35,11 +46,96 @@ function onAddingTracerCounter(
   ];
 }
 
+function onAddingValueBasedOnLevelCounter(
+  character: Character,
+  target: CountersInterface[],
+  mod: Extract<ModificationsProp, { type: "addValueBasedOnLevelCounter" }>,
+): CountersInterface[] {
+  const counterId = getModificationId(mod);
+
+  if (counterAlreadyPresent(target, counterId)) {
+    return target;
+  }
+
+  const level = getTarget(character, mod.levelRef);
+
+  if (!isLevel(level)) {
+    devConsoleWarn(
+      `The value based on level of the Value counter have to be a number`,
+      level,
+    );
+    return target;
+  }
+
+  const value = mod.valueOnLevel[`level${level}`];
+
+  return [
+    ...target,
+    {
+      name: mod.name,
+      id: counterId,
+      type: "valueBasedOnLevel",
+      source: mod.source,
+      levelRef: mod.levelRef,
+      value: value,
+      valueBasedOnLevel: mod.valueOnLevel
+    },
+  ];
+}
+
+function onAddingTracerBasedOnLevelCounter(
+  character: Character,
+  target: CountersInterface[],
+  mod: Extract<ModificationsProp, { type: "addTracerBasedOnLevelCounter" }>,
+): CountersInterface[] {
+  const counterId = getModificationId(mod);
+
+  if (counterAlreadyPresent(target, counterId)) {
+    return target;
+  }
+
+  const level = getTarget(character, mod.levelRef);
+
+  if (!isLevel(level)) {
+    devConsoleWarn(
+      `The value based on level of the Tracer counter have to be a number`,
+      level,
+    );
+    return target;
+  }
+
+  const additionalReplenish = mod.additionalReplenish
+
+  const uses = mod.usageOnLevel[`level${level}`];
+
+  return [
+    ...target,
+    {
+      name: mod.name,
+      id: counterId,
+      type: "tracerBasedOnLevel",
+      source: mod.source,
+      usageOnLevel: mod.usageOnLevel,
+      maxUses: uses,
+      remainingUses: uses,
+      replenish: mod.replenish,
+      levelRef: mod.levelRef,
+      additionalReplenish
+    },
+  ];
+}
+
 function onAddingTracerTrackerCounter(
   character: Character,
   target: CountersInterface[],
   mod: Extract<ModificationsProp, { type: "addTracerTrackerCounter" }>,
 ): CountersInterface[] {
+  const counterId = getModificationId(mod);
+
+  if (counterAlreadyPresent(target, counterId)) {
+    return target;
+  }
+
   const trackedValues = mod.targetsToTrack.map((traced) =>
     getTarget(character, traced),
   );
@@ -57,7 +153,7 @@ function onAddingTracerTrackerCounter(
     ...target,
     {
       name: mod.name,
-      id: getModificationId(mod),
+      id: counterId,
       type: "tracerTracker",
       maxUses: value,
       remainingUses: value,
@@ -73,6 +169,12 @@ function onAddingValueTrackerCounter(
   target: CountersInterface[],
   mod: Extract<ModificationsProp, { type: "addValueTrackerCounter" }>,
 ): CountersInterface[] {
+  const counterId = getModificationId(mod);
+
+  if (counterAlreadyPresent(target, counterId)) {
+    return target;
+  }
+
   const valuesFetched = mod.valuesToTrack.map((value) =>
     getTarget(character, value),
   );
@@ -84,7 +186,7 @@ function onAddingValueTrackerCounter(
       ...target,
       {
         name: mod.name,
-        id: getModificationId(mod),
+        id: counterId,
         type: "valueTracker",
         value: 0,
         source: mod.source,
@@ -116,11 +218,17 @@ function onAddingDifficultyClassCounter(
   target: CountersInterface[],
   mod: Extract<ModificationsProp, { type: "addDifficultyClassCounter" }>,
 ): CountersInterface[] {
+  const counterId = getModificationId(mod);
+
+  if (counterAlreadyPresent(target, counterId)) {
+    return target;
+  }
+
   return [
     ...target,
     {
       name: mod.name,
-      id: getModificationId(mod),
+      id: counterId,
       type: "difficultyClass",
       ability: mod.ability,
       source: mod.source,
@@ -128,8 +236,36 @@ function onAddingDifficultyClassCounter(
   ];
 }
 
+function onAddingCountingCounter(
+  _character: Character,
+  target: CountersInterface[],
+  mod: Extract<ModificationsProp, { type: "addCountingCounter" }>,
+) : CountersInterface[] {
+  const counterId = getModificationId(mod);
+
+  if (counterAlreadyPresent(target, counterId)) {
+    return target;
+  }
+
+  const countingCounter: Extract<CountersInterface, {type: "countingCounter"}> = {
+    name: mod.name,
+    type: "countingCounter",
+    id: counterId,
+    value: mod.startingValue,
+    startingValue: mod.startingValue,
+    source: mod.source,
+    reset: mod.reset
+  }
+
+  return [...target, countingCounter]
+};
+
 export const generalCounterTypeResolver: GeneralCounterTypeResolver = {
   addTracerCounter: { apply: onAddingTracerCounter, revert: onRemovingCounter },
+  addTracerBasedOnLevelCounter: {
+    apply: onAddingTracerBasedOnLevelCounter,
+    revert: onRemovingCounter,
+  },
   addTracerTrackerCounter: {
     apply: onAddingTracerTrackerCounter,
     revert: onRemovingCounter,
@@ -142,4 +278,12 @@ export const generalCounterTypeResolver: GeneralCounterTypeResolver = {
     apply: onAddingDifficultyClassCounter,
     revert: onRemovingCounter,
   },
+  addValueBasedOnLevelCounter: {
+    apply: onAddingValueBasedOnLevelCounter,
+    revert: onRemovingCounter
+  },
+  addCountingCounter: {
+    apply: onAddingCountingCounter,
+    revert: onRemovingCounter
+  }
 };

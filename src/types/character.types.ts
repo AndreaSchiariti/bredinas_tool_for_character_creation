@@ -1,20 +1,26 @@
-import type { CharacterConditions } from "../rules/arrayOfFeatures";
 import type { RuleClass } from "./characterClasses.types";
 import type {
-  AbilityProp,
   CharacterArmorClass,
   CharacterSpeed,
   CharacterUnarmedStrike,
-  DamageTypeProp,
   Hp,
   Sizes,
-  SkillProp,
   CharacterTurnEconomy,
   CharacterEquipment,
   CharacterMessage,
-  CharacterFeats,
+  CharacterAttacks,
+  CharacterWeaponMastery,
+  CharacterReminder,
 } from "./characterUtils.type";
 import type { CountersInterface } from "./counters.types";
+import type {
+  AbilityProp,
+  CharacterSkills,
+} from "./features.type.ts/abilitiesAndSkills.type";
+import type { CharacterConditions } from "./features.type.ts/conditions.type";
+import type { DamageTypeProp } from "./features.type.ts/damageTypes.type";
+import type { CharacterFeats } from "./features.type.ts/feat.type";
+import type { CharacterSpellcasting } from "./features.type.ts/spells.type";
 
 export interface Character {
   name: string;
@@ -24,7 +30,7 @@ export interface Character {
   hp: Hp;
   isInspired: boolean;
   abilities: AbilityProp[];
-  skills: SkillProp[];
+  skills: CharacterSkills;
   passivePerception: number;
   armorClass: CharacterArmorClass;
   damageResistances: DamageTypeProp[];
@@ -37,5 +43,9 @@ export interface Character {
   feats: CharacterFeats;
   classes: RuleClass[];
   conditions: CharacterConditions;
-  message: CharacterMessage
+  attacks: CharacterAttacks[];
+  spellcasting?: CharacterSpellcasting;
+  weaponMastery?: CharacterWeaponMastery;
+  reminder: CharacterReminder[];
+  message: CharacterMessage;
 }

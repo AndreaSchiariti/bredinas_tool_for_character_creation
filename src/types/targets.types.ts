@@ -1,9 +1,4 @@
-import {
-  isAbility,
-  isDamageType,
-  type Ability,
-  type DamageTypes,
-} from "../rules/arrayOfFeatures";
+
 import type { ConditionalTargetMap } from "../rules/conditionalTargetResolver";
 import type { DirectTargetMap } from "../rules/directTargetResolver";
 import {
@@ -12,7 +7,8 @@ import {
 } from "./trackModifications.types";
 import { isDiceInterface, type DiceInterface } from "./generalRules.types";
 import type { FeatureWithName } from "./ModificationProps.type";
-import type { AbilityProp, SkillProp } from "./characterUtils.type";
+import { type Ability, isAbility, type SkillProp, type AbilityProp } from "./features.type.ts/abilitiesAndSkills.type";
+import { type DamageTypes, isDamageType } from "./features.type.ts/damageTypes.type";
 
 interface MultiplyDiceCountTarget {
   type: "multiplyDiceCount";
@@ -59,6 +55,7 @@ export type AllTargetValues = ConditionalValues | DirectValues;
 export type TargetMap = DirectTargetMap | ConditionalTargetMap;
 
 export type DiceInterfaceOrNumber = DiceInterface | number;
+
 
 export function hasOnlyNumbers(array: unknown[]): array is number[] {
   return array.every((element) => typeof element === "number");

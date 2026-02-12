@@ -1,19 +1,26 @@
 import type { Character } from "../../types/character.types";
-import type { TurnEconomyProp } from "../../types/characterUtils.type";
+import type {
+  CharacterTurnEconomy,
+} from "../../types/characterUtils.type";
 import type { ModificationsProp } from "../../types/ModificationProps.type";
 import { devConsoleWarn } from "../../utils/general";
 import { getModificationId } from "../idBuilder";
 import type { ModificationTypeResolver } from "../modificationTypeResolver";
 
-type TurnEconomyTypeResolver = Pick<ModificationTypeResolver, "addTurnEconomy" | "changeDescriptionTurnEconomy">
+type TurnEconomyTypeResolver = Pick<
+  ModificationTypeResolver,
+  "addTurnEconomy" | "changeDescriptionTurnEconomy"
+>;
 
 function onAddingTurnEconomy(
   _character: Character,
-  target: TurnEconomyProp[],
+  target: CharacterTurnEconomy,
   mod: Extract<ModificationsProp, { type: "addTurnEconomy" }>,
-): TurnEconomyProp[] {
-  return [
-    ...target,
+): CharacterTurnEconomy {
+  const updatedTurnEconomy = { ...target };
+
+  updatedTurnEconomy[mod.actionType] = [
+    ...updatedTurnEconomy[mod.actionType],
     {
       name: mod.name,
       id: getModificationId(mod),
@@ -22,13 +29,15 @@ function onAddingTurnEconomy(
       isDescriptionVisible: false,
     },
   ];
+
+  return updatedTurnEconomy;
 }
 
 function onChangingDescriptionTurnEconomy(
   _character: Character,
-  target: TurnEconomyProp[],
+  target: CharacterTurnEconomy,
   mod: Extract<ModificationsProp, { type: "changeDescriptionTurnEconomy" }>,
-): TurnEconomyProp[] {
+): CharacterTurnEconomy {
   if (mod.description.length === 0) {
     devConsoleWarn(
       `Empty description for the Action with id ${mod.actionId} to update with`,
@@ -38,7 +47,12 @@ function onChangingDescriptionTurnEconomy(
     return target;
   }
 
-  const indexAction = target.findIndex((action) => action.id === mod.actionId);
+  const updatedTurnEconomy = { ...target };
+  const typeToUpdate = [...updatedTurnEconomy[mod.actionType]];
+
+  const indexAction = typeToUpdate.findIndex(
+    (action) => action.id === mod.actionId,
+  );
 
   if (indexAction === -1) {
     devConsoleWarn(
@@ -48,29 +62,36 @@ function onChangingDescriptionTurnEconomy(
     return target;
   }
 
-  let updatedTurnEconomy = [...target];
-
-  updatedTurnEconomy[indexAction] = {
-    ...updatedTurnEconomy[indexAction],
+  typeToUpdate[indexAction] = {
+    ...typeToUpdate[indexAction],
     description: mod.description,
   };
+
+  updatedTurnEconomy[mod.actionType] = typeToUpdate
 
   return updatedTurnEconomy;
 }
 
 function onChangingBackDescriptionTurnEconomy(
   _character: Character,
-  target: TurnEconomyProp[],
+  target: CharacterTurnEconomy,
   mod: Extract<ModificationsProp, { type: "changeDescriptionTurnEconomy" }>,
-): TurnEconomyProp[] {
+): CharacterTurnEconomy {
   if (mod.originalDescription.length === 0) {
     devConsoleWarn(
       `Empty original description for the Action with id ${mod.actionId} to update with`,
       target,
     );
+
+    return target
   }
 
-  const indexAction = target.findIndex((action) => action.id === mod.actionId);
+  const updatedTurnEconomy = { ...target };
+  const typeToUpdate = [...updatedTurnEconomy[mod.actionType]];
+
+  const indexAction = typeToUpdate.findIndex(
+    (action) => action.id === mod.actionId,
+  );
 
   if (indexAction === -1) {
     devConsoleWarn(
@@ -80,24 +101,28 @@ function onChangingBackDescriptionTurnEconomy(
     return target;
   }
 
-  let updatedTurnEconomy = [...target];
-
-  updatedTurnEconomy[indexAction] = {
-    ...updatedTurnEconomy[indexAction],
+  typeToUpdate[indexAction] = {
+    ...typeToUpdate[indexAction],
     description: mod.originalDescription,
   };
+
+  updatedTurnEconomy[mod.actionType] = typeToUpdate;
 
   return updatedTurnEconomy;
 }
 
 function onRemovingTurnEconomy(
   _character: Character,
-  target: TurnEconomyProp[],
-  mod: ModificationsProp,
-): TurnEconomyProp[] {
-  return target.filter(
-    (turnEconomy) => turnEconomy.id !== getModificationId(mod),
-  );
+  target: CharacterTurnEconomy,
+  mod: Extract<ModificationsProp, { type: "addTurnEconomy" }>,
+): CharacterTurnEconomy {
+  const updatedTurnEconomy = { ...target };
+
+  updatedTurnEconomy[mod.actionType] = updatedTurnEconomy[
+    mod.actionType
+  ].filter((turnEconomy) => turnEconomy.id !== getModificationId(mod));
+
+  return updatedTurnEconomy;
 }
 
 export const turnEconomyTypeResolver: TurnEconomyTypeResolver = {

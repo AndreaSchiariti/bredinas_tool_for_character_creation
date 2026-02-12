@@ -4,11 +4,9 @@ import type { CountersInterface } from "../../types/counters.types";
 import {
   type DiceInterface,
   isDiceInterface,
-} from "../../types/generalRules.types";
-import {
   isLevel,
-  type ModificationsProp,
-} from "../../types/ModificationProps.type";
+} from "../../types/generalRules.types";
+import { type ModificationsProp } from "../../types/ModificationProps.type";
 import {
   type HasCurrentAndBaseDiceWithTracking,
   hasDiceInterfaceAndNumbers,
@@ -21,6 +19,7 @@ import {
 import { getTarget } from "../modificationsExecution";
 import type { ModificationTypeResolver } from "../modificationTypeResolver";
 import { onRemovingCounter } from "./removingCounter";
+import { counterAlreadyPresent } from "../characterCalculations";
 
 type DiceTypeResolver = Pick<
   ModificationTypeResolver,
@@ -119,31 +118,53 @@ function onAddingDiceCounter(
   target: CountersInterface[],
   mod: Extract<ModificationsProp, { type: "addDiceCounter" }>,
 ): CountersInterface[] {
+  const counterId = getModificationId(mod);
+
+  if (counterAlreadyPresent(target, counterId)) {
+    return target;
+  }
+
   return [
     ...target,
     {
       name: mod.name,
-      id: getModificationId(mod),
+      id: counterId,
       type: "dice",
       dice: mod.dice,
-      source: mod.source
+      source: mod.source,
     },
   ];
 }
 
 function onAddingDiceBasedOnLevelCounter(
-  _character: Character,
+  character: Character,
   target: CountersInterface[],
   mod: Extract<ModificationsProp, { type: "addDiceBasedOnLevelCounter" }>,
 ): CountersInterface[] {
+  const counterId = getModificationId(mod);
+
+  if (counterAlreadyPresent(target, counterId)) {
+    return target;
+  }
+
+  const level = getTarget(character, mod.levelRef)
+
+  if (!isLevel(level)) {
+    devConsoleWarn(`on addingdice reference'e levelRef is not level`, level)
+    return target
+  }
+
+  const dice = mod.diceOnLevel[`level${level}`]
+
   return [
     ...target,
     {
       name: mod.name,
-      id: getModificationId(mod),
+      id: counterId,
       type: "diceBasedOnLevel",
+      dice,
       diceOnLevel: mod.diceOnLevel,
-      classLevel: mod.levelRef,
+      levelRef: mod.levelRef,
       source: mod.source,
     },
   ];

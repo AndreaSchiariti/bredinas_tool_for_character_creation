@@ -1,21 +1,32 @@
 import type { Character } from "../../types/character.types";
-import type { TrackModifications } from "../../types/trackModifications.types";
-import type { SkillProp } from "../../types/characterUtils.type";
+import type { TrackModifications, TrackModificationWithValue } from "../../types/trackModifications.types";
 import type { ModificationsProp } from "../../types/ModificationProps.type";
-import {
-  hasAbilitiesWithTrackingProperty,
-  type HasAbilitiesWithTracking,
-} from "../../types/targets.types";
-import { devConsoleWarn } from "../../utils/general";
+import { type HasAbilitiesWithTracking } from "../../types/targets.types";
 import {
   getModificationId,
   removeFromTrackModificationsById,
 } from "../idBuilder";
 import type { ModificationTypeResolver } from "../modificationTypeResolver";
+import type { CharacterSkills } from "../../types/features.type.ts/abilitiesAndSkills.type";
+import {
+  relatedModStillActive,
+  addAdvantageSet,
+  addProficiencySet,
+  modificationIsApplied,
+  setMinimumTotalSet,
+} from "../characterCalculations";
+import { devConsoleWarn, removeFromArrayByIndex } from "../../utils/general";
+import { getTarget } from "../modificationsExecution";
+import { hasValueProperty } from "../../types/generalGuardingFunction";
 
 type AbilityAndSkillTypeResolver = Pick<
   ModificationTypeResolver,
-  "addAbility" | "addProficiency"
+  | "addAbility"
+  | "addAbilityToSkill"
+  | "addProficiency"
+  | "addProficiencyWithChoice"
+  | "addAdvantage"
+  | "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility"
 >;
 
 // using this both as the apply and revert function, the mod will be taken by
@@ -53,14 +64,8 @@ function onAddingAbility(
   _character: Character,
   target: HasAbilitiesWithTracking,
   mod: Extract<ModificationsProp, { type: "addAbility" }>,
-): HasAbilitiesWithTracking{
-  if (!hasAbilitiesWithTrackingProperty(target)) {
-    devConsoleWarn(
-      `Target for onAddingAbility has no abilities array or trackModifications`,
-      mod,
-    );
-    return target;
-  }
+): HasAbilitiesWithTracking {
+  const modId = getModificationId(mod);
 
   const newTrackModifications: TrackModifications[] = [
     ...target.trackModifications,
@@ -69,134 +74,504 @@ function onAddingAbility(
       type: mod.type,
       ability: mod.ability,
       source: mod.source,
-      id: getModificationId(mod),
+      id: modId,
     },
   ];
 
+  const isAlreadyApplied = modificationIsApplied(
+    target.trackModifications,
+    modId,
+  );
+
+  return isAlreadyApplied
+    ? target
+    : {
+        ...target,
+        abilities: [...target.abilities, mod.ability],
+        trackModifications: newTrackModifications,
+      };
+}
+
+function onAddingAbilityToSkill(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<ModificationsProp, { type: "addAbilityToSkill" }>,
+): CharacterSkills {
+  const modId = getModificationId(mod);
+
+  const toWhichSkillSet = new Set(mod.toWhichSkill);
+
+  const thisModification: Extract<
+    TrackModifications,
+    { type: "addAbilityToSkill" }
+  > = {
+    name: mod.name,
+    id: modId,
+    type: mod.type,
+    source: mod.source,
+    ability: mod.ability,
+  };
+
   return {
     ...target,
-    abilities: [...target.abilities, mod.ability],
-    trackModifications: newTrackModifications,
+    skillsList: target.skillsList.map((skill) => {
+      if (
+        !toWhichSkillSet.has(skill.name) ||
+        modificationIsApplied(skill.trackModifications, modId)
+      ) {
+        return skill;
+      }
+
+      return {
+        ...skill,
+        ability: [...skill.ability, mod.ability],
+        trackModifications: [...skill.trackModifications, thisModification],
+      };
+    }),
   };
 }
 
 function onRemovingAbility(
   _character: Character,
-  target: HasAbilitiesWithTracking ,
+  target: HasAbilitiesWithTracking,
   mod: Extract<ModificationsProp, { type: "addAbility" }>,
-): HasAbilitiesWithTracking{
-  if (!hasAbilitiesWithTrackingProperty(target)) {
-    devConsoleWarn(
-      `Target for onRemovingAbility has no abilities array or trackModifications`,
-      mod,
-    );
+): HasAbilitiesWithTracking {
+  if (
+    !modificationIsApplied(target.trackModifications, getModificationId(mod))
+  ) {
     return target;
   }
+
   const index = target.abilities.findIndex(
     (ability) => ability === mod.ability,
   );
 
+  const updatedTrackModifications = removeFromTrackModificationsById(
+    target,
+    mod,
+  );
+
   if (index === -1) {
-    return target;
+    return { ...target, trackModifications: updatedTrackModifications };
   }
 
   return {
     ...target,
-    abilities: [
-      ...target.abilities.slice(0, index),
-      ...target.abilities.slice(index + 1),
-    ],
-    trackModifications: removeFromTrackModificationsById(target, mod),
+    abilities: removeFromArrayByIndex(target.abilities, index),
+    trackModifications: updatedTrackModifications,
+  };
+}
+
+function onRemovingAbilityToSkill(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<ModificationsProp, { type: "addAbilityToSkill" }>,
+): CharacterSkills {
+  const modId = getModificationId(mod);
+
+  const toWhichSkillSet = new Set(mod.toWhichSkill);
+
+  return {
+    ...target,
+    skillsList: target.skillsList.map((skill) => {
+      if (
+        !toWhichSkillSet.has(skill.name) ||
+        !modificationIsApplied(skill.trackModifications, modId)
+      ) {
+        return skill;
+      }
+
+      const abilityIndex = skill.ability.findIndex(
+        (ability) => ability === mod.ability,
+      );
+
+      const updatedTrackModifications = removeFromTrackModificationsById(
+        skill,
+        mod,
+      );
+
+      if (abilityIndex === -1) {
+        devConsoleWarn(
+          `Couldn't find the matching ability in the ${skill.name}' ability array`,
+          skill.ability,
+        );
+        return { ...skill, trackModifications: updatedTrackModifications };
+      }
+
+      return {
+        ...skill,
+        ability: removeFromArrayByIndex(skill.ability, abilityIndex),
+        trackModifications: updatedTrackModifications,
+      };
+    }),
   };
 }
 
 function onAddingProficiency(
   _character: Character,
-  target: SkillProp[],
+  target: CharacterSkills,
   mod: Extract<ModificationsProp, { type: "addProficiency" }>,
-): SkillProp[] {
-  const updatedSkills = [...target];
+): CharacterSkills {
+  const proficienciesSet = new Set(mod.addProficiencyTo);
 
-  mod.addProficiencyTo.forEach((skillToFind) => {
-    const skillIndex = updatedSkills.findIndex(
-      (skill) => skill.name === skillToFind,
-    );
+  const modId = getModificationId(mod);
 
-    if (skillIndex === -1) {
-      devConsoleWarn(
-        `Name ${skillToFind} doesn't match any skill name, can't add Proficiency`,
-        target,
+  return {
+    ...target,
+    skillsList: target.skillsList.map((skill) => {
+      if (!proficienciesSet.has(skill.name)) {
+        return skill;
+      }
+
+      const alreadyAdded = modificationIsApplied(
+        skill.trackModifications,
+        modId,
       );
-    } else {
-      let skillToUpdate = updatedSkills[skillIndex];
 
-      skillToUpdate = {
-        ...skillToUpdate,
-        hasProficiency: true,
-        trackModifications: [
-          ...skillToUpdate.trackModifications,
-          {
-            type: "addProficiency",
-            name: mod.name,
-            source: mod.source,
-            id: getModificationId(mod),
-          },
-        ],
-      };
-
-      updatedSkills[skillIndex] = skillToUpdate;
-    }
-  });
-
-  return updatedSkills;
+      return alreadyAdded
+        ? skill
+        : {
+            ...skill,
+            hasProficiency: true,
+            trackModifications: [
+              ...skill.trackModifications,
+              {
+                type: "addProficiency",
+                name: mod.name,
+                source: mod.source,
+                id: modId,
+              },
+            ],
+          };
+    }),
+  };
 }
 
 function onRemovingProficiency(
   _character: Character,
-  target: SkillProp[],
+  target: CharacterSkills,
   mod: Extract<ModificationsProp, { type: "addProficiency" }>,
-): SkillProp[] {
-  const updatedSkills = [...target];
+): CharacterSkills {
+  const proficienciesSet = new Set(mod.addProficiencyTo);
 
-  mod.addProficiencyTo.forEach((skillToFind) => {
-    const skillIndex = updatedSkills.findIndex(
-      (skill) => skill.name === skillToFind,
-    );
-
-    if (skillIndex === -1) {
-      devConsoleWarn(
-        `Name ${skillToFind} doesn't match any skill name, can't remove Proficiency`,
-        target,
-      );
-    } else {
-      let skillToUpdate = updatedSkills[skillIndex];
-
-      skillToUpdate = {
-        ...skillToUpdate,
-        trackModifications: removeFromTrackModificationsById(
-          skillToUpdate,
-          mod,
-        ),
-      };
-
-      if (
-        !skillToUpdate.gainedWithClass &&
-        !skillToUpdate.trackModifications.some(
-          (modification) => modification.type === mod.type,
-        )
-      ) {
-        skillToUpdate = { ...skillToUpdate, hasProficiency: false };
+  return {
+    ...target,
+    skillsList: target.skillsList.map((skill) => {
+      if (!proficienciesSet.has(skill.name)) {
+        return skill;
       }
 
-      updatedSkills[skillIndex] = skillToUpdate;
+      const updatedTrackModifications = removeFromTrackModificationsById(
+        skill,
+        mod,
+      );
+
+      if (
+        skill.gainedWithClass ||
+        relatedModStillActive(updatedTrackModifications, addProficiencySet)
+      ) {
+        return { ...skill, trackModifications: updatedTrackModifications };
+      }
+
+      return {
+        ...skill,
+        hasProficiency: false,
+        trackModifications: updatedTrackModifications,
+      };
+    }),
+  };
+}
+
+function onAddingProficiencyWithChoice(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<ModificationsProp, { type: "addProficiencyWithChoice" }>,
+): CharacterSkills {
+  const characterProficiencies = target.skillsList
+    .filter((skill) => skill.hasProficiency)
+    .map((skill) => skill.name);
+
+  const characterProficienciesSet = new Set(characterProficiencies);
+
+  const skillsToChoose = mod.skillsToChoose.filter(
+    (skillName) => !characterProficienciesSet.has(skillName),
+  );
+
+  const message = skillsToChoose.length === 0 ? "alreadyProficient" : null;
+
+  return {
+    ...target,
+    isAddingProficiency: {
+      isShown: true,
+      skillList: skillsToChoose,
+      type: "proficiency",
+      howMany: mod.howMany,
+      message,
+      modification: {
+        name: mod.name,
+        type: mod.type,
+        id: getModificationId(mod),
+        source: mod.source,
+      },
+    },
+  };
+}
+
+function onRemovingProficiencyWithChoice(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<ModificationsProp, { type: "addProficiencyWithChoice" }>,
+): CharacterSkills {
+  const proficiencyToRemoveSet = new Set(mod.skillsToChoose);
+
+  const modId = getModificationId(mod);
+
+  const shouldClosePicker =
+    target.isAddingProficiency.isShown &&
+    target.isAddingProficiency.modification.id === modId;
+
+  const updatedSkillsList = target.skillsList.map((skill) => {
+    if (
+      !proficiencyToRemoveSet.has(skill.name) ||
+      !skill.trackModifications.some(
+        (modification) => modification.id === modId,
+      )
+    ) {
+      return skill;
     }
+
+    const updatedTrackModifications = removeFromTrackModificationsById(
+      skill,
+      mod,
+    );
+
+    const stillProficient =
+      relatedModStillActive(updatedTrackModifications, addProficiencySet) ||
+      skill.gainedWithClass;
+
+    return stillProficient
+      ? { ...skill, trackModifications: updatedTrackModifications }
+      : {
+          ...skill,
+          trackModifications: updatedTrackModifications,
+          hasProficiency: false,
+        };
   });
 
-  return updatedSkills;
+  return {
+    ...target,
+    skillsList: updatedSkillsList,
+    isAddingProficiency: shouldClosePicker
+      ? { isShown: false }
+      : target.isAddingProficiency,
+  };
+}
+
+function onAddingAdvantage(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<ModificationsProp, { type: "addAdvantage" }>,
+): CharacterSkills {
+  const featuresSet = new Set(mod.features);
+
+  const modId = getModificationId(mod);
+
+  return {
+    ...target,
+    skillsList: target.skillsList.map((skill) => {
+      if (!featuresSet.has(skill.name)) {
+        return skill;
+      }
+
+      if (modificationIsApplied(skill.trackModifications, modId)) {
+        return skill;
+      }
+
+      return {
+        ...skill,
+        hasAdvantage: true,
+        trackModifications: [
+          ...skill.trackModifications,
+          {
+            name: mod.name,
+            type: mod.type,
+            id: modId,
+            source: mod.source,
+          },
+        ],
+      };
+    }),
+  };
+}
+
+function onRemovingAdvantage(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<ModificationsProp, { type: "addAdvantage" }>,
+): CharacterSkills {
+  const featureSet = new Set(mod.features);
+
+  return {
+    ...target,
+    skillsList: target.skillsList.map((skill) => {
+      if (!featureSet.has(skill.name)) {
+        return skill;
+      }
+
+      const updatedTrackModifications = removeFromTrackModificationsById(
+        skill,
+        mod,
+      );
+
+      if (relatedModStillActive(updatedTrackModifications, addAdvantageSet)) {
+        return { ...skill, trackModifications: updatedTrackModifications };
+      }
+
+      return {
+        ...skill,
+        hasAdvantage: false,
+        trackModifications: updatedTrackModifications,
+      };
+    }),
+  };
+}
+
+function onSettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility(
+  character: Character,
+  target: CharacterSkills,
+  mod: Extract<
+    ModificationsProp,
+    { type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility" }
+  >,
+): CharacterSkills {
+  const modId = getModificationId(mod);
+
+  const abilityAffected = new Set(mod.skillsAbilityAffected);
+
+  const minimumTotal = getTarget(character, mod.abilityScore);
+
+  if (typeof minimumTotal !== "number") {
+    devConsoleWarn(
+      `the minimumTotal should be a number when setAbilityScore as minimum total`,
+      minimumTotal,
+    );
+    return target;
+  }
+
+  return {
+    ...target,
+    skillsList: target.skillsList.map((skill) => {
+      if (!abilityAffected.has(skill.currentAbility)) {
+        return skill;
+      }
+
+      const isAlreadyApplied = modificationIsApplied(
+        skill.trackModifications,
+        modId,
+      );
+
+      if (isAlreadyApplied) {
+        return skill;
+      }
+
+      const newMinimumTotal =
+        skill.minimumCheckTotal !== undefined
+          ? Math.max(skill.minimumCheckTotal, minimumTotal)
+          : minimumTotal;
+
+      const thisModification: Extract<
+        TrackModifications,
+        { type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility" }
+      > = {
+        name: mod.name,
+        type: mod.type,
+        source: mod.source,
+        id: modId,
+        value: minimumTotal,
+      };
+
+      return {
+        ...skill,
+        minimumCheckTotal: newMinimumTotal,
+        trackModifications: [...skill.trackModifications, thisModification],
+      };
+    }),
+  };
+}
+
+function onUnsettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<
+    ModificationsProp,
+    { type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility" }
+  >,
+): CharacterSkills {
+  const modId = getModificationId(mod);
+
+  const abilityAffected = new Set(mod.skillsAbilityAffected);
+
+  return {
+    ...target,
+    skillsList: target.skillsList.map((skill) => {
+      if (!abilityAffected.has(skill.currentAbility)) {
+        return skill;
+      }
+
+      const isNotApplied = !modificationIsApplied(
+        skill.trackModifications,
+        modId,
+      );
+
+      if (isNotApplied) {
+        return skill;
+      }
+
+      const updatedTrackModifications = removeFromTrackModificationsById(
+        skill,
+        mod,
+      );
+
+      const otherMinimumTotalModifications = updatedTrackModifications.filter(
+        (modification): modification is TrackModificationWithValue =>
+          hasValueProperty(modification) && setMinimumTotalSet.has(modification.type)
+      );
+
+      if (otherMinimumTotalModifications.length === 0) {
+        return {
+          ...skill,
+          minimumCheckTotal: undefined,
+          trackModifications: updatedTrackModifications,
+        };
+      }
+
+      const newMinimumTotal = otherMinimumTotalModifications.reduce(
+        (acc, modification) => Math.max(acc, modification.value),0,);
+
+      return {
+        ...skill,
+        minimumCheckTotal: newMinimumTotal,
+        trackModifications: updatedTrackModifications,
+      };
+    }),
+  };
 }
 
 export const abilityAndSkillTypeResolver: AbilityAndSkillTypeResolver = {
   //changeAbilityReference: { apply: onSetAbility, revert: onSetAbility },
   addAbility: { apply: onAddingAbility, revert: onRemovingAbility },
+  addAbilityToSkill: {
+    apply: onAddingAbilityToSkill,
+    revert: onRemovingAbilityToSkill,
+  },
   addProficiency: { apply: onAddingProficiency, revert: onRemovingProficiency },
+  addAdvantage: { apply: onAddingAdvantage, revert: onRemovingAdvantage },
+  addProficiencyWithChoice: {
+    apply: onAddingProficiencyWithChoice,
+    revert: onRemovingProficiencyWithChoice,
+  },
+  setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility: {
+    apply: onSettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility,
+    revert: onUnsettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility,
+  },
 };

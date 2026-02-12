@@ -1,8 +1,6 @@
-import type { Ability } from "../rules/arrayOfFeatures";
 import type {
   BecomingClass,
   CharacterStartingEquipment,
-  CharacterClassesName,
   ClassSkillProficiencies,
   ClassToolProficiencies,
   PrimaryClassAbilities,
@@ -11,25 +9,26 @@ import type {
   CustomSubclasses,
   CustomPrimaryClassAbilities,
   CharacterModifications,
+  ArmorTraining,
 } from "./characterClassesUtils.types";
 import type {} from "./trackModifications.types";
-import type { HitDice } from "./characterUtils.type";
-import type { CountersInterface } from "./counters.types";
+import type { DiceFace } from "./generalRules.types";
+import type { SavingThrow } from "./features.type.ts/abilitiesAndSkills.type";
+import type { CharacterClassesName } from "./features.type.ts/classes.type";
 
 export interface RuleClass {
   name: CharacterClassesName;
   subclass: Subclasses | CustomSubclasses | null;
   level: number;
   primaryAbility: PrimaryClassAbilities | CustomPrimaryClassAbilities;
-  hitDie: HitDice;
-  savingThrowProficiency: Ability[];
+  hitDie: DiceFace;
+  savingThrowProficiency: SavingThrow[];
   weaponProficiency: WeaponProficencies[];
   skillProficiency: ClassSkillProficiencies;
   toolProficiency: ClassToolProficiencies[];
-  armorTraining: [];
+  armorTraining: ArmorTraining;
   startingEquipment: CharacterStartingEquipment;
   becomingClass: BecomingClass;
   classFeature: CharacterModifications[];
   spellcasting?: [];
-  counters: CountersInterface[];
 }
