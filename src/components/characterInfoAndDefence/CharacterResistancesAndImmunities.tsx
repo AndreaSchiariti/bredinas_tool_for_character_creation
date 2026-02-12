@@ -1,6 +1,6 @@
 import { type JSX } from "react";
 import { useTranslation } from "react-i18next";
-import type { DamageTypeProp } from "../../types/character_utils";
+import type { DamageTypeProp } from "../../types/characterUtils.type";
 
 import { BoxWithTitle } from "../BowWithTitle";
 

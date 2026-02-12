@@ -1,0 +1,72 @@
+{
+  "conditionsList": [
+    {
+      "name": "charmed",
+      "events": [],
+      "isAffecting": false,
+      "isImmune": false
+    },
+    {
+      "name": "enraged",
+      "events": [
+        {
+          "target": [{ "target": "damageResistances", "type": "direct" }],
+          "type": "addResistanceConditionEvent",
+          "addResistancesTo": ["bludgeoning", "piercing", "slashing"],
+          "activeConditionRef": {
+            "target": "conditionByName",
+            "type": "conditional",
+            "condition": "enraged"
+          }
+        },
+        {
+          "target": [{ "target": "attacks", "type": "direct" }],
+          "type": "addValueToAttacksBasedOnAbilityConditionEvent",
+          "valueToFetch": {
+            "target": "counterById",
+            "type": "conditional",
+            "condition": "rageDamage: barbarian-addValueBasedOnLevelCounter"
+          },
+          "ability": ["strength"],
+          "activeConditionRef": {
+            "target": "conditionByName",
+            "type": "conditional",
+            "condition": "enraged"
+          }
+        }, {
+          "target": [{ "target": "spellcasting", "type": "direct" }],
+          "type": "stopConcentrationAndSpellcastingConditionEvent",
+          "activeConditionRef": {
+            "target": "conditionByName",
+            "type": "conditional",
+            "condition": "enraged"
+          }
+        }
+      ],
+      "isAffecting": false,
+      "isImmune": false
+    },
+    {
+      "name": "frightened",
+      "events": [],
+      "isAffecting": false,
+      "isImmune": false
+    },
+    {
+      "name": "incapacitated",
+      "events": [],
+      "isAffecting": false,
+      "isImmune": false
+    },
+    {
+      "name": "poisoned",
+      "events": [],
+      "isAffecting": false,
+      "isImmune": false
+    }
+  ],
+  "isCuringCondition": {
+    "isShown": false,
+    "conditionsToCure": []
+  }
+}

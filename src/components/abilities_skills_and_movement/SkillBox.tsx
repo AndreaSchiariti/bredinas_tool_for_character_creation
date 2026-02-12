@@ -1,7 +1,7 @@
 import { useMemo, type JSX } from "react";
 import type { AbilitiesAndSkillProp } from "./AbilitiesAndSkills";
 import { useCharacterContext } from "../../context/CharacterContext";
-import { type SkillProp } from "../../types/character_utils";
+import { type SkillProp } from "../../types/characterUtils.type";
 import { SingleSkill } from "./SingleSkill";
 import { useUserPreferencesContext } from "../../context/UserPreferencesContext";
 import { useSortArrayByLanguage } from "../../custom_hooks/useSortByLanguage";
@@ -18,11 +18,11 @@ export function SkillBox({ ability }: AbilitiesAndSkillProp): JSX.Element {
 
     if (skillsWithAbilities) {
       abilitySkills = character.skills.filter(
-        (skill) => skill.ability === ability && skill.type === "skill"
+        (skill) => skill.ability === ability && skill.type === "skill",
       );
     } else {
       abilitySkills = character.skills.filter(
-        (skill) => skill.type === "skill"
+        (skill) => skill.type === "skill",
       );
     }
 

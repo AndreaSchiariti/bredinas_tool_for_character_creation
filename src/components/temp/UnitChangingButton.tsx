@@ -1,13 +1,13 @@
 import type { JSX } from "react";
-import type { Units } from "../../types/character_utils";
+import type { Units } from "../../types/characterUtils.type";
 import { useTranslation } from "react-i18next";
 import { useUserPreferencesContext } from "../../context/UserPreferencesContext";
 
 interface UnitButton {
-    unit: Units
+  unit: Units;
 }
 
-export function UnitChangingButton({unit}: UnitButton): JSX.Element {
+export function UnitChangingButton({ unit }: UnitButton): JSX.Element {
   const { t } = useTranslation();
   const { onChangePreferredUnit } = useUserPreferencesContext();
 

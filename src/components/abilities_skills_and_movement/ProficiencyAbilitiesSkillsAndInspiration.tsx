@@ -4,7 +4,7 @@ import { HeroicInspirationBox } from "./HeroicInspirationBox";
 import { AbilitiesAndSkills } from "./AbilitiesAndSkills";
 import { ToggleSkillsWithAbilities } from "../temp/ToggleSkillsWithAbilitiesButton";
 import { useUserPreferencesContext } from "../../context/UserPreferencesContext";
-import { type Ability } from "../../types/character_utils";
+import { type Ability } from "../../types/characterUtils.type";
 import { SkillsApartAbilities } from "./SkillsApartAbilities";
 
 const abilitiesNamesArray: Ability[] = [

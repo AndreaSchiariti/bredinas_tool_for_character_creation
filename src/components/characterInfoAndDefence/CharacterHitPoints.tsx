@@ -1,8 +1,8 @@
 import React, { useMemo, type JSX } from "react";
 import { BoxWithTitle } from "../BowWithTitle";
 import { useCharacterContext } from "../../context/CharacterContext";
-import type { Character } from "../../types/character";
-import type { Hp } from "../../types/character_utils";
+import type { Character } from "../../types/character.types";
+import type { Hp } from "../../types/characterUtils.type";
 
 type HpKey = keyof Hp;
 
@@ -21,15 +21,15 @@ export function CharacterHitPoints(): JSX.Element {
 
   const currentHp = useMemo<number>(
     () => checkChangedData(character, "current"),
-    [character]
+    [character],
   );
   const currentMax = useMemo<number>(
     () => checkChangedData(character, "currentMax"),
-    [character]
+    [character],
   );
   const temp = useMemo<number>(
     () => checkChangedData(character, "temp"),
-    [character]
+    [character],
   );
 
   function calculateWidthBasedOnDamage(health: number): React.CSSProperties {
@@ -48,7 +48,7 @@ export function CharacterHitPoints(): JSX.Element {
           }`}</h1>
           <div
             className={`health-bar ${
-              currentHp <= (currentMax / 2) ? "border-bright-red" : ""
+              currentHp <= currentMax / 2 ? "border-bright-red" : ""
             }`}
           >
             <div

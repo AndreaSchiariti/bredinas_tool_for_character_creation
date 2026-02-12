@@ -1,0 +1,1069 @@
+{
+  "name": "barbarian",
+  "level": 1,
+  "subclass": null,
+  "primaryAbility": "strength",
+  "hitDie": 12,
+  "savingThrowProficiency": ["strengthSavingThrow", "constitutionSavingThrow"],
+  "weaponProficiency": [
+    {
+      "type": "simpleWeapon"
+    },
+    {
+      "type": "martialWeapon"
+    }
+  ],
+  "skillProficiency": {
+    "choosingNumber": 2,
+    "skills": [
+      "animalHandling",
+      "athletics",
+      "intimidation",
+      "nature",
+      "perception",
+      "survival"
+    ]
+  },
+  "toolProficiency": [],
+  "armorTraining": {
+    "light": true,
+    "medium": true,
+    "heavy": false,
+    "shields": false
+  },
+  "startingEquipment": {
+    "a": [
+      {
+        "name": "greataxe",
+        "quantity": 1
+      },
+      {
+        "name": "handaxe",
+        "quantity": 5
+      },
+      {
+        "name": "explorerPack",
+        "quantity": 1
+      },
+      {
+        "name": "goldPieces",
+        "quantity": 15
+      }
+    ],
+    "b": [
+      {
+        "name": "goldPieces",
+        "quantity": 75
+      }
+    ]
+  },
+  "becomingClass": {
+      "level1": ["gainAllTraits", "gainLevel1Features"],
+      "multiclass": ["gainMulticlassBarbarian", "gainLevel1Features"]
+    },
+  "classFeature": [
+    {
+      "name": "rage",
+      "level": 1,
+      "description": [
+        {
+          "content": "firstRage",
+          "type": "general"
+        },
+        {
+          "content": "secondRage",
+          "type": "paragraphGeneral"
+        },
+        {
+          "content": "thirdRage",
+          "type": "paragraphGeneral"
+        },
+        {
+          "name": "damageResistance",
+          "content": "rageDamageResistance",
+          "type": "subfeature"
+        },
+        {
+          "name": "rageDamage",
+          "content": "rageDamage",
+          "type": "subfeature"
+        },
+        {
+          "name": "strengthAdvantage",
+          "content": "strengthAdvantage",
+          "type": "subfeature"
+        },
+        {
+          "name": "noConcentrationOrSpell",
+          "content": "noConcentrationOrSpell",
+          "type": "subfeature"
+        },
+        {
+          "name": "duration",
+          "content": "firstRageDuration",
+          "type": "subfeature"
+        },
+        {
+          "content": "makeAnAttackRollAgainstAnEnemy",
+          "type": "list"
+        },
+        {
+          "content": "forceAnEnemyToMakeASavingThrow",
+          "type": "list"
+        },
+        {
+          "content": "takeABonusACtionToExtendYourRage",
+          "type": "list"
+        },
+        {
+          "content": "secondRageDuration",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "rage",
+          "type": "addTracerBasedOnLevelCounter",
+          "source": "barbarian",
+          "usageOnLevel": {
+            "level1": 2,
+            "level2": 2,
+            "level3": 3,
+            "level4": 3,
+            "level5": 3,
+            "level6": 4,
+            "level7": 4,
+            "level8": 4,
+            "level9": 4,
+            "level10": 4,
+            "level11": 4,
+            "level12": 5,
+            "level13": 5,
+            "level14": 5,
+            "level15": 5,
+            "level16": 5,
+            "level17": 6,
+            "level18": 6,
+            "level19": 6,
+            "level20": 6
+          },
+          "levelRef": {
+            "target": "classLevel",
+            "type": "conditional",
+            "condition": "barbarian"
+          },
+          "replenish": "longRest",
+          "additionalReplenish": {
+            "replenish": "shortRest",
+            "value": 1
+          },
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "isActive": false
+        },
+        {
+          "name": "rage",
+          "type": "addTurnEconomy",
+          "source": "barbarian",
+          "description": [
+            {
+              "content": "firstRage",
+              "type": "general"
+            },
+            {
+              "content": "secondRage",
+              "type": "paragraphGeneral"
+            },
+            {
+              "content": "thirdRage",
+              "type": "paragraphGeneral"
+            },
+            {
+              "name": "damageResistance",
+              "content": "rageDamageResistance",
+              "type": "subfeature"
+            },
+            {
+              "name": "rageDamage",
+              "content": "rageDamage",
+              "type": "subfeature"
+            },
+            {
+              "name": "strengthAdvantage",
+              "content": "strengthAdvantage",
+              "type": "subfeature"
+            },
+            {
+              "name": "noConcentrationOrSpell",
+              "content": "noConcentrationOrSpell",
+              "type": "subfeature"
+            },
+            {
+              "name": "duration",
+              "content": "firstRageDuration",
+              "type": "subfeature"
+            },
+            {
+              "content": "makeAnAttackRollAgainstAnEnemy",
+              "type": "list"
+            },
+            {
+              "content": "forceAnEnemyToMakeASavingThrow",
+              "type": "list"
+            },
+            {
+              "content": "takeABonusACtionToExtendYourRage",
+              "type": "list"
+            },
+            {
+              "content": "secondRageDuration",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "bonusActions",
+          "limitations" : ["wearingHeavyArmor"],
+          "isActive": false
+        },
+        {
+          "name": "rageDamage",
+          "type": "addValueBasedOnLevelCounter",
+          "source": "barbarian",
+          "valueOnLevel": {
+            "level1": 2,
+            "level2": 2,
+            "level3": 2,
+            "level4": 2,
+            "level5": 2,
+            "level6": 2,
+            "level7": 2,
+            "level8": 2,
+            "level9": 3,
+            "level10": 3,
+            "level11": 3,
+            "level12": 3,
+            "level13": 3,
+            "level14": 3,
+            "level15": 3,
+            "level16": 4,
+            "level17": 4,
+            "level18": 4,
+            "level19": 4,
+            "level20": 4
+          },
+          "levelRef": {
+            "target": "classLevel",
+            "type": "conditional",
+            "condition": "barbarian"
+          },
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "isActive": false
+        },
+        {
+          "name": "rageStarter",
+          "type": "addContinuousEventWithTriggerCounter",
+          "source": "barbarian",
+          "events": [
+            {
+              "target": [{ "target": "conditions", "type": "direct" }],
+              "type": "activateConditionEvent",
+              "conditionsToActivate": ["enraged"],
+              "activeCounterRef": {
+                "target": "counterById",
+                "type": "conditional",
+                "condition": "rageStarter: barbarian-addContinuousEventWithTriggerCounter"
+              }
+            },
+            {
+              "target": [{ "target": "counters", "type": "direct" }],
+              "type": "useResource",
+              "targetId": "rage: barbarian-addTracerBasedOnLevelCounter",
+              "resourcesToUse": 1,
+              "message": "notEnough",
+              "resetCounterRef": {
+                "target": "counterById",
+                "type": "conditional",
+                "condition": "rageStarter: barbarian-addContinousEventWithTriggerCounter"
+              }
+            }
+          ],
+          "trigger": "bonusAction",
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "limitationsToEvent": ["wearingHeavyArmor"],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "unarmoredDefense",
+      "level": 1,
+      "description": [
+        {
+          "content": "unarmoredDefenseBarbarian",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "unarmoredDefense",
+          "type": "addAbility",
+          "source": "barbarian",
+          "ability": "constitution",
+          "targets": [{ "target": "classArmor", "type": "direct" }],
+          "limitations": ["wearingArmor"],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "weaponMastery",
+      "level": 1,
+      "description": [
+        {
+          "content": "firstWeaponMasteryBarbarian",
+          "type": "general"
+        },
+        {
+          "content": "secondWeaponMateryBarbarian",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "weaponMastery",
+          "type": "addWeaponMasteryBasedOnLevel",
+          "source": "barbarian",
+          "valueOnLevel": {
+            "level1": 2,
+            "level2": 2,
+            "level3": 2,
+            "level4": 3,
+            "level5": 3,
+            "level6": 3,
+            "level7": 3,
+            "level8": 3,
+            "level9": 3,
+            "level10": 4,
+            "level11": 4,
+            "level12": 4,
+            "level13": 4,
+            "level14": 4,
+            "level15": 4,
+            "level16": 4,
+            "level17": 4,
+            "level18": 4,
+            "level19": 4,
+            "level20": 4
+          },
+          "levelRef": {
+            "target": "classLevel",
+            "type": "conditional",
+            "condition": "barbarian"
+          },
+          "targets": [{ "target": "weaponMastery", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "dangerSense",
+      "level": 2,
+      "description": [
+        {
+          "content": "dangerSense",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "dangerSense",
+          "type": "addAdvantage",
+          "source": "barbarian",
+          "features": ["dexteritySavingThrow"],
+          "targets": [{ "target": "skills", "type": "direct" }],
+          "limitations": ["isIncapacitated"],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "recklessAttack",
+      "level": 2,
+      "description": [
+        {
+          "content": "reclessAttack",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "recklessAttack",
+          "type": "addTurnEconomy",
+          "source": "barbarian",
+          "description": [
+            {
+              "content": "reclessAttack",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "freeActions",
+          "isActive": false
+        },
+        {
+          "name": "recklessAttack",
+          "type": "addContinuousEventWithTriggerCounter",
+          "source": "barbarian",
+          "events": [
+            {
+              "target": [{ "target": "attacks", "type": "direct" }],
+              "type": "addAdvantageEvent",
+              "scope": "attacks",
+              "features": ["strength"],
+              "activeCounterRef": {
+                "target": "counterById",
+                "type": "conditional",
+                "condition": "recklessAttack: barbarian-addContinuousEventWithTriggerCounter"
+              }
+            },
+            {
+              "target": [{ "target": "reminder", "type": "direct" }],
+              "type": "addReminderEvent",
+              "content": "attackRollsAgainstYouAdvantage",
+              "activeCounterRef": {
+                "target": "counterById",
+                "type": "conditional",
+                "condition": "recklessAttack: barbarian-addContinuousEventWithTriggerCounter"
+              }
+            }
+          ],
+          "trigger": "firstAttackRoll",
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "primalKnowledge",
+      "level": 3,
+      "description": [
+        {
+          "content": "firstPrimalKnowledge",
+          "type": "general"
+        },
+        {
+          "content": "secondPrimalKnowledge",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "primalKnowledge",
+          "type": "addProficiencyWithChoice",
+          "targets": [{ "target": "skills", "type": "direct" }],
+          "skillsToChoose": [
+            "animalHandling",
+            "athletics",
+            "intimidation",
+            "nature",
+            "perception",
+            "survival"
+          ],
+          "howMany": 1,
+          "source": "barbarian",
+          "isActive": false
+        },
+        {
+          "name": "primalKnowledge",
+          "type": "addAbilityToSkill",
+          "source": "barbarian",
+          "ability": "strength",
+          "toWhichSkill": [
+            "acrobatics",
+            "intimidation",
+            "perception",
+            "stealth",
+            "survival"
+          ],
+          "targets": [{ "target": "skills", "type": "direct" }],
+          "limitations": ["isNotEnraged"],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 4,
+      "description": [
+        {
+          "content": "abilityScoreImprovementBarbarian",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "barbarian",
+          "level": 4,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "extraAttack",
+      "level": 5,
+      "description": [
+        {
+          "content": "extraAttackBarbarian",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "extraAttack",
+          "type": "addTurnEconomy",
+          "source": "barbarian",
+          "description": [
+            {
+              "content": "extraAttack",
+              "type": "general"
+            }
+          ],
+          "targets": [
+            {
+              "target": "turnEconomy",
+              "type": "direct"
+            }
+          ],
+          "actionType": "freeActions",
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "fastMovement",
+      "level": 5,
+      "description": [
+        {
+          "content": "fastMovement",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "fastMovement",
+          "type": "addValue",
+          "source": "barbarian",
+          "value": 10,
+          "targets": [{ "target": "speed", "type": "direct" }],
+          "limitations": ["wearingHeavyArmor"],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "feralInstinct",
+      "level": 7,
+      "description": [
+        {
+          "content": "feralInstinct",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "feralInstinct",
+          "type": "addAdvantage",
+          "source": "barbarian",
+          "features": ["initiative"],
+          "targets": [{ "target": "skills", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "instinctivePounce",
+      "level": 7,
+      "description": [
+        {
+          "content": "instinctivePounce",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "instinctivePounce",
+          "type": "addTurnEconomy",
+          "source": "barbarian",
+          "description": [
+            {
+              "content": "instinctivePounce",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "freeActions",
+          "isActive": false
+        },
+        {
+          "name": "instinctivePounce",
+          "type": "addContinuousEventWithTriggerCounter",
+          "source": "barbarian",
+          "events": [
+            {
+              "target": [{ "target": "speed", "type": "direct" }],
+              "type": "addFetchedScoreEvent",
+              "fetchedFeature": { "target": "speed", "type": "direct" },
+              "modifyValue": {
+                "operation": "divide",
+                "value": 2
+              },
+              "activeCounterRef": {
+                "target": "counterById",
+                "type": "conditional",
+                "condition": "instinctivePounce: barbarian-addContinousEventWithTriggerCounter"
+              }
+            }
+          ],
+          "trigger": "enterRage",
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 8,
+      "description": [
+        {
+          "content": "abilityScoreImprovementBarbarian",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "barbarian",
+          "level": 8,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "brutalStrike",
+      "level": 9,
+      "description": [
+        {
+          "content": "brutalStrike",
+          "type": "general"
+        },
+        {
+          "name": "forcefulBlow",
+          "content": "forcefulBlow",
+          "type": "subfeature"
+        },
+        {
+          "name": "hamstringBlow",
+          "content": "hamstringBlow",
+          "type": "subfeature"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "brutalStrike",
+          "type": "addTurnEconomy",
+          "source": "barbarian",
+          "description": [
+            {
+              "content": "brutalStrike",
+              "type": "general"
+            },
+            {
+              "name": "forcefulBlow",
+              "content": "forcefulBlow",
+              "type": "subfeature"
+            },
+            {
+              "name": "hamstringBlow",
+              "content": "hamstringBlow",
+              "type": "subfeature"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "freeActions",
+          "isActive": false
+        },
+        {
+          "name": "brutalStrike",
+          "type": "addDiceBasedOnLevelCounter",
+          "source": "barbarian",
+          "diceOnLevel": {
+            "level2": { "face": 10, "count": 1 },
+            "level3": { "face": 10, "count": 1 },
+            "level1": { "face": 10, "count": 1 },
+            "level4": { "face": 10, "count": 1 },
+            "level5": { "face": 10, "count": 1 },
+            "level6": { "face": 10, "count": 1 },
+            "level7": { "face": 10, "count": 1 },
+            "level8": { "face": 10, "count": 1 },
+            "level9": { "face": 10, "count": 1 },
+            "level10": { "face": 10, "count": 1 },
+            "level11": { "face": 10, "count": 1 },
+            "level12": { "face": 10, "count": 1 },
+            "level13": { "face": 10, "count": 1 },
+            "level14": { "face": 10, "count": 1 },
+            "level15": { "face": 10, "count": 1 },
+            "level16": { "face": 10, "count": 1 },
+            "level17": { "face": 10, "count": 2 },
+            "level18": { "face": 10, "count": 2 },
+            "level19": { "face": 10, "count": 2 },
+            "level20": { "face": 10, "count": 2 }
+          },
+          "levelRef": {
+            "target": "classLevel",
+            "type": "conditional",
+            "condition": "barbarian"
+          },
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "limitations": [],
+          "isActive": false
+        },
+        {
+          "name": "brutalStrike",
+          "type": "addContinuousEventWithTriggerCounter",
+          "source": "barbarian",
+          "events": [
+            {
+              "target": [{ "target": "attacks", "type": "direct" }],
+              "type": "addDiceToAttackBasedOnAbilityEvent",
+              "diceToAdd": {
+                "target": "counterDiceById",
+                "type": "conditional",
+                "condition": "brutalStrike: barbarian-addDiceBasedOnLevelCounter"
+              },
+              "ability": ["strength"],
+              "activeCounterRef": {
+                "target": "counterById",
+                "type": "conditional",
+                "condition": "brutalStrike: barbarian-addContinousEventWithTriggerCounter"
+              },
+              "limitations": ["hasDisadvantage"]
+            }
+          ],
+          "trigger": "forgoOneRecklessAttack",
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "relentlessRage",
+      "level": 11,
+      "description": [
+        {
+          "content": "firstRelentlessRage",
+          "type": "general"
+        },
+        {
+          "content": "secondRelentlessRage",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "relentlessRage",
+          "type": "addTurnEconomy",
+          "source": "barbarian",
+          "description": [
+            {
+              "content": "firstRelentlessRage",
+              "type": "general"
+            },
+            {
+              "content": "secondRelentlessRage",
+              "type": "paragraphGeneral"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "freeActions",
+          "isActive": false
+        },
+        {
+          "name": "relentlessRage",
+          "type": "addCountingCounter",
+          "source": "barbarian",
+          "targets": [{ "type": "direct", "target": "counters" }],
+          "startingValue": 1,
+          "reset": "shortRest",
+          "isActive": false
+        },
+        {
+          "name": "relentlessRage",
+          "type": "openIsHealingWhenHP",
+          "source": "barbarian",
+          "targets": [{ "target": "hitPoints", "type": "direct" }],
+          "triggeringHpValue": 0,
+          "message": "relentlessRageHealing",
+          "healingValueRef": {
+            "type": "conditional",
+            "condition": "barbarian",
+            "target": "classLevel"
+          },
+          "modifyHealingRef": { "operation": "multiply", "value": 2 },
+          "hasDifficultyClassToShow": {
+            "difficultyClassRef": {
+              "target": "counterById",
+              "type": "conditional",
+              "condition": "relentlessRage: barbarian-addCountingCounter"
+            },
+            "dcCalculatorType": "relentlessRage"
+          },
+          "limitations": ["isNotEnraged"],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 12,
+      "description": [
+        {
+          "content": "abilityScoreImprovementBarbarian",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "barbarian",
+          "level": 12,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "improvedBrutalStrike",
+      "level": 13,
+      "description": [
+        {
+          "content": "improvedBrutalStrike",
+          "type": "general"
+        },
+        {
+          "name": "staggeringBlow",
+          "content": "staggeringBlow",
+          "type": "subfeature"
+        },
+        {
+          "name": "sunderingBlow",
+          "content": "sunderingBlow",
+          "type": "subfeature"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "improvedBrutalStrike",
+          "type": "addTurnEconomy",
+          "source": "barbarian",
+          "description": [
+            {
+              "content": "improvedBrutalStrike",
+              "type": "general"
+            },
+            {
+              "name": "staggeringBlow",
+              "content": "staggeringBlow",
+              "type": "subfeature"
+            },
+            {
+              "name": "sunderingBlow",
+              "content": "sunderingBlow",
+              "type": "subfeature"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "freeActions",
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "persistentRage",
+      "level": 15,
+      "description": [
+        {
+          "content": "firstPersistentRage",
+          "type": "general"
+        },
+        {
+          "content": "secondPersistentRage",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "persistentRage",
+          "type": "addTurnEconomy",
+          "source": "barbarian",
+          "description": [
+            {
+              "content": "firstPersistentRage",
+              "type": "general"
+            },
+            {
+              "content": "secondPersistentRage",
+              "type": "paragraphGeneral"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "freeActions",
+          "isActive": false
+        },
+        {
+          "name": "persistentRage",
+          "type": "addTracerEventCounter",
+          "source": "barbarian",
+          "usages": 1,
+          "events": [
+            {
+              "target": [{ "target": "counters", "type": "direct" }],
+              "type": "replenishCounter",
+              "targetId": "rage: barbarian-addTracerBasedOnLevelCounter"
+            }
+          ],
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "replenish": "longRest",
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 16,
+      "description": [
+        {
+          "content": "abilityScoreImprovementBarbarian",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "barbarian",
+          "level": 16,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "secondImprovedBrutalStrike",
+      "level": 17,
+      "description": [
+        {
+          "content": "secondImprovedBrutalStrike",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "secondImprovedBrutalStrike",
+          "type": "addTurnEconomy",
+          "source": "barbarian",
+          "description": [
+            {
+              "content": "secondImprovedBrutalStrike",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "freeActions",
+          "limitations": [],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "indomitableMight",
+      "level": 18,
+      "description": [
+        {
+          "content": "indomitableMight",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "indomitableMight",
+          "type": "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility",
+          "source": "barbarian",
+          "abilityScore": {
+            "target": "abilityCurrentScore",
+            "type": "conditional",
+            "condition": "strength"
+          },
+          "skillsAbilityAffected": ["strength"],
+          "targets": [{ "target": "skills", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "epicBoon",
+      "level": 19,
+      "description": [
+        {
+          "content": "barbarianEpicBoon",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "barbarian",
+          "level": 19,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "primalChampion",
+      "level": 20,
+      "description": [
+        {
+          "content": "primalChampion",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "primalChampion",
+          "type": "increaseMaxLimit",
+          "source": "barbarian",
+          "targets": [{ "target": "abilities", "type": "direct" }],
+          "toWhichAbility": ["strength", "constitution"],
+          "newMaxValue": 25,
+          "isActive": false
+        },
+        {
+          "name": "primalChampion",
+          "type": "addValueToAbility",
+          "source": "barbarian",
+          "targets": [{ "target": "abilities", "type": "direct" }],
+          "toWhichFeature": ["strength", "constitution"],
+          "value": 4,
+          "isActive": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import type { Children } from "../types/react-types";
+import type { Children } from "../types/reactBase.types";
 import { useTranslation } from "react-i18next";
 
 type BoxTitle = {

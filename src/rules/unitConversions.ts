@@ -1,7 +1,5 @@
-import type { CharacterSpeed, Units } from "../types/character_utils";
-
 export function convertMetersToFeet(meters: number): number {
-  return Math.floor((meters / 3) * 10);
+  return (meters / 3) * 10;
 }
 
 export function convertMetersToSquares(meters: number): number {
@@ -9,7 +7,7 @@ export function convertMetersToSquares(meters: number): number {
 }
 
 export function convertFeetToMeters(feet: number): number {
-  return Math.floor((feet * 3) / 10);
+  return Math.floor(feet * 3) / 10;
 }
 
 export function convertFeetToSquares(feet: number): number {
@@ -22,14 +20,4 @@ export function convertSquaresToMeters(squares: number): number {
 
 export function convertSquaresToFeet(squares: number): number {
   return squares * 5;
-}
-
-export function renderPreferedUnit(preferedUnit : Units, unitsArray : CharacterSpeed[]) : CharacterSpeed {
- const foundUnit = unitsArray.find(unitToFind => unitToFind.unit === preferedUnit)
-
- if (!foundUnit) {
-  throw new Error(`${preferedUnit} is missing`)
- }
-
- return foundUnit
 }

@@ -69,10 +69,56 @@ export const characterClass = {
 
 export const classFeature = {
   name : "",
-  description: "",
+  description: [],
   modification: "",
   modificationChangableValue: 0,
   affects: [],
   limitations: [],
   show: false
+}
+
+export const classFeatureDescription = {
+  type : "",
+  content1: "",
+  content2: ""
+}
+
+export const diceCounterTemplate = {
+  name: "",
+  id: "",
+  type: "dice",
+  dice: "",
+  source : ""
+}
+
+export const tracerCounterTemplate = {
+  name: "",
+  id: "",
+  type: "tracer",
+  maxQuantity: 0,
+  currentQuantity: 0,
+  replanish: "",
+  source: "",
+};
+
+export const itemWeapon = {
+  name: "",
+  type: "weapon",
+  subType: "",
+  costValue: 0,
+  costCurrency: "",
+  weight: 0,
+  description: "",
+  properties: [],
+  range: [],
+  mastery: [],
+  damageBaseDice: "",
+  currentDice: "",
+  trackModifications: []
+}
+
+export const economyProp = {
+  name: "",
+  description: "",
+  isShown: false,
 }
