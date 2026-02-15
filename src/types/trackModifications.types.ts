@@ -137,6 +137,14 @@ interface AddProficiencyWithChoiceModification extends BaseTrackModifications {
    type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility";
  }
 
+ interface AddExpertiseToProficiencynWithChoiceModification extends BaseTrackModifications {
+   type: "addExpertiseToProficiencyWithChoice";
+ }
+
+ interface AddValueToAllNotProficientSkills extends HasValueModifications {
+   type: "addValueToAllNotProficientSkills";
+ } 
+
 export type TrackModifications =
   | ChangeDiceTrackModifications
   | ChangingAbilityModification
@@ -161,7 +169,9 @@ export type TrackModifications =
   | AddProficiencyWithChoiceModification
   | addFetchedScoreEventModification
   | addDiceToAttackBasedOnAbilityEventModification
-  | SetAbilityScoreAsMinimumTotalToSkillsBasedOnAbilityModification;
+  | SetAbilityScoreAsMinimumTotalToSkillsBasedOnAbilityModification
+  | AddExpertiseToProficiencynWithChoiceModification
+  | AddValueToAllNotProficientSkills
 
 const trackModificationsTypeSet = new Set<TrackModifications["type"]>([
   "addAbility",
@@ -186,7 +196,9 @@ const trackModificationsTypeSet = new Set<TrackModifications["type"]>([
   "addProficiencyWithChoice",
   "addFetchedScoreEvent",
   "addDiceToAttackBasedOnAbilityEvent",
-  "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility"
+  "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility",
+  "addExpertiseToProficiencyWithChoice",
+  "addValueToAllNotProficientSkills",
 ]);
 
 export function isTrackModifications(

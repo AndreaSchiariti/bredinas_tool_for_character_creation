@@ -1,4 +1,15 @@
+import type { ValueBasedOnLevel } from "../ModificationProps.type";
 import type { TrackModifications } from "../trackModifications.types";
+import type { Ability } from "./abilitiesAndSkills.type";
+import type { CharacterClassesName } from "./classes.type";
+
+export const schoolsOfMagic = [
+  "abjuration, conjuration, divination, enchantment, evocation, illusion, necromancy, transmutation",
+] as const;
+
+export type SchoolsOfMagic = (typeof schoolsOfMagic)[number];
+
+export const schoolsOfMagicSet = new Set<SchoolsOfMagic>(schoolsOfMagic);
 
 export interface SpellsSlot {
   level1: number;
@@ -22,19 +33,38 @@ export interface SpellComponents {
 
 export interface SpellInterface {
   name: string;
-  school: string;
+  school: SchoolsOfMagic;
   level: SpellLevel;
+  class: CharacterClassesName[];
+  preferredAbility?: Ability;
 }
 
-export interface SpellList {
+export interface SpellLevelInterface {
   level: SpellLevel;
-  spellList: SpellInterface[];
+  spells: SpellInterface[];
+}
+
+export type isAddingSpell =
+  | {
+      isShown: false;
+    }
+  | {
+      isShown: true;
+      addedBy: string;
+      school?: SchoolsOfMagic[];
+    };
+
+export interface SpellList {
+  spellList: SpellLevelInterface[];
+  isAddingSpell: isAddingSpell;
 }
 
 export interface Spellcasting {
   cantripKnown?: number;
-  spellsKnown?: number;
+  preparedSpells?: number;
   spellList: SpellList[];
+  ability: Ability[];
+  usedAbility: Ability;
 }
 
 export interface CharacterSpellcasting extends Spellcasting {
@@ -42,4 +72,12 @@ export interface CharacterSpellcasting extends Spellcasting {
   canCast: SpellComponents;
   isConcentration: boolean;
   trackModifications: TrackModifications[];
+}
+
+export interface ClassSpellcasting extends Spellcasting {
+  classSpellList: CharacterClassesName[];
+  classLevelDivider?: 1 | 2 | 3;
+  maxPactMagicSlots?: number;
+  currentPactMagicSlots?: number;
+  canCastLevel?: number;
 }

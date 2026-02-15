@@ -1,5 +1,8 @@
 import type { Character } from "../types/character.types";
-import type { CharacterAttacks } from "../types/characterUtils.type";
+import type {
+  CharacterAttacks,
+  CharacterBardicInspiration,
+} from "../types/characterUtils.type";
 import {
   isAddValueToAttacksBasedOnAbilityWithoutTracker,
   type ConditionEventProp,
@@ -10,7 +13,13 @@ import type { DamageTypeProp } from "../types/features.type.ts/damageTypes.type"
 import type { CharacterSpellcasting } from "../types/features.type.ts/spells.type";
 import { hasValueProperty } from "../types/generalGuardingFunction";
 import { devConsoleWarn } from "../utils/general";
-import { changeBackCanCastCheckingModifications, changeAllCanCastComponent, relatedModStillActive, addResistanceSet, modificationIsApplied } from "./characterCalculations";
+import {
+  changeBackCanCastCheckingModifications,
+  changeAllCanCastComponent,
+  relatedModStillActive,
+  addResistanceSet,
+  modificationIsApplied,
+} from "./characterCalculations";
 import {
   getConditionEventId,
   removeFromTrackModificationsById,
@@ -38,6 +47,11 @@ export interface ConditionEventTypeMap {
       ConditionEventProp,
       { type: "stopConcentrationAndSpellcastingConditionEvent" }
     >;
+  };
+  addBardicInspirationDice: {
+    character: Character;
+    target: CharacterBardicInspiration;
+    event: Extract<ConditionEventProp, { type: "addBardicInspirationDice" }>;
   };
 }
 
@@ -75,7 +89,10 @@ function onAddingResistancesConditionEvent(
     let updatedTrackModification = [...damageType.trackModifications];
 
     if (conditionAffecting) {
-      const notAlreadyAdded = modificationIsApplied(damageType.trackModifications, eventId);
+      const notAlreadyAdded = modificationIsApplied(
+        damageType.trackModifications,
+        eventId,
+      );
 
       if (notAlreadyAdded) {
         updatedTrackModification = [
@@ -96,7 +113,10 @@ function onAddingResistancesConditionEvent(
       );
     }
 
-    const isStillResistant = relatedModStillActive(damageType.trackModifications, addResistanceSet);
+    const isStillResistant = relatedModStillActive(
+      damageType.trackModifications,
+      addResistanceSet,
+    );
 
     return {
       ...damageType,
@@ -269,10 +289,39 @@ function onStoppingConcentrationAndSpellcastingConditionEvent(
   };
 }
 
+function onAddingBardicInspirationDice(
+  character: Character,
+  target: CharacterBardicInspiration,
+  event: Extract<ConditionEventProp, { type: "addBardicInspirationDice" }>,
+): CharacterBardicInspiration {
+  const conditionRef = getTarget(character, event.activeConditionRef);
+
+  if (!isConditionProp(conditionRef)) {
+    devConsoleWarn(
+      `The condition ref must be a Condition Prop when adding bardic inspiration dice`,
+      conditionRef,
+    );
+    return target;
+  }
+
+  const isActive = conditionRef.isAffecting;
+
+  if (!isActive) {
+    return { isDiceSelectorIsShown: false, dice: undefined, isShown: undefined };
+  }
+
+  if (target.dice !== undefined) {
+    return target
+  }
+
+  return {isDiceSelectorIsShown: true, dice : undefined, isShown: undefined}
+}
+
 export const conditionEventTypeResolver: ConditionEventTypeResolver = {
   addResistanceConditionEvent: onAddingResistancesConditionEvent,
   addValueToAttacksBasedOnAbilityConditionEvent:
     onAddingValueToAttacksBasedOnAbilityConditionEvent,
   stopConcentrationAndSpellcasting:
     onStoppingConcentrationAndSpellcastingConditionEvent,
+    addBardicInspirationDice: onAddingBardicInspirationDice
 };

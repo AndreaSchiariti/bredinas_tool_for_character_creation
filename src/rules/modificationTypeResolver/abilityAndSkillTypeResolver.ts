@@ -1,5 +1,8 @@
 import type { Character } from "../../types/character.types";
-import type { TrackModifications, TrackModificationWithValue } from "../../types/trackModifications.types";
+import type {
+  TrackModifications,
+  TrackModificationWithValue,
+} from "../../types/trackModifications.types";
 import type { ModificationsProp } from "../../types/ModificationProps.type";
 import { type HasAbilitiesWithTracking } from "../../types/targets.types";
 import {
@@ -14,10 +17,15 @@ import {
   addProficiencySet,
   modificationIsApplied,
   setMinimumTotalSet,
+  addExpertiseSet,
+  calculateModifyValue,
 } from "../characterCalculations";
 import { devConsoleWarn, removeFromArrayByIndex } from "../../utils/general";
 import { getTarget } from "../modificationsExecution";
-import { hasValueProperty } from "../../types/generalGuardingFunction";
+import {
+  hasValueProperty,
+  isTargetInterface,
+} from "../../types/generalGuardingFunction";
 
 type AbilityAndSkillTypeResolver = Pick<
   ModificationTypeResolver,
@@ -27,6 +35,8 @@ type AbilityAndSkillTypeResolver = Pick<
   | "addProficiencyWithChoice"
   | "addAdvantage"
   | "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility"
+  | "addExpertiseToProficiencyWithChoice"
+  | "addValueToAllNotProficientSkills"
 >;
 
 // using this both as the apply and revert function, the mod will be taken by
@@ -534,7 +544,8 @@ function onUnsettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility(
 
       const otherMinimumTotalModifications = updatedTrackModifications.filter(
         (modification): modification is TrackModificationWithValue =>
-          hasValueProperty(modification) && setMinimumTotalSet.has(modification.type)
+          hasValueProperty(modification) &&
+          setMinimumTotalSet.has(modification.type),
       );
 
       if (otherMinimumTotalModifications.length === 0) {
@@ -546,7 +557,9 @@ function onUnsettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility(
       }
 
       const newMinimumTotal = otherMinimumTotalModifications.reduce(
-        (acc, modification) => Math.max(acc, modification.value),0,);
+        (acc, modification) => Math.max(acc, modification.value),
+        0,
+      );
 
       return {
         ...skill,
@@ -555,6 +568,230 @@ function onUnsettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility(
       };
     }),
   };
+}
+
+function onAddingExpertiseToProficiencyWithChoice(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<
+    ModificationsProp,
+    { type: "addExpertiseToProficiencyWithChoice" }
+  >,
+): CharacterSkills {
+  const skillsToChoose = target.skillsList
+    .filter((skill) => skill.hasProficiency && !skill.hasExpertise)
+    .map((skill) => skill.name);
+
+  const message = skillsToChoose.length === 0 ? "alreadyExpertise" : null;
+
+  const thisModification: Extract<
+    TrackModifications,
+    { type: "addExpertiseToProficiencyWithChoice" }
+  > = {
+    name: mod.name,
+    type: mod.type,
+    id: getModificationId(mod),
+    source: mod.source,
+  };
+
+  return {
+    ...target,
+    isAddingProficiency: {
+      isShown: true,
+      skillList: skillsToChoose,
+      type: "expertise",
+      howMany: mod.howMany,
+      message,
+      modification: thisModification,
+    },
+  };
+}
+
+function onRemovingExpertiseToProficiencyWithChoice(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<
+    ModificationsProp,
+    { type: "addExpertiseToProficiencyWithChoice" }
+  >,
+): CharacterSkills {
+  const modId = getModificationId(mod);
+
+  const shouldClosePicker =
+    target.isAddingProficiency.isShown &&
+    target.isAddingProficiency.modification.id === modId;
+
+  const updatedSkillsList = target.skillsList.map((skill) => {
+    if (
+      !skill.trackModifications.some(
+        (modification) => modification.id === modId,
+      )
+    ) {
+      return skill;
+    }
+
+    const updatedTrackModifications = removeFromTrackModificationsById(
+      skill,
+      mod,
+    );
+
+    const stillExpertise = relatedModStillActive(
+      updatedTrackModifications,
+      addExpertiseSet,
+    );
+
+    return stillExpertise
+      ? { ...skill, trackModifications: updatedTrackModifications }
+      : {
+          ...skill,
+          trackModifications: updatedTrackModifications,
+          hasExpertise: false,
+        };
+  });
+
+  return {
+    ...target,
+    skillsList: updatedSkillsList,
+    isAddingProficiency: shouldClosePicker
+      ? { isShown: false }
+      : target.isAddingProficiency,
+  };
+}
+
+function onAddingValueToAllNotProficientSkills(
+  character: Character,
+  target: CharacterSkills,
+  mod: Extract<ModificationsProp, { type: "addValueToAllNotProficientSkills" }>,
+): CharacterSkills {
+  const modId = getModificationId(mod);
+
+  let value = isTargetInterface(mod.value)
+    ? getTarget(character, mod.value)
+    : mod.value;
+
+  if (typeof value !== "number") {
+    devConsoleWarn(
+      `the mod value must be a number, being it a fetched value or a stored one`,
+      value,
+    );
+    return target;
+  }
+
+  if (mod.modifyValue) {
+    value = calculateModifyValue(value, mod.modifyValue);
+  }
+
+  const thisModification: Extract<
+    TrackModifications,
+    { type: "addValueToAllNotProficientSkills" }
+  > = {
+    name: mod.name,
+    source: mod.source,
+    id: modId,
+    type: mod.type,
+    value: value,
+  };
+
+  const updatedSkills = target.skillsList.map((skill) => {
+    const modificationIndex = skill.trackModifications.findIndex(
+      (modification) => modification.id === modId,
+    );
+
+    const isApplied = modificationIndex !== -1;
+
+    if (skill.hasProficiency) {
+      if (!isApplied) {
+        return skill;
+      }
+
+      const modAlreadyPresent = skill.trackModifications[modificationIndex];
+
+      if (!hasValueProperty(modAlreadyPresent)) {
+        devConsoleWarn(
+          "The mod already present when adding value to all not proficient skills must have value property",
+          modAlreadyPresent,
+        );
+        return skill;
+      }
+
+      return {
+        ...skill,
+        currentScore: skill.currentScore - modAlreadyPresent.value,
+        trackModifications: removeFromTrackModificationsById(skill, mod),
+      };
+    }
+
+    if (isApplied) {
+      const modAlreadyPresent = skill.trackModifications[modificationIndex];
+
+      if (!hasValueProperty(modAlreadyPresent)) {
+        devConsoleWarn(
+          "The mod already present when adding value to all not proficient skills must have value property",
+          modAlreadyPresent,
+        );
+        return skill;
+      }
+
+      const delta = value - modAlreadyPresent.value;
+
+      if (delta === 0) {
+        return skill;
+      }
+
+      const updatedTrackModifications = skill.trackModifications.map(
+        (modification, index) =>
+          index === modificationIndex ? thisModification : modification,
+      );
+
+      return {
+        ...skill,
+        currentScore: skill.currentScore + delta,
+        trackModifications: updatedTrackModifications,
+      };
+    }
+
+    return {
+      ...skill,
+      currentScore: skill.currentScore + value,
+      trackModifications: [...skill.trackModifications, thisModification],
+    };
+  });
+
+  return { ...target, skillsList: updatedSkills };
+}
+
+function onRemovingValueToAllNotProficientSkills(
+  _character: Character,
+  target: CharacterSkills,
+  mod: Extract<ModificationsProp, { type: "addValueToAllNotProficientSkills" }>,
+): CharacterSkills {
+  const modId = getModificationId(mod);
+
+  const updatedSkills = target.skillsList.map((skill) => {
+    const thisModification = skill.trackModifications.find(
+      (modification) => modification.id === modId,
+    );
+
+    if (!thisModification) {
+      return skill;
+    }
+
+    if (!hasValueProperty(thisModification)) {
+      devConsoleWarn(
+        "The Mod already Present when removing value to all not proficient skills must have a value property",
+        thisModification,
+      );
+      return skill;
+    }
+
+    return {
+      ...skill,
+      currentScore: skill.currentScore - thisModification.value,
+      trackModifications: removeFromTrackModificationsById(skill, mod),
+    };
+  });
+
+  return { ...target, skillsList: updatedSkills };
 }
 
 export const abilityAndSkillTypeResolver: AbilityAndSkillTypeResolver = {
@@ -573,5 +810,13 @@ export const abilityAndSkillTypeResolver: AbilityAndSkillTypeResolver = {
   setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility: {
     apply: onSettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility,
     revert: onUnsettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility,
+  },
+  addExpertiseToProficiencyWithChoice: {
+    apply: onAddingExpertiseToProficiencyWithChoice,
+    revert: onRemovingExpertiseToProficiencyWithChoice,
+  },
+  addValueToAllNotProficientSkills: {
+    apply: onAddingValueToAllNotProficientSkills,
+    revert: onRemovingValueToAllNotProficientSkills,
   },
 };

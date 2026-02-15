@@ -3,6 +3,7 @@ import { makeStringGuard } from "../generalGuardingFunction";
 import { type TrackModifications, isTrackModifications } from "../trackModifications.types";
 
 export const conditions = [
+  "bardicInspiration",
   "charmed",
   "enraged",
   "frightened",

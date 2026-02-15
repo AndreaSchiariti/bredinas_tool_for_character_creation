@@ -150,3 +150,7 @@ export const addResistanceSet = new Set<TrackModifications["type"]>([
 export const activateConditionSet = new Set<TrackModifications["type"]>([
   "activateConditionEvent"
 ])
+
+export const addExpertiseSet = new Set<TrackModifications["type"]>([
+  "addExpertiseToProficiencyWithChoice",
+]);

@@ -6,7 +6,7 @@ const changeAbilityReferenceMod: Extract<
 > = {
   name: "",
   type: "changeAbilityReference",
-  source: "barbarian",
+  source: "bard",
   ability: "dexterity",
   targets: [],
   limitations: [],
@@ -16,7 +16,7 @@ const changeAbilityReferenceMod: Extract<
 const addAbilityMod: Extract<ModificationsProp, { type: "addAbility" }> = {
   name: "",
   type: "addAbility",
-  source: "barbarian",
+  source: "bard",
   ability: "dexterity",
   targets: [],
   limitations: [],
@@ -29,7 +29,7 @@ const addAbilityToSkillMod: Extract<
 > = {
   name: "",
   type: "addAbilityToSkill",
-  source: "barbarian",
+  source: "bard",
   ability: "strength",
   toWhichSkill: [],
   targets: [{ target: "skills", type: "direct" }],
@@ -43,7 +43,7 @@ const addValueToAbilityMod: Extract<
 > = {
   name: "",
   type: "addValueToAbility",
-  source: "barbarian",
+  source: "bard",
   targets: [{ target: "abilities", type: "direct" }],
   toWhichFeature: [],
   value: 0,
@@ -57,7 +57,7 @@ const addValueToSkillMod: Extract<
 > = {
   name: "",
   type: "addValueToSkill",
-  source: "barbarian",
+  source: "bard",
   targets: [{ target: "abilities", type: "direct" }],
   toWhichFeature: [],
   value: 0,
@@ -71,7 +71,7 @@ const addProficiencyMod: Extract<
 > = {
   name: "",
   type: "addProficiency",
-  source: "barbarian",
+  source: "bard",
   targets: [],
   addProficiencyTo: [],
   limitations: [],
@@ -84,7 +84,7 @@ const increaseMaxLimitMod: Extract<
 > = {
   name: "",
   type: "increaseMaxLimit",
-  source: "barbarian",
+  source: "bard",
   targets: [{ target: "abilities", type: "direct" }],
   toWhichAbility: [],
   newMaxValue: 20,
@@ -95,7 +95,7 @@ const increaseMaxLimitMod: Extract<
 const addAdvantageMod: Extract<ModificationsProp, { type: "addAdvantage" }> = {
   name: "",
   type: "addAdvantage",
-  source: "barbarian",
+  source: "bard",
   features: [],
   targets: [{ target: "skills", type: "direct" }],
   limitations: [],
@@ -118,7 +118,7 @@ const AddProficiencyWithChoice: Extract<
     "survival",
   ],
   howMany: 1,
-  source: "barbarian",
+  source: "bard",
   isActive: false,
 };
 
@@ -128,7 +128,7 @@ const setAbilityScoreAsMinimumTotalToSkillsBasedOnAbilitymod: Extract<
 > = {
   name: "indomitableMight",
   type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility",
-  source: "barbarian",
+  source: "bard",
   abilityScore: {
     target: "abilityCurrentScore",
     type: "conditional",
@@ -136,6 +136,15 @@ const setAbilityScoreAsMinimumTotalToSkillsBasedOnAbilitymod: Extract<
   },
   skillsAbilityAffected: ["strength"],
   targets: [{ target: "skills", type: "direct" }],
+  isActive: false,
+};
+
+const addExpertiseToProficencyWithChoiceMod: Extract<ModificationsProp, {type: "addExpertiseToProficiencyWithChoice"}> = {
+  name: "expertise",
+  type: "addExpertiseToProficiencyWithChoice",
+  targets: [{ target: "skills", type: "direct" }],
+  howMany: 2,
+  source: "bard",
   isActive: false,
 };
 

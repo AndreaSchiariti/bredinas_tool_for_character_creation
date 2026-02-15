@@ -283,6 +283,17 @@ interface SetAbilityAsMinimumTotalToSkillBasedOnAbility extends BaseModification
   skillsAbilityAffected: Ability[]
 }
 
+interface AddExpertiseToProficiencyWithChoice extends BaseModification {
+  type: "addExpertiseToProficiencyWithChoice";
+  howMany: number;
+}
+
+interface AddValueToAllNotProficientSkills extends BaseModification {
+  type: "addValueToAllNotProficientSkills";
+  value: TargetInterface | number;
+  modifyValue ?: ModifyValue
+}
+
 export type ModificationsProp =
   | ChangeDiceMod
   | ChangeDiceBasedOnLevel
@@ -317,7 +328,9 @@ export type ModificationsProp =
   | AddProficiencyWithChoice
   | OpenIsHealingWhenHp
   | AddCountingCounter
-  | SetAbilityAsMinimumTotalToSkillBasedOnAbility;
+  | SetAbilityAsMinimumTotalToSkillBasedOnAbility
+  | AddExpertiseToProficiencyWithChoice
+  | AddValueToAllNotProficientSkills;
 
 const modificationPropsType = new Set<ModificationsProp["type"]>([
   "changeDice",
@@ -352,7 +365,9 @@ const modificationPropsType = new Set<ModificationsProp["type"]>([
   "addAdvantage",
   "openIsHealingWhenHP",
   "addCountingCounter",
-  "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility"
+  "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility",
+  "addExpertiseToProficiencyWithChoice",
+  "addValueToAllNotProficientSkills",
 ]);
 
 export function isModificationProp(data: unknown): data is ModificationsProp {

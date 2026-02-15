@@ -36,10 +36,15 @@ interface StopConcentrationAndSpellcastingConditionEvent extends BaseConditionEv
   type: "stopConcentrationAndSpellcastingConditionEvent";
 }
 
+interface AddBardicInspirationDice extends BaseConditionEvent {
+  type: "addBardicInspirationDice";
+}
+
 export type ConditionEventProp =
   | AddResistanceConditionEvent
   | addValueToAttacksBasedOnAbilityConditionEvent
-  | StopConcentrationAndSpellcastingConditionEvent;
+  | StopConcentrationAndSpellcastingConditionEvent
+  | AddBardicInspirationDice;
 
 export function isAddValueToAttacksBasedOnAbilityWithoutTracker(
   data: unknown,

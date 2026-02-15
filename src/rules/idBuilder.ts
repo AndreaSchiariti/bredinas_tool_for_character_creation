@@ -74,6 +74,10 @@ const idBuilders: IdBuilders = {
   addCountingCounter: (mod) => `${mod.name}: ${mod.source}-${mod.type}`,
   setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility: (mod) =>
     `${mod.name}: ${mod.source}-${mod.type}`,
+  addExpertiseToProficiencyWithChoice: (mod) =>
+    `${mod.name}: ${mod.source}-${mod.type}`,
+  addValueToAllNotProficientSkills: (mod) =>
+    `${mod.name}: ${mod.source}-${mod.type}`,
 };
 
 const idConditionEventBuilder: IdConditionEventBuilders = {
@@ -82,6 +86,8 @@ const idConditionEventBuilder: IdConditionEventBuilders = {
   addValueToAttacksBasedOnAbilityConditionEvent: (event) =>
     `${event.activeConditionRef.condition}: ${event.type}`,
   stopConcentrationAndSpellcastingConditionEvent: (event) =>
+    `${event.activeConditionRef.condition}: ${event.type}`,
+  addBardicInspirationDice: (event) =>
     `${event.activeConditionRef.condition}: ${event.type}`,
 };
 

@@ -116,6 +116,12 @@ export interface CharacterWeaponMastery {
   trackModifications: TrackModifications[];
 }
 
+export type CharacterBardicInspiration = {
+  isDiceSelectorIsShown : boolean
+  dice ?: DiceInterface
+  isShown ?: boolean
+}
+
 export interface CharacterReminder {
   name: string;
   id: string;

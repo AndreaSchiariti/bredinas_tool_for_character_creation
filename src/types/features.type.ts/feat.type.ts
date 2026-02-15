@@ -19,7 +19,6 @@ export interface Feat {
 export type IsAddingFeats =
   | {
       isShown: false;
-      addedBy: null;
     }
   | {
       isShown: true;

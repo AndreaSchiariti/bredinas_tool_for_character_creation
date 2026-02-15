@@ -1,4 +1,5 @@
 import type { Ability, Skill } from "./features.type.ts/abilitiesAndSkills.type";
+import type { CharacterClassesName } from "./features.type.ts/classes.type";
 import type { WeaponType } from "./items.types";
 import type { ModificationsProp } from "./ModificationProps.type";
 
@@ -6,7 +7,7 @@ export type Subclasses = "warriorOfOpenHand";
 
 export type CustomSubclasses = string & { _customSubclass: true };
 
-export type PrimaryClassAbilities = Ability | "dexterityAndWisdom";
+export type PrimaryClassAbilities = Ability | "dexterityAndWisdom" | "dexterityAndCharisma";
 
 export type CustomPrimaryClassAbilities = string & {
   _customPrimaryAbilities: true;
@@ -14,23 +15,28 @@ export type CustomPrimaryClassAbilities = string & {
 
 export type WeaponProficiencyDetails = "withLightProperty";
 
-export type ToolToChoose = "chooseAnyArtisanalOrInstrument";
+export type ToolToChoose = "chooseAnyArtisanalOrInstrument" | "chooseThreeMusicalInstruments";
 
 export type ClassFeatureDescriptionType =
   | "general"
   | "paragraphGeneral"
   | "list";
 
-export interface ClassFeatureBaseDescription {
+interface SharedDescriptionProperty {
   content: string;
+  distance?: number;
+  class?: CharacterClassesName;
+}
+
+export interface ClassFeatureBaseDescription extends SharedDescriptionProperty{
   type: ClassFeatureDescriptionType;
 }
 
-export interface ClassFeatureSubfeatureDescription {
+export interface ClassFeatureSubfeatureDescription extends SharedDescriptionProperty {
   name: string;
-  content: string;
   type: "subfeature";
 }
+
 export type ClassFeatureDescription =
   | ClassFeatureBaseDescription
   | ClassFeatureSubfeatureDescription;
@@ -49,7 +55,7 @@ export interface WeaponProficencies {
 
 export interface ClassSkillProficiencies {
   choosingNumber: number;
-  skills: Skill[];
+  skills: ("any" | Skill)[];
 }
 
 export interface ClassToolProficiencies {

@@ -22,6 +22,7 @@
     ]
   },
   "isInspired": true,
+  "bardicInspiration": { "diceSelectorIsShown": false },
   "abilities": [
     {
       "name": "strength",
@@ -103,7 +104,7 @@
         "type": "skill",
         "abilities": ["dexterity"],
         "usedAbility": "dexterity",
-        "currentAbility" : "dexterity",
+        "currentAbility": "dexterity",
         "baseAbility": "dexterity",
         "baseScore": 3,
         "currentScore": 3,

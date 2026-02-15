@@ -207,6 +207,19 @@ export interface ModificationTypeMap {
       { type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility" }
     >;
   };
+  addExpertiseToProficiencyWithChoice: {
+    character: Character;
+    target: CharacterSkills;
+    mod: Extract<
+      ModificationsProp,
+      { type: "addExpertiseToProficiencyWithChoice" }
+    >;
+  };
+  addValueToAllNotProficientSkills: {
+    character: Character,
+  target: CharacterSkills,
+  mod: Extract<ModificationsProp, { type: "addValueToAllNotProficientSkills" }>,
+  }
 }
 
 export type ModificationTypeResolver = {

@@ -1,4 +1,5 @@
 import type { ConditionEventProp } from "../../types/ConditionEventProp.type";
+import type { Condition } from "../../types/features.type.ts/conditions.type";
 
 const AddResistanceConditionEvent: Extract<
   ConditionEventProp,
@@ -43,5 +44,18 @@ const stopConcentrationAndSpellcastingConditionEvent: Extract<
     target: "conditionByName",
     type: "conditional",
     condition: "enraged",
+  },
+};
+
+const addBardicInspirationCideConditionEvent: Extract<
+  ConditionEventProp,
+  { type: "addBardicInspirationDice" }
+> = {
+  target: [{ target: "bardicInspiration", type: "direct" }],
+  type: "addBardicInspirationDice",
+  activeConditionRef: {
+    target: "conditionByName",
+    type: "conditional",
+    condition: "bardicInspiration",
   },
 };

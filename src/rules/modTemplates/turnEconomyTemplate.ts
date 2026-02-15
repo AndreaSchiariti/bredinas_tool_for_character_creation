@@ -6,7 +6,7 @@ const addTurnEconomyMod: Extract<
 > = {
   name: "",
   type: "addTurnEconomy",
-  source: "barbarian",
+  source: "bard",
   description: [],
   targets: [{ target: "turnEconomy", type: "direct" }],
   actionType: "actions",
@@ -20,10 +20,10 @@ const changeDescriptionTurnEconomyMod: Extract<
 > = {
   name: "",
   type: "changeDescriptionTurnEconomy",
-  source: "barbarian",
+  source: "bard",
   description: [],
   originalDescription: [],
-  actionId: "flurryOfBlows: barbarian-addTurnEconomy",
+  actionId: "flurryOfBlows: bard-addTurnEconomy",
   targets: [{ target: "turnEconomy", type: "direct" }],
   actionType: "actions",
   limitations: [],

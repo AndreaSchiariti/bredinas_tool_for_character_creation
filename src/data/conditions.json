@@ -1,6 +1,20 @@
 {
   "conditionsList": [
     {
+      "name": "bardicInspiration",
+      "events": [{
+        "target": [{ "target": "bardicInspiration", "type": "direct" }],
+        "type": "addBardicInspirationDice",
+        "activeConditionRef": {
+          "target": "conditionByName",
+          "type": "conditional",
+          "condition": "bardicInspiration"
+        }
+      }],
+      "isAffecting": false,
+      "isImmune": false
+    },
+    {
       "name": "charmed",
       "events": [],
       "isAffecting": false,
