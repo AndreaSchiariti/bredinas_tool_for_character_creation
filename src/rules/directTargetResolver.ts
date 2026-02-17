@@ -1,4 +1,5 @@
 import type { Character } from "../types/character.types";
+import type { RuleClass } from "../types/characterClasses.types";
 import type {
   CharacterArmorClass,
   CharacterAttacks,
@@ -43,6 +44,7 @@ export interface DirectTargetMap {
   reminder: CharacterReminder[];
   bardicInspiration: CharacterBardicInspiration;
   proficiency: number;
+  classes: RuleClass[]
 }
 
 type DirectTargetResolver = {
@@ -69,7 +71,8 @@ export const directTargetResolver: DirectTargetResolver = {
   weaponMastery: (character: Character) => character.weaponMastery,
   reminder: (character: Character) => character.reminder,
   bardicInspiration: (character: Character) => character.bardicInspiration,
-  proficiency: (character: Character) => character.proficiency
+  proficiency: (character: Character) => character.proficiency,
+  classes: (character: Character) => character.classes
 };
 
 const directTargetList: (keyof DirectTargetMap)[] = [
@@ -93,6 +96,7 @@ const directTargetList: (keyof DirectTargetMap)[] = [
   "reminder",
   "bardicInspiration",
   "proficiency",
+  "classes"
 ];
 
 export const directTargetSet = new Set<keyof DirectTargetMap>(directTargetList);

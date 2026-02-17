@@ -8,6 +8,7 @@ import type { Ability } from "./features.type.ts/abilitiesAndSkills.type";
 import type { Condition } from "./features.type.ts/conditions.type";
 import type { DamageTypes } from "./features.type.ts/damageTypes.type";
 import type { CharacterClassesName } from "./features.type.ts/classes.type";
+import type { ExchangableFeatureWithSpellSlot } from "./features.type.ts/spells.type";
 
 export type ModificationTarget =
   | keyof DirectTargetMap
@@ -32,7 +33,7 @@ interface BaseTrackModifications {
 }
 
 interface HasValueModifications extends BaseTrackModifications {
-  value: number
+  value: number;
 }
 
 interface hasDiceModifications extends BaseTrackModifications {
@@ -125,25 +126,39 @@ interface AddProficiencyWithChoiceModification extends BaseTrackModifications {
   type: "addProficiencyWithChoice";
 }
 
- interface addFetchedScoreEventModification extends HasValueModifications {
-   type: "addFetchedScoreEvent";
- }
+interface addFetchedScoreEventModification extends HasValueModifications {
+  type: "addFetchedScoreEvent";
+}
 
- interface addDiceToAttackBasedOnAbilityEventModification extends hasDiceModifications {
-   type: "addDiceToAttackBasedOnAbilityEvent";
- }
+interface addDiceToAttackBasedOnAbilityEventModification extends hasDiceModifications {
+  type: "addDiceToAttackBasedOnAbilityEvent";
+}
 
- interface SetAbilityScoreAsMinimumTotalToSkillsBasedOnAbilityModification extends HasValueModifications {
-   type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility";
- }
+interface SetAbilityScoreAsMinimumTotalToSkillsBasedOnAbilityModification extends HasValueModifications {
+  type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility";
+}
 
- interface AddExpertiseToProficiencynWithChoiceModification extends BaseTrackModifications {
-   type: "addExpertiseToProficiencyWithChoice";
- }
+interface AddExpertiseToProficiencynWithChoiceModification extends BaseTrackModifications {
+  type: "addExpertiseToProficiencyWithChoice";
+}
 
- interface AddValueToAllNotProficientSkills extends HasValueModifications {
-   type: "addValueToAllNotProficientSkills";
- } 
+interface AddValueToAllNotProficientSkillsModification extends HasValueModifications {
+  type: "addValueToAllNotProficientSkills";
+}
+
+interface AddExchangeToSpellcastingModification extends BaseTrackModifications {
+  type: "addExchangeToSpellcasting";
+  exchange: ExchangableFeatureWithSpellSlot;
+}
+
+interface AddClassSpellListModification extends BaseTrackModifications {
+  type: "addClassSpellList";
+  classSpellList: CharacterClassesName
+}
+
+interface AddSpellToClassSpellListModification extends BaseTrackModifications {
+  type: "addSpellToClassSpellList";
+}
 
 export type TrackModifications =
   | ChangeDiceTrackModifications
@@ -171,7 +186,10 @@ export type TrackModifications =
   | addDiceToAttackBasedOnAbilityEventModification
   | SetAbilityScoreAsMinimumTotalToSkillsBasedOnAbilityModification
   | AddExpertiseToProficiencynWithChoiceModification
-  | AddValueToAllNotProficientSkills
+  | AddValueToAllNotProficientSkillsModification
+  | AddExchangeToSpellcastingModification
+  | AddClassSpellListModification
+  | AddSpellToClassSpellListModification;
 
 const trackModificationsTypeSet = new Set<TrackModifications["type"]>([
   "addAbility",
@@ -199,6 +217,9 @@ const trackModificationsTypeSet = new Set<TrackModifications["type"]>([
   "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility",
   "addExpertiseToProficiencyWithChoice",
   "addValueToAllNotProficientSkills",
+  "addExchangeToSpellcasting",
+  "addClassSpellList",
+  "addSpellToClassSpellList",
 ]);
 
 export function isTrackModifications(
@@ -241,7 +262,12 @@ export interface HasCurrentQuantityAndMaxQuantity {
   maxQuantity: number;
 }
 
-export type TrackModificationWithValue = Extract<TrackModifications, {value: number}>
+export type TrackModificationWithValue = Extract<
+  TrackModifications,
+  { value: number }
+>;
 
-export type TrackModificationWithDice = Extract<TrackModifications, {dice: DiceInterface}>
-
+export type TrackModificationWithDice = Extract<
+  TrackModifications,
+  { dice: DiceInterface }
+>;

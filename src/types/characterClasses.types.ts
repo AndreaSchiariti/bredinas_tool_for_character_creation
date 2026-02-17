@@ -31,5 +31,5 @@ export interface RuleClass {
   startingEquipment: CharacterStartingEquipment;
   becomingClass: BecomingClass;
   classFeature: CharacterModifications[];
-  spellcasting?: ClassSpellcasting[];
+  spellcasting: ClassSpellcasting;
 }

@@ -1,5 +1,9 @@
 import type { Character } from "../../types/character.types";
-import type { CountersInterface } from "../../types/counters.types";
+import {
+  hasReplenishMaxAndRemainingUses,
+  type CountersInterface,
+} from "../../types/counters.types";
+import { isTargetInterface } from "../../types/generalGuardingFunction";
 import { isLevel } from "../../types/generalRules.types";
 import type { ModificationsProp } from "../../types/ModificationProps.type";
 import { hasOnlyNumbers } from "../../types/targets.types";
@@ -19,6 +23,7 @@ type GeneralCounterTypeResolver = Pick<
   | "addDifficultyClassCounter"
   | "addValueBasedOnLevelCounter"
   | "addCountingCounter"
+  | "addAdditionalReplenishToCounter"
 >;
 
 function onAddingTracerCounter(
@@ -29,7 +34,7 @@ function onAddingTracerCounter(
   const counterId = getModificationId(mod);
 
   if (counterAlreadyPresent(target, counterId)) {
-    return target
+    return target;
   }
 
   return [
@@ -78,7 +83,7 @@ function onAddingValueBasedOnLevelCounter(
       source: mod.source,
       levelRef: mod.levelRef,
       value: value,
-      valueBasedOnLevel: mod.valueOnLevel
+      valueBasedOnLevel: mod.valueOnLevel,
     },
   ];
 }
@@ -104,7 +109,7 @@ function onAddingTracerBasedOnLevelCounter(
     return target;
   }
 
-  const additionalReplenish = mod.additionalReplenish
+  const additionalReplenish = mod.additionalReplenish;
 
   const uses = mod.usageOnLevel[`level${level}`];
 
@@ -120,7 +125,7 @@ function onAddingTracerBasedOnLevelCounter(
       remainingUses: uses,
       replenish: mod.replenish,
       levelRef: mod.levelRef,
-      additionalReplenish
+      additionalReplenish,
     },
   ];
 }
@@ -240,25 +245,99 @@ function onAddingCountingCounter(
   _character: Character,
   target: CountersInterface[],
   mod: Extract<ModificationsProp, { type: "addCountingCounter" }>,
-) : CountersInterface[] {
+): CountersInterface[] {
   const counterId = getModificationId(mod);
 
   if (counterAlreadyPresent(target, counterId)) {
     return target;
   }
 
-  const countingCounter: Extract<CountersInterface, {type: "countingCounter"}> = {
+  const countingCounter: Extract<
+    CountersInterface,
+    { type: "countingCounter" }
+  > = {
     name: mod.name,
     type: "countingCounter",
     id: counterId,
     value: mod.startingValue,
     startingValue: mod.startingValue,
     source: mod.source,
-    reset: mod.reset
+    reset: mod.reset,
+  };
+
+  return [...target, countingCounter];
+}
+
+function onAddingAdditionalReplenishToCounter(
+  character: Character,
+  target: CountersInterface[],
+  mod: Extract<ModificationsProp, { type: "addAdditionalReplenishToCounter" }>,
+): CountersInterface[] {
+  const counterToAddReplenish = getTarget(character, mod.counter);
+
+  if (!hasReplenishMaxAndRemainingUses(counterToAddReplenish)) {
+    devConsoleWarn(
+      `To add the Additional Replenish to a counter it must be replenishable`,
+      counterToAddReplenish,
+    );
+    return target;
   }
 
-  return [...target, countingCounter]
-};
+  const additionalReplenish = mod.additionalReplenish;
+
+  const additionalReplenishValue = isTargetInterface(additionalReplenish.value)
+    ? getTarget(character, additionalReplenish.value)
+    : additionalReplenish.value;
+
+  if (
+    typeof additionalReplenishValue !== "number" &&
+    additionalReplenishValue !== "full"
+  ) {
+    devConsoleWarn(
+      `The value of the additional replenish should be "full" or a number`,
+      additionalReplenishValue,
+    );
+    return target;
+  }
+
+  return target.map((counter) => {
+    if (counter.id !== counterToAddReplenish.id) {
+      return counter;
+    }
+
+    return {
+      ...counter,
+      additionalReplenish: {
+        replenish: additionalReplenish.replenish,
+        value: additionalReplenishValue,
+      },
+    };
+  });
+}
+
+function onRemovingAdditionalReplenishToCounter(
+  character: Character,
+  target: CountersInterface[],
+  mod: Extract<ModificationsProp, { type: "addAdditionalReplenishToCounter" }>,
+): CountersInterface[] {
+   const counterToRemoveReplenish = getTarget(character, mod.counter);
+
+   if (!hasReplenishMaxAndRemainingUses(counterToRemoveReplenish)) {
+     devConsoleWarn(
+       `To remove the Additional Replenish to a counter it must be replenishable`,
+       counterToRemoveReplenish,
+     );
+     return target;
+   }
+
+   return target.map(counter => {
+    if (counter.id !== counterToRemoveReplenish.id) {
+      return counter
+    }
+
+    return {...counter, additionalReplenish: undefined}
+   })
+}
 
 export const generalCounterTypeResolver: GeneralCounterTypeResolver = {
   addTracerCounter: { apply: onAddingTracerCounter, revert: onRemovingCounter },
@@ -280,10 +359,14 @@ export const generalCounterTypeResolver: GeneralCounterTypeResolver = {
   },
   addValueBasedOnLevelCounter: {
     apply: onAddingValueBasedOnLevelCounter,
-    revert: onRemovingCounter
+    revert: onRemovingCounter,
   },
   addCountingCounter: {
     apply: onAddingCountingCounter,
-    revert: onRemovingCounter
+    revert: onRemovingCounter,
+  },
+  addAdditionalReplenishToCounter: {
+    apply: onAddingAdditionalReplenishToCounter,
+    revert: onRemovingAdditionalReplenishToCounter
   }
 };

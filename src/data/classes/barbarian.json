@@ -58,9 +58,21 @@
     ]
   },
   "becomingClass": {
-      "level1": ["gainAllTraits", "gainLevel1Features"],
-      "multiclass": ["gainMulticlassBarbarian", "gainLevel1Features"]
-    },
+    "level1": ["gainAllTraits", "gainLevel1Features"],
+    "multiclass": ["gainMulticlassBarbarian", "gainLevel1Features"]
+  },
+  "spellcasting": {
+    "ability": [],
+    "usedAbility": null,
+    "cantripKnown": 0,
+    "preparedSpells": 0,
+    "classSpellList": [],
+    "classLevelDivider": null,
+    "spells": { "spellList": [], "isAddingSpell": { "isShown": false } },
+    "addingSpellAttackValue": 0,
+    "addingSaveDCValue": 0,
+    "trackModifications": []
+  },
   "classFeature": [
     {
       "name": "rage",
@@ -221,7 +233,7 @@
           ],
           "targets": [{ "target": "turnEconomy", "type": "direct" }],
           "actionType": "bonusActions",
-          "limitations" : ["wearingHeavyArmor"],
+          "limitations": ["wearingHeavyArmor"],
           "isActive": false
         },
         {

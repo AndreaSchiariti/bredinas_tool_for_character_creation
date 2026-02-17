@@ -80,7 +80,19 @@ export interface CharacterStartingEquipment {
   b: StartingEquipmentSingleItem[];
 }
 
-type GainMulticlass = "gainMulticlassBarbarian" | "gainMulticlassMonk";
+type GainMulticlass =
+  | "gainMulticlassBarbarian"
+  | "gainMulticlassBard"
+  | "gainMulticlassCleric"
+  | "gainMulticlassDruid"
+  | "gainMulticlassFighter"
+  | "gainMulticlassMonk"
+  | "gainMulticlassPaladin"
+  | "gainMulticlassRanger"
+  | "gainMulticlassRogue"
+  | "gainMulticlassSorcerer"
+  | "gainMulticlassWarlock"
+  | "gainMulticlassWizard";
 
 export interface BecomingClass {
   level1: ("gainAllTraits" | "gainLevel1Features")[];

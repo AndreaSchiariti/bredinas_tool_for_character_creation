@@ -68,7 +68,10 @@
     "classSpellList": ["bard"],
     "classLevelDivider": 1,
     "canCastLevel": 1,
-    "spells": []
+    "spells": { "spellList": [], "isAddingSpell": { "isShown": false } },
+    "addingSpellAttackValue": 0,
+    "addingSaveDCValue": 0,
+    "trackModifications": []
   },
   "classFeature": [
     {
@@ -138,7 +141,7 @@
         {
           "name": "bardicDie",
           "type": "addDiceBasedOnLevelCounter",
-          "source": "barbarian",
+          "source": "bard",
           "diceOnLevel": {
             "level1": { "face": 6, "count": 1 },
             "level2": { "face": 6, "count": 1 },
@@ -164,7 +167,7 @@
           "levelRef": {
             "target": "classLevel",
             "type": "conditional",
-            "condition": "barbarian"
+            "condition": "bard"
           },
           "targets": [{ "target": "counters", "type": "direct" }],
           "limitations": [],
@@ -343,6 +346,325 @@
           "value": { "target": "proficiency", "type": "direct" },
           "modifyValue": { "operation": "divide", "value": 2 },
           "source": "bard",
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 4,
+      "description": [
+        {
+          "content": "abilityScoreImprovementbard",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "bard",
+          "level": 4,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "fontOfInspiration",
+      "level": 5,
+      "description": [
+        {
+          "content": "firstFontOfInspiration",
+          "type": "general"
+        },
+        {
+          "content": "secondFontOfInspiration",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "fontOfInspiration",
+          "type": "addTurnEconomy",
+          "source": "bard",
+          "description": [
+            {
+              "content": "firstFontOfInspiration",
+              "type": "general"
+            },
+            {
+              "content": "secondFontOfInspiration",
+              "type": "paragraphGeneral"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "freeActions",
+          "isActive": false
+        },
+        {
+          "name": "fontOfInspiration",
+          "type": "addAdditionalReplenishToCounter",
+          "source": "bard",
+          "additionalReplenish": { "replenish": "shortRest", "value": "full" },
+          "counter": {
+            "target": "counterById",
+            "type": "conditional",
+            "condition": "bardicInspiration: bard-addTracerTrackerCounter"
+          },
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "isActive": false
+        },
+        {
+          "name": "fontOfInspiration",
+          "type": "addExchangeToSpellcasting",
+          "source": "bard",
+          "exchange": "bardicInspiration",
+          "targets": [{ "target": "spellcasting", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "countercharm",
+      "level": 7,
+      "description": [
+        {
+          "content": "countercharm",
+          "type": "general",
+          "distance": 30
+        }
+      ],
+      "modifications": [
+        {
+          "name": "countercharm",
+          "type": "addTurnEconomy",
+          "source": "bard",
+          "description": [
+            {
+              "content": "countercharm",
+              "type": "general",
+              "distance": 30
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "reactions",
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 8,
+      "description": [
+        {
+          "content": "abilityScoreImprovementbard",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "bard",
+          "level": 8,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "expertise",
+      "level": 9,
+      "description": [
+        {
+          "content": "firstBardExpertise",
+          "type": "general"
+        },
+        {
+          "content": "secondBardExpertise",
+          "type": "paragraphGeneral"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "secondExpertise",
+          "type": "addExpertiseToProficiencyWithChoice",
+          "targets": [{ "target": "skills", "type": "direct" }],
+          "howMany": 2,
+          "source": "bard",
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "magicalSecret",
+      "level": 10,
+      "description": [
+        {
+          "content": "magicalSecret",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "magicalSecret",
+          "type": "addClassSpellList",
+          "targets": [{ "target": "classes", "type": "direct" }],
+          "source": "bard",
+          "class": "bard",
+          "classSpellList": "cleric",
+          "isActive": false
+        },
+        {
+          "name": "magicalSecret",
+          "type": "addClassSpellList",
+          "targets": [{ "target": "classes", "type": "direct" }],
+          "source": "bard",
+          "class": "bard",
+          "classSpellList": "druid",
+          "isActive": false
+        },
+        {
+          "name": "magicalSecret",
+          "type": "addClassSpellList",
+          "targets": [{ "target": "classes", "type": "direct" }],
+          "source": "bard",
+          "class": "bard",
+          "classSpellList": "wizard",
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 12,
+      "description": [
+        {
+          "content": "abilityScoreImprovementbard",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "bard",
+          "level": 16,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "abilityScoreImprovement",
+      "level": 16,
+      "description": [
+        {
+          "content": "abilityScoreImprovementbard",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "bard",
+          "level": 16,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "superiorInspiration",
+      "level": 18,
+      "description": [
+        {
+          "content": "superiorInspiration",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "superiorInspiration",
+          "type": "addTurnEconomy",
+          "source": "bard",
+          "description": [
+            {
+              "content": "superiorInspiration",
+              "type": "general"
+            }
+          ],
+          "targets": [{ "target": "turnEconomy", "type": "direct" }],
+          "actionType": "freeActions",
+          "isActive": false
+        },
+        {
+          "name": "superiorInspiration",
+          "type": "addEventWithTriggerCounter",
+          "source": "bard",
+          "events": [
+            {
+              "target": [{ "type": "direct", "target": "counters" }],
+              "type": "replenishToValueCounter",
+              "targetId": "bardicInspiration: bard-addTracerTrackerCounter",
+              "value": 2
+            }
+          ],
+          "trigger": "whenRollingInitiative",
+          "targets": [{ "target": "counters", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "epicBoon",
+      "level": 19,
+      "description": [
+        {
+          "content": "bardEpicBoon",
+          "type": "general"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "abilityScoreImprovement",
+          "type": "addFeat",
+          "source": "bard",
+          "level": 19,
+          "targets": [{ "target": "feats", "type": "direct" }],
+          "isActive": false
+        }
+      ]
+    },
+    {
+      "name": "wordsOfCreation",
+      "level": 20,
+      "description": [
+        {
+          "content": "wordsOfCreation",
+          "type": "general",
+          "distance": 10
+        }
+      ],
+      "modifications": [
+        {
+          "name": "wordsOfCreation",
+          "type": "addSpellToClassSpellList",
+          "source": "bard",
+          "class": "bard",
+          "targets": [{ "target": "classes", "type": "direct" }],
+          "spell": { "name": "powerWordHeal", "level": 9 },
+          "isActive": false
+        },
+        {
+          "name": "wordsOfCreation",
+          "type": "addSpellToClassSpellList",
+          "source": "bard",
+          "class": "bard",
+          "targets": [{ "target": "classes", "type": "direct" }],
+          "spell": { "name": "powerWordKill", "level": 9 },
           "isActive": false
         }
       ]

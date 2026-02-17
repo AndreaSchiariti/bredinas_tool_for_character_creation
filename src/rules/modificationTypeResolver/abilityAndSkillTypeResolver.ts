@@ -8,6 +8,7 @@ import { type HasAbilitiesWithTracking } from "../../types/targets.types";
 import {
   getModificationId,
   removeFromTrackModificationsById,
+  removeFromTrackModificationsByMod,
 } from "../idBuilder";
 import type { ModificationTypeResolver } from "../modificationTypeResolver";
 import type { CharacterSkills } from "../../types/features.type.ts/abilitiesAndSkills.type";
@@ -156,7 +157,7 @@ function onRemovingAbility(
     (ability) => ability === mod.ability,
   );
 
-  const updatedTrackModifications = removeFromTrackModificationsById(
+  const updatedTrackModifications = removeFromTrackModificationsByMod(
     target,
     mod,
   );
@@ -197,7 +198,7 @@ function onRemovingAbilityToSkill(
 
       const updatedTrackModifications = removeFromTrackModificationsById(
         skill,
-        mod,
+        modId,
       );
 
       if (abilityIndex === -1) {
@@ -271,7 +272,7 @@ function onRemovingProficiency(
         return skill;
       }
 
-      const updatedTrackModifications = removeFromTrackModificationsById(
+      const updatedTrackModifications = removeFromTrackModificationsByMod(
         skill,
         mod,
       );
@@ -352,7 +353,7 @@ function onRemovingProficiencyWithChoice(
 
     const updatedTrackModifications = removeFromTrackModificationsById(
       skill,
-      mod,
+      modId,
     );
 
     const stillProficient =
@@ -428,7 +429,7 @@ function onRemovingAdvantage(
         return skill;
       }
 
-      const updatedTrackModifications = removeFromTrackModificationsById(
+      const updatedTrackModifications = removeFromTrackModificationsByMod(
         skill,
         mod,
       );
@@ -539,7 +540,7 @@ function onUnsettingAbilityScoreAsMinimumTotalToSkillsBasedOnAbility(
 
       const updatedTrackModifications = removeFromTrackModificationsById(
         skill,
-        mod,
+        modId,
       );
 
       const otherMinimumTotalModifications = updatedTrackModifications.filter(
@@ -632,7 +633,7 @@ function onRemovingExpertiseToProficiencyWithChoice(
 
     const updatedTrackModifications = removeFromTrackModificationsById(
       skill,
-      mod,
+      modId,
     );
 
     const stillExpertise = relatedModStillActive(
@@ -717,7 +718,7 @@ function onAddingValueToAllNotProficientSkills(
       return {
         ...skill,
         currentScore: skill.currentScore - modAlreadyPresent.value,
-        trackModifications: removeFromTrackModificationsById(skill, mod),
+        trackModifications: removeFromTrackModificationsById(skill, modId),
       };
     }
 
@@ -787,7 +788,7 @@ function onRemovingValueToAllNotProficientSkills(
     return {
       ...skill,
       currentScore: skill.currentScore - thisModification.value,
-      trackModifications: removeFromTrackModificationsById(skill, mod),
+      trackModifications: removeFromTrackModificationsById(skill, modId),
     };
   });
 

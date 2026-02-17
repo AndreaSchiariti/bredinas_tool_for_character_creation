@@ -1,10 +1,19 @@
-import type { ValueBasedOnLevel } from "../ModificationProps.type";
 import type { TrackModifications } from "../trackModifications.types";
 import type { Ability } from "./abilitiesAndSkills.type";
-import type { CharacterClassesName } from "./classes.type";
+import type {
+  CharacterClassesName,
+  SpellcastingClassesName,
+} from "./classes.type";
 
 export const schoolsOfMagic = [
-  "abjuration, conjuration, divination, enchantment, evocation, illusion, necromancy, transmutation",
+  "abjuration",
+  "conjuration",
+  "divination",
+  "enchantment",
+  "evocation",
+  "illusion",
+  "necromancy",
+  "transmutation",
 ] as const;
 
 export type SchoolsOfMagic = (typeof schoolsOfMagic)[number];
@@ -31,13 +40,28 @@ export interface SpellComponents {
   material: boolean;
 }
 
-export interface SpellInterface {
+export interface SpellInterfaceBase {
   name: string;
   school: SchoolsOfMagic;
   level: SpellLevel;
   class: CharacterClassesName[];
   preferredAbility?: Ability;
+  trackModifications: TrackModifications[];
 }
+
+export interface SpellInterfacePrepared extends SpellInterfaceBase {
+  isPrepared: boolean;
+  isAlwaysPrepared: false;
+}
+
+export interface SpellInterfaceAlwaysPrepared extends SpellInterfaceBase {
+  isPrepared: false;
+  isAlwaysPrepared: true;
+}
+
+export type SpellInterface =
+  | SpellInterfacePrepared
+  | SpellInterfaceAlwaysPrepared;
 
 export interface SpellLevelInterface {
   level: SpellLevel;
@@ -60,24 +84,34 @@ export interface SpellList {
 }
 
 export interface Spellcasting {
-  cantripKnown?: number;
-  preparedSpells?: number;
-  spellList: SpellList[];
+  cantripKnown: number;
+  preparedSpells: number;
+  spells: SpellList;
   ability: Ability[];
-  usedAbility: Ability;
+  usedAbility: Ability | null;
+  addingSpellAttackValue: number;
+  addingSaveDCValue: number;
+  trackModifications: TrackModifications[];
 }
 
 export interface CharacterSpellcasting extends Spellcasting {
   spellsSlot?: SpellsSlot;
   canCast: SpellComponents;
   isConcentration: boolean;
-  trackModifications: TrackModifications[];
+  exchange: ExchangableFeatureWithSpellSlot[];
 }
 
+export type ExchangableFeatureWithSpellSlot = "bardicInspiration";
+
 export interface ClassSpellcasting extends Spellcasting {
-  classSpellList: CharacterClassesName[];
-  classLevelDivider?: 1 | 2 | 3;
+  classSpellList: SpellcastingClassesName[];
+  classLevelDivider?: 1 | 2 | 3 | null;
   maxPactMagicSlots?: number;
   currentPactMagicSlots?: number;
   canCastLevel?: number;
+}
+
+export interface SpellNameAndLevel {
+  name: string;
+  level: SpellLevel;
 }

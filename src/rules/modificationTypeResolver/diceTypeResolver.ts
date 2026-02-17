@@ -14,7 +14,7 @@ import {
 import { devConsoleWarn } from "../../utils/general";
 import {
   getModificationId,
-  removeFromTrackModificationsById,
+  removeFromTrackModificationsByMod,
 } from "../idBuilder";
 import { getTarget } from "../modificationsExecution";
 import type { ModificationTypeResolver } from "../modificationTypeResolver";
@@ -82,7 +82,7 @@ function onChangeDiceBasedOnLevel(
   };
 
   const cleanedTrackModification: TrackModifications[] =
-    removeFromTrackModificationsById(target, mod);
+    removeFromTrackModificationsByMod(target, mod);
 
   const newTrackModifications: TrackModifications[] = [
     ...cleanedTrackModification,
@@ -109,7 +109,7 @@ function onChangeBackDice(
   return {
     ...target,
     currentDice: target.baseDice,
-    trackModifications: removeFromTrackModificationsById(target, mod),
+    trackModifications: removeFromTrackModificationsByMod(target, mod),
   };
 }
 

@@ -154,3 +154,7 @@ export const activateConditionSet = new Set<TrackModifications["type"]>([
 export const addExpertiseSet = new Set<TrackModifications["type"]>([
   "addExpertiseToProficiencyWithChoice",
 ]);
+
+export const addSpellToSpellListSet = new Set<TrackModifications["type"]>([
+  "addSpellToClassSpellList",
+]);

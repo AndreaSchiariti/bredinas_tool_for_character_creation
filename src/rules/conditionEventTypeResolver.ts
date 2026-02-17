@@ -188,7 +188,7 @@ function onAddingValueToAttacksBasedOnAbilityConditionEvent(
       return {
         ...attack,
         addingValues: attack.addingValues - registeredModification.value,
-        trackModifications: removeFromTrackModificationsById(attack, event),
+        trackModifications: removeFromTrackModificationsById(attack, eventId),
       };
     }
 
@@ -259,7 +259,7 @@ function onStoppingConcentrationAndSpellcastingConditionEvent(
 
     const updatedTrackModification = removeFromTrackModificationsById(
       target,
-      event,
+      eventId,
     );
 
     return {

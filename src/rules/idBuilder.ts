@@ -78,6 +78,13 @@ const idBuilders: IdBuilders = {
     `${mod.name}: ${mod.source}-${mod.type}`,
   addValueToAllNotProficientSkills: (mod) =>
     `${mod.name}: ${mod.source}-${mod.type}`,
+  addAdditionalReplenishToCounter: (mod) =>
+    `${mod.name}: ${mod.source}-${mod.type}`,
+  addExchangeToSpellcasting: (mod) => `${mod.name}: ${mod.source}-${mod.type}`,
+  addClassSpellList: (mod) =>
+    `${mod.name}: ${mod.source}-${mod.type}-${mod.classSpellList}`,
+  addSpellToClassSpellList: (mod) =>
+    `${mod.name}: ${mod.source}-${mod.type}-${mod.spell.name}-${mod.spell.level}`,
 };
 
 const idConditionEventBuilder: IdConditionEventBuilders = {
@@ -103,22 +110,29 @@ export function getConditionEventId<K extends ConditionEventProp["type"]>(
   return idConditionEventBuilder[event.type](event);
 }
 
-export function removeFromTrackModificationsById(
+export function removeFromTrackModificationsByMod(
   target: HasTrackModifications,
   mod: ModificationsProp,
 ): TrackModifications[];
 
-export function removeFromTrackModificationsById(
+export function removeFromTrackModificationsByMod(
   target: HasTrackModifications,
   mod: ConditionEventProp,
 ): TrackModifications[];
 
-export function removeFromTrackModificationsById(
+export function removeFromTrackModificationsByMod(
   target: HasTrackModifications,
   mod: ModificationsProp | ConditionEventProp,
 ): TrackModifications[] {
   const id = isModificationProp(mod)
     ? getModificationId(mod)
     : getConditionEventId(mod);
-  return [...target.trackModifications].filter((element) => element.id !== id);
+  return target.trackModifications.filter((element) => element.id !== id);
+}
+
+export function removeFromTrackModificationsById(
+  target: HasTrackModifications,
+  id: string,
+): TrackModifications[] {
+  return target.trackModifications.filter((element) => element.id !== id);
 }
