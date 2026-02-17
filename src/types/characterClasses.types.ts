@@ -15,6 +15,7 @@ import type {} from "./trackModifications.types";
 import type { DiceFace } from "./generalRules.types";
 import type { SavingThrow } from "./features.type.ts/abilitiesAndSkills.type";
 import type { CharacterClassesName } from "./features.type.ts/classes.type";
+import type { ClassSpellcasting } from "./features.type.ts/spells.type";
 
 export interface RuleClass {
   name: CharacterClassesName;
@@ -30,5 +31,5 @@ export interface RuleClass {
   startingEquipment: CharacterStartingEquipment;
   becomingClass: BecomingClass;
   classFeature: CharacterModifications[];
-  spellcasting?: [];
+  spellcasting: ClassSpellcasting;
 }

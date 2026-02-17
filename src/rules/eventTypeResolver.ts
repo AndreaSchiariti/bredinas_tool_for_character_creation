@@ -8,7 +8,6 @@ import type {
 import {
   hasReplenishMaxAndRemainingUses,
   isContinuousEventWithTriggerCounter,
-  isReplanishableCounter,
   type CountersInterface,
 } from "../types/counters.types";
 import type {
@@ -41,6 +40,7 @@ import {
   modificationIsApplied,
   relatedModStillActive,
 } from "./characterCalculations";
+import { removeFromTrackModificationsById } from "./idBuilder";
 import { isBlockedByInternalFeatureLimitation } from "./internalFeatureLimitation";
 import { diceAndNumbersToString, getTarget } from "./modificationsExecution";
 
@@ -125,7 +125,7 @@ function onReplenishEvent(
 ): EventReturn<CountersInterface[]> {
   return {
     result: target.map((counter) => {
-      if (isReplanishableCounter(counter) && counter.id === event.targetId) {
+      if (hasReplenishMaxAndRemainingUses(counter) && counter.id === event.targetId) {
         return {
           ...counter,
           remainingUses: counter.maxUses,
@@ -145,7 +145,7 @@ function onReplenishToValueEvent(
   return {
     result: target.map((counter) => {
       if (
-        isReplanishableCounter(counter) &&
+        hasReplenishMaxAndRemainingUses(counter) &&
         counter.id === event.targetId &&
         counter.remainingUses < event.value
       ) {
@@ -327,9 +327,7 @@ function onAddingResistances(
       }
 
       if (!eventActive) {
-        updatedTrackModification = updatedTrackModification.filter(
-          (mod) => !(mod.id === counterRef.id && mod.type === event.type),
-        );
+        updatedTrackModification = removeFromTrackModificationsById(damageType, counterRef.id);
       }
 
       const isStillResistant = relatedModStillActive(damageType.trackModifications, addResistanceSet);
@@ -389,9 +387,7 @@ function onActivatingConditionEvent(
         }
 
         if (!eventActive) {
-          updatedTrackModification = updatedTrackModification.filter(
-            (mod) => !(mod.id === counterRef.id && mod.type === event.type),
-          );
+          updatedTrackModification = removeFromTrackModificationsById(condition, counterRef.id);
         }
 
         const conditionStillActive = relatedModStillActive(updatedTrackModification, activateConditionSet);
@@ -443,9 +439,7 @@ function onAddingAdvantageEvent(
           }
 
           if (!isActive) {
-            const updatedTrackModification = feature.trackModifications.filter(
-              (mod) => mod.id !== counterRef.id,
-            );
+            const updatedTrackModification = removeFromTrackModificationsById(feature, counterRef.id);
 
             const stillAdvantage = relatedModStillActive(
               updatedTrackModification,
@@ -490,9 +484,7 @@ function onAddingAdvantageEvent(
       }
 
       if (!isActive) {
-        const updatedTrackModification = feature.trackModifications.filter(
-          (mod) => mod.id !== counterRef.id,
-        );
+        const updatedTrackModification = removeFromTrackModificationsById(feature, counterRef.id);
 
         const stillAdvantage = relatedModStillActive(
           updatedTrackModification,

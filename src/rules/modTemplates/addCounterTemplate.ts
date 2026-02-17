@@ -1,12 +1,50 @@
 import type { ModificationsProp } from "../../types/ModificationProps.type";
 
+const addValueBasedOnLevelCounterMod: Extract<
+  ModificationsProp,
+  { type: "addValueBasedOnLevelCounter" }
+> = {
+  name: "",
+  type: "addValueBasedOnLevelCounter",
+  source: "bard",
+  valueOnLevel: {
+    level1: 2,
+    level2: 2,
+    level3: 2,
+    level4: 2,
+    level5: 2,
+    level6: 2,
+    level7: 2,
+    level8: 2,
+    level9: 3,
+    level10: 3,
+    level11: 3,
+    level12: 3,
+    level13: 3,
+    level14: 3,
+    level15: 3,
+    level16: 4,
+    level17: 4,
+    level18: 4,
+    level19: 4,
+    level20: 4,
+  },
+  levelRef: {
+    target: "classLevel",
+    type: "conditional",
+    condition: "bard",
+  },
+  targets: [{ target: "counters", type: "direct" }],
+  isActive: false,
+};
+
 const addContinuousEventWithTriggerCounterMod: Extract<
   ModificationsProp,
   { type: "addContinuousEventWithTriggerCounter" }
 > = {
   name: "",
   type: "addContinuousEventWithTriggerCounter",
-  source: "barbarian",
+  source: "bard",
   events: [],
   trigger: "",
   targets: [{ target: "counters", type: "direct" }],
@@ -19,7 +57,7 @@ const addTracerTrackerCounterMod: Extract<
 > = {
   name: "",
   type: "addTracerTrackerCounter",
-  source: "barbarian",
+  source: "bard",
   targetsToTrack: [],
   targets: [],
   limitations: [],
@@ -33,7 +71,7 @@ const addTracerEventCounterMod: Extract<
 > = {
   name: "",
   type: "addTracerEventCounter",
-  source: "barbarian",
+  source: "bard",
   usages: 0,
   events: [],
   targets: [],
@@ -48,7 +86,7 @@ const addValueTrackerCounterMod: Extract<
 > = {
   name: "",
   type: "addValueTrackerCounter",
-  source: "barbarian",
+  source: "bard",
   valuesToTrack: [],
   targets: [],
   limitations: [],
@@ -61,7 +99,7 @@ const addEventWithTriggerCounterMod: Extract<
 > = {
   name: "",
   type: "addEventWithTriggerCounter",
-  source: "barbarian",
+  source: "bard",
   events: [],
   trigger: "",
   targets: [],
@@ -75,7 +113,7 @@ const addDifficultyClassCounterMod: Extract<
 > = {
   name: "",
   type: "addDifficultyClassCounter",
-  source: "barbarian",
+  source: "bard",
   ability: "wisdom",
   targets: [],
   limitations: [],
@@ -88,7 +126,7 @@ const addCountingCounterMod: Extract<
 > = {
   name: "",
   type: "addCountingCounter",
-  source: "barbarian",
+  source: "bard",
   targets: [{ type: "direct", target: "counters" }],
   startingValue: 1,
   reset: "shortRest",

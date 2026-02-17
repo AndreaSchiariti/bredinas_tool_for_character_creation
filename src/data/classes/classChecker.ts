@@ -63,6 +63,18 @@ const characterClass: RuleClass = {
     level1: ["gainAllTraits", "gainLevel1Features"],
     multiclass: ["gainMulticlassBarbarian", "gainLevel1Features"],
   },
+  spellcasting: {
+    ability: [],
+    usedAbility: null,
+    cantripKnown: 0,
+    preparedSpells: 0,
+    classSpellList: [],
+    classLevelDivider: null,
+    spells: { spellList: [], isAddingSpell: { isShown: false } },
+    addingSpellAttackValue: 0,
+    addingSaveDCValue: 0,
+    trackModifications: [],
+  },
   classFeature: [
     {
       name: "rage",

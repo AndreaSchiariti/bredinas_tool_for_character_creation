@@ -111,7 +111,9 @@ interface SkillProficiencyWithClass extends SkillBase {
 
 export type SkillProp = SkillProficiencyNoClass | SkillProficiencyWithClass;
 
-type IsAddingProficiencyTrackModTypes = { type: "addProficiencyWithChoice" };
+type IsAddingProficiencyTrackModTypes =
+  | { type: "addProficiencyWithChoice" }
+  | { type: "addExpertiseToProficiencyWithChoice" };
 
 type IsAddingProficiency =
   | {

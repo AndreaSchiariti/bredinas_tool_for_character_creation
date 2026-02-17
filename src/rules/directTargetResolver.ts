@@ -1,7 +1,9 @@
 import type { Character } from "../types/character.types";
+import type { RuleClass } from "../types/characterClasses.types";
 import type {
   CharacterArmorClass,
   CharacterAttacks,
+  CharacterBardicInspiration,
   CharacterMessage,
   CharacterReminder,
   CharacterSpeed,
@@ -37,9 +39,12 @@ export interface DirectTargetMap {
   abilities: AbilityProp[];
   turnEconomy: CharacterTurnEconomy;
   attacks: CharacterAttacks[];
-  spellcasting: CharacterSpellcasting | null;
-  weaponMastery: CharacterWeaponMastery | null;
+  spellcasting: CharacterSpellcasting | undefined;
+  weaponMastery: CharacterWeaponMastery | undefined;
   reminder: CharacterReminder[];
+  bardicInspiration: CharacterBardicInspiration;
+  proficiency: number;
+  classes: RuleClass[]
 }
 
 type DirectTargetResolver = {
@@ -62,11 +67,12 @@ export const directTargetResolver: DirectTargetResolver = {
   abilities: (character: Character) => character.abilities,
   turnEconomy: (character: Character) => character.turnEconomy,
   attacks: (character: Character) => character.attacks,
-  spellcasting: (character: Character) =>
-    character.spellcasting ? character.spellcasting : null,
-  weaponMastery: (character: Character) =>
-    character.weaponMastery ? character.weaponMastery : null,
+  spellcasting: (character: Character) => character.spellcasting,
+  weaponMastery: (character: Character) => character.weaponMastery,
   reminder: (character: Character) => character.reminder,
+  bardicInspiration: (character: Character) => character.bardicInspiration,
+  proficiency: (character: Character) => character.proficiency,
+  classes: (character: Character) => character.classes
 };
 
 const directTargetList: (keyof DirectTargetMap)[] = [
@@ -88,6 +94,9 @@ const directTargetList: (keyof DirectTargetMap)[] = [
   "spellcasting",
   "weaponMastery",
   "reminder",
+  "bardicInspiration",
+  "proficiency",
+  "classes"
 ];
 
-export const directTargetSet = new Set<keyof DirectTargetMap>(directTargetList)
+export const directTargetSet = new Set<keyof DirectTargetMap>(directTargetList);

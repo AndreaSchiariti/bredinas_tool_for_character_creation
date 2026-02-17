@@ -16,8 +16,16 @@ import type {
 import type { DamageTypes } from "./features.type.ts/damageTypes.type";
 import type { FeatType } from "./features.type.ts/feat.type";
 import type { Rest } from "./features.type.ts/rests.type";
-import type { CharacterClassesName } from "./features.type.ts/classes.type";
+import type {
+  CharacterClassesName,
+  SpellcastingClassesName,
+} from "./features.type.ts/classes.type";
 import type { DifficultyClassCalculatorMap } from "../rules/difficultyClassCalculator";
+import type { AdditionalReplenish } from "./counters.types";
+import type {
+  ExchangableFeatureWithSpellSlot,
+  SpellNameAndLevel,
+} from "./features.type.ts/spells.type";
 
 interface BaseModification {
   name: string;
@@ -88,7 +96,7 @@ interface AddTracerBasedOnLevelCounter extends BaseModification {
   usageOnLevel: ValueBasedOnLevel;
   levelRef: TargetInterface;
   replenish: Rest;
-  additionalReplenish?: {replenish: Rest, value: number}
+  additionalReplenish?: { replenish: Rest; value: number };
 }
 
 interface AddTracerTrackerCounter extends BaseModification {
@@ -279,8 +287,42 @@ interface AddCountingCounter extends BaseModification {
 
 interface SetAbilityAsMinimumTotalToSkillBasedOnAbility extends BaseModification {
   type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility";
-  abilityScore: TargetInterface
-  skillsAbilityAffected: Ability[]
+  abilityScore: TargetInterface;
+  skillsAbilityAffected: Ability[];
+}
+
+interface AddExpertiseToProficiencyWithChoice extends BaseModification {
+  type: "addExpertiseToProficiencyWithChoice";
+  howMany: number;
+}
+
+interface AddValueToAllNotProficientSkills extends BaseModification {
+  type: "addValueToAllNotProficientSkills";
+  value: TargetInterface | number;
+  modifyValue?: ModifyValue;
+}
+
+interface AddAdditionalReplenishToCounter extends BaseModification {
+  type: "addAdditionalReplenishToCounter";
+  additionalReplenish: AdditionalReplenish;
+  counter: TargetInterface;
+}
+
+interface AddExchangeToSpellcasting extends BaseModification {
+  type: "addExchangeToSpellcasting";
+  exchange: ExchangableFeatureWithSpellSlot;
+}
+
+interface AddClassSpellList extends BaseModification {
+  type: "addClassSpellList";
+  class: CharacterClassesName;
+  classSpellList: SpellcastingClassesName;
+}
+
+interface AddSpellToClassSpellList extends BaseModification {
+  type: "addSpellToClassSpellList";
+  class: CharacterClassesName;
+  spell: SpellNameAndLevel
 }
 
 export type ModificationsProp =
@@ -317,7 +359,13 @@ export type ModificationsProp =
   | AddProficiencyWithChoice
   | OpenIsHealingWhenHp
   | AddCountingCounter
-  | SetAbilityAsMinimumTotalToSkillBasedOnAbility;
+  | SetAbilityAsMinimumTotalToSkillBasedOnAbility
+  | AddExpertiseToProficiencyWithChoice
+  | AddValueToAllNotProficientSkills
+  | AddAdditionalReplenishToCounter
+  | AddExchangeToSpellcasting
+  | AddClassSpellList
+  | AddSpellToClassSpellList;
 
 const modificationPropsType = new Set<ModificationsProp["type"]>([
   "changeDice",
@@ -352,7 +400,13 @@ const modificationPropsType = new Set<ModificationsProp["type"]>([
   "addAdvantage",
   "openIsHealingWhenHP",
   "addCountingCounter",
-  "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility"
+  "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility",
+  "addExpertiseToProficiencyWithChoice",
+  "addValueToAllNotProficientSkills",
+  "addAdditionalReplenishToCounter",
+  "addExchangeToSpellcasting",
+  "addClassSpellList",
+  "addSpellToClassSpellList",
 ]);
 
 export function isModificationProp(data: unknown): data is ModificationsProp {

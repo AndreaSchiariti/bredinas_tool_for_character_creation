@@ -91,7 +91,7 @@ const abilityScoreImprovementCF: CharacterModifications = {
     {
       name: "abilityScoreImprovement",
       type: "addFeat",
-      source: "barbarian",
+      source: "bard",
       level: 4,
       targets: [{ target: "feats", type: "direct" }],
       isActive: false,
@@ -112,7 +112,7 @@ const epicBoonCF: CharacterModifications = {
     {
       name: "abilityScoreImprovement",
       type: "addFeat",
-      source: "barbarian",
+      source: "bard",
       level: 19,
       targets: [{ target: "feats", type: "direct" }],
       isActive: false,

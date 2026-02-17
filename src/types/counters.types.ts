@@ -16,16 +16,21 @@ interface CounterBase {
   source: string;
 }
 
-interface AdditionalReplenish {
+export interface AdditionalReplenish {
   replenish: Rest;
-  value: number | TargetInterface;
+  value: number | TargetInterface | "full";
+}
+
+interface AdditionalReplenishResolved {
+  replenish: Rest;
+  value: number | "full"
 }
 
 interface Replenishable extends CounterBase {
   maxUses: number;
   remainingUses: number;
   replenish: Rest;
-  additionalReplenish?: AdditionalReplenish;
+  additionalReplenish?: AdditionalReplenishResolved;
 }
 
 export function hasReplenishMaxAndRemainingUses(
@@ -35,17 +40,17 @@ export function hasReplenishMaxAndRemainingUses(
     return false;
   }
 
-  const replanishable = data as {
+  const replenishable = data as {
     maxUses?: unknown;
     remainingUses?: unknown;
     replenish?: unknown;
   };
 
-  const replenish = replanishable.replenish;
+  const replenish = replenishable.replenish;
 
   const hasUses =
-    typeof replanishable.maxUses === "number" &&
-    typeof replanishable.remainingUses === "number";
+    typeof replenishable.maxUses === "number" &&
+    typeof replenishable.remainingUses === "number";
 
   const hasReplenish =
     typeof replenish === "string" && restSet.has(replenish as Rest);
@@ -193,12 +198,6 @@ export function isDiceCounter(
 }
 
 export type ReplenishableCounter = Extract<CountersInterface, Replenishable>;
-
-export function isReplanishableCounter(
-  counter: CountersInterface,
-): counter is ReplenishableCounter {
-  return "replenish" in counter;
-}
 
 export function isCountersInterface(data: unknown): data is CountersInterface {
   if (data === null || typeof data !== "object") {

@@ -1,42 +1,5 @@
 import type { ModificationsProp } from "../../types/ModificationProps.type";
 
-const addValueBasedOnLevelCounterMod: Extract<
-  ModificationsProp,
-  { type: "addValueBasedOnLevelCounter" }
-> = {
-  name: "",
-  type: "addValueBasedOnLevelCounter",
-  source: "barbarian",
-  valueOnLevel: {
-    level1: 2,
-    level2: 2,
-    level3: 2,
-    level4: 2,
-    level5: 2,
-    level6: 2,
-    level7: 2,
-    level8: 2,
-    level9: 3,
-    level10: 3,
-    level11: 3,
-    level12: 3,
-    level13: 3,
-    level14: 3,
-    level15: 3,
-    level16: 4,
-    level17: 4,
-    level18: 4,
-    level19: 4,
-    level20: 4,
-  },
-  levelRef: {
-    target: "classLevel",
-    type: "conditional",
-    condition: "barbarian",
-  },
-  targets: [{ target: "counters", type: "direct" }],
-  isActive: false,
-};
 
 const addValueMod: Extract<ModificationsProp, { type: "addValue" }> = {
   name: "",

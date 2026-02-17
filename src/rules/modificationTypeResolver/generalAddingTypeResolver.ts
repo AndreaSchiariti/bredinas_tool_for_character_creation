@@ -10,6 +10,7 @@ import { devConsoleWarn } from "../../utils/general";
 import {
   getModificationId,
   removeFromTrackModificationsById,
+  removeFromTrackModificationsByMod,
 } from "../idBuilder";
 import type { ModificationTypeResolver } from "../modificationTypeResolver";
 import { getTarget } from "../modificationsExecution";
@@ -83,7 +84,7 @@ function onRemovingValue(
     : {
         ...target,
         currentScore: target.currentScore - mod.value,
-        trackModifications: removeFromTrackModificationsById(target, mod),
+        trackModifications: removeFromTrackModificationsById(target, modId),
       };
 }
 
@@ -172,7 +173,7 @@ function onRemovingValueToFeature<T extends ScoreWithTrackingAndName>(
       : {
           ...feature,
           currentScore: feature.currentScore - mod.value,
-          trackModifications: removeFromTrackModificationsById(feature, mod),
+          trackModifications: removeFromTrackModificationsById(feature, modId),
         };
   });
 }
@@ -241,7 +242,7 @@ function onAddingValueBasedOnLevel(
 
   const cleanedTrackModifications = removeFromTrackModificationsById(
     target,
-    mod,
+    modId,
   );
 
   return {
@@ -288,7 +289,7 @@ function onRemovingValueBasedOnLevel(
   return {
     ...target,
     currentScore: target.currentScore - valueToRemove,
-    trackModifications: removeFromTrackModificationsById(target, mod),
+    trackModifications: removeFromTrackModificationsById(target, modId),
   };
 }
 
@@ -329,8 +330,10 @@ function onRemovingDamageType(
   target: HasDamageTypes,
   mod: Extract<ModificationsProp, { type: "addDamageType" }>,
 ): HasDamageTypes {
-  if (!modificationIsApplied(target.trackModifications, getModificationId(mod))) {
-    return target
+  if (
+    !modificationIsApplied(target.trackModifications, getModificationId(mod))
+  ) {
+    return target;
   }
 
   const indexOfDamage = target.damageTypes.findIndex(
@@ -348,7 +351,7 @@ function onRemovingDamageType(
       ...target.damageTypes.slice(0, indexOfDamage),
       ...target.damageTypes.slice(indexOfDamage + 1),
     ],
-    trackModifications: removeFromTrackModificationsById(target, mod),
+    trackModifications: removeFromTrackModificationsByMod(target, mod),
   };
 }
 
@@ -388,7 +391,7 @@ function onRemovingFeat(
     ...target,
     feats: updatedFeats,
     isAddingFeats: shouldClosePicker
-      ? { isShown: false, addedBy: null }
+      ? { isShown: false }
       : target.isAddingFeats,
   };
 }
@@ -442,7 +445,7 @@ function onReversingIncreaseMaxLimit(
       return ability;
     }
 
-    const updatedTrackModifications = removeFromTrackModificationsById(
+    const updatedTrackModifications = removeFromTrackModificationsByMod(
       ability,
       mod,
     );
@@ -569,9 +572,10 @@ function onRemovingWeaponMasteryBasedOnLevel(
   return {
     ...target,
     available: updatedValue,
-    trackModifications: removeFromTrackModificationsById(target, mod),
+    trackModifications: removeFromTrackModificationsById(target, modId),
   };
 }
+
 
 export const generalAddingTypeResolver: GeneralAddingTypeResolver = {
   addValue: { apply: onAddingValue, revert: onRemovingValue },
@@ -597,4 +601,5 @@ export const generalAddingTypeResolver: GeneralAddingTypeResolver = {
     apply: onAddingWeaponMasteryBasedOnLevel,
     revert: onRemovingWeaponMasteryBasedOnLevel,
   },
+ 
 };

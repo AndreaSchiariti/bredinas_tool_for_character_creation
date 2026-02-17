@@ -11,6 +11,7 @@ import type {
   CharacterAttacks,
   CharacterWeaponMastery,
   CharacterReminder,
+  CharacterBardicInspiration,
 } from "./characterUtils.type";
 import type { CountersInterface } from "./counters.types";
 import type {
@@ -29,6 +30,7 @@ export interface Character {
   xp: number;
   hp: Hp;
   isInspired: boolean;
+  bardicInspiration: CharacterBardicInspiration;
   abilities: AbilityProp[];
   skills: CharacterSkills;
   passivePerception: number;

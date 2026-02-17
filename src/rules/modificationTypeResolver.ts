@@ -1,16 +1,17 @@
 import type { Character } from "../types/character.types";
+import type { RuleClass } from "../types/characterClasses.types";
 import type {
   CharacterTurnEconomy,
   CharacterWeaponMastery,
   Hp,
 } from "../types/characterUtils.type";
-
 import type { CountersInterface } from "../types/counters.types";
 import type {
   AbilityProp,
   CharacterSkills,
 } from "../types/features.type.ts/abilitiesAndSkills.type";
 import type { CharacterFeats } from "../types/features.type.ts/feat.type";
+import type { CharacterSpellcasting } from "../types/features.type.ts/spells.type";
 
 import { type ModificationsProp } from "../types/ModificationProps.type";
 import {
@@ -25,6 +26,7 @@ import { eventCounterTypeResolver } from "./modificationTypeResolver/eventCounte
 import { generalAddingTypeResolver } from "./modificationTypeResolver/generalAddingTypeResolver";
 import { generalCounterTypeResolver } from "./modificationTypeResolver/generalCounterTyperResolver";
 import { openingMessageTypeResolver } from "./modificationTypeResolver/openingMessageTypeResolver";
+import { spellcastingTypeResolver } from "./modificationTypeResolver/spellcastingTypeResolver";
 import { turnEconomyTypeResolver } from "./modificationTypeResolver/turnEconomyTypeResolver";
 
 export interface ModificationTypeMap {
@@ -207,6 +209,45 @@ export interface ModificationTypeMap {
       { type: "setAbilityScoreAsMinimumTotalToSkillsBasedOnAbility" }
     >;
   };
+  addExpertiseToProficiencyWithChoice: {
+    character: Character;
+    target: CharacterSkills;
+    mod: Extract<
+      ModificationsProp,
+      { type: "addExpertiseToProficiencyWithChoice" }
+    >;
+  };
+  addValueToAllNotProficientSkills: {
+    character: Character;
+    target: CharacterSkills;
+    mod: Extract<
+      ModificationsProp,
+      { type: "addValueToAllNotProficientSkills" }
+    >;
+  };
+  addAdditionalReplenishToCounter: {
+    character: Character;
+    target: CountersInterface[];
+    mod: Extract<
+      ModificationsProp,
+      { type: "addAdditionalReplenishToCounter" }
+    >;
+  };
+  addExchangeToSpellcasting: {
+    character: Character;
+    target: CharacterSpellcasting;
+    mod: Extract<ModificationsProp, { type: "addExchangeToSpellcasting" }>;
+  };
+  addClassSpellList: {
+    character: Character;
+    target: RuleClass[];
+    mod: Extract<ModificationsProp, { type: "addClassSpellList" }>;
+  };
+  addSpellToClassSpellList: {
+    _character: Character;
+    target: RuleClass[];
+    mod: Extract<ModificationsProp, { type: "addSpellToClassSpellList" }>;
+  };
 }
 
 export type ModificationTypeResolver = {
@@ -233,4 +274,5 @@ export const modificationTypeResolver: ModificationTypeResolver = {
   ...abilityAndSkillTypeResolver,
   ...generalAddingTypeResolver,
   ...openingMessageTypeResolver,
+  ...spellcastingTypeResolver
 };

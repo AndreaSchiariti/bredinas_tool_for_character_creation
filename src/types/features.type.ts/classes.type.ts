@@ -14,3 +14,17 @@ export const classesArray = [
 ] as const;
 
 export type CharacterClassesName = (typeof classesArray)[number];
+
+export type SpellcastingClassesName = Extract<
+  CharacterClassesName,
+  | "bard"
+  | "cleric"
+  | "druid"
+  | "paladin"
+  | "ranger"
+  | "sorcerer"
+  | "warlock"
+  | "wizard"
+>;
+
+export type NonSpellcastingClassesName = Exclude<CharacterClassesName, SpellcastingClassesName>
