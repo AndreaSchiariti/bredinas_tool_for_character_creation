@@ -1,0 +1,257 @@
+{
+  "name": "cleric",
+  "level": 1,
+  "subclass": null,
+  "primaryAbility": "wisdom",
+  "hitDie": 8,
+  "savingThrowProficiency": ["wisdomSavingThrow", "charismaSavingThrow"],
+  "weaponProficiency": [
+    {
+      "type": "simpleWeapon"
+    }
+  ],
+  "skillProficiency": {
+    "choosingNumber": 2,
+    "skills": ["history", "insight", "medicine", "persuasion", "religion"]
+  },
+  "toolProficiency": [],
+  "armorTraining": {
+    "light": true,
+    "medium": true,
+    "heavy": false,
+    "shields": true
+  },
+  "startingEquipment": {
+    "a": [
+      {
+        "name": "chainShirt",
+        "quantity": 1
+      },
+      {
+        "name": "shield",
+        "quantity": 1
+      },
+      {
+        "name": "mace",
+        "quantity": 1
+      },
+      {
+        "name": "holySymbol",
+        "quantity": 1
+      },
+      {
+        "name": "priestPack",
+        "quantity": 1
+      },
+      {
+        "name": "goldPieces",
+        "quantity": 7
+      }
+    ],
+    "b": [
+      {
+        "name": "goldPieces",
+        "quantity": 110
+      }
+    ]
+  },
+  "becomingClass": {
+    "level1": ["gainAllTraits", "gainLevel1Features"],
+    "multiclass": ["gainMulticlassCleric", "gainLevel1Features"]
+  },
+  "spellcasting": {
+    "ability": ["wisdom"],
+    "usedAbility": "wisdom",
+    "cantripKnown": {
+      "level1": 3,
+      "level2": 3,
+      "level3": 3,
+      "level4": 4,
+      "level5": 4,
+      "level6": 4,
+      "level7": 4,
+      "level8": 4,
+      "level9": 4,
+      "level10": 5,
+      "level11": 5,
+      "level12": 5,
+      "level13": 5,
+      "level14": 5,
+      "level15": 5,
+      "level16": 5,
+      "level17": 5,
+      "level18": 5,
+      "level19": 5,
+      "level20": 5
+    },
+    "preparedSpells": {
+      "level1": 4,
+      "level2": 5,
+      "level3": 6,
+      "level4": 7,
+      "level5": 9,
+      "level6": 10,
+      "level7": 11,
+      "level8": 12,
+      "level9": 14,
+      "level10": 15,
+      "level11": 16,
+      "level12": 16,
+      "level13": 17,
+      "level14": 17,
+      "level15": 18,
+      "level16": 18,
+      "level17": 19,
+      "level18": 20,
+      "level19": 21,
+      "level20": 22
+    },
+    "classSpellList": ["cleric"],
+    "classLevelDivider": 1,
+    "canCastLevel": 1,
+    "spells": { "spellList": [], "isAddingSpell": { "isShown": false } },
+    "addingSpellAttackValue": 0,
+    "addingSaveDCValue": 0,
+    "trackModifications": []
+  },
+  "classFeature": [
+    {
+      "name": "spellcasting",
+      "level": 1,
+      "description": [
+        {
+          "content": "clericSpellcasting",
+          "type": "general"
+        },
+        {
+          "name": "cantrips",
+          "content": "firstclericCantripsDescription",
+          "type": "subfeature"
+        },
+        {
+          "content": "secondclericCantripsDescription",
+          "type": "paragraphGeneral"
+        },
+        {
+          "content": "thirdclericCantripsDescription",
+          "type": "paragraphGeneral"
+        },
+        {
+          "name": "spellSlots",
+          "content": "clericSpellSlotsDescription",
+          "type": "subfeature"
+        },
+        {
+          "name": "preparedSpellsOfLevel1+",
+          "content": "firstclericPreparedSpellsOfLevel1+Description",
+          "type": "subfeature"
+        },
+        {
+          "content": "secondclericPreparedSpellsOfLevel1+Description",
+          "type": "paragraphGeneral"
+        },
+        {
+          "content": "thirdclericPreparedSpellsOfLevel1+Description",
+          "type": "paragraphGeneral"
+        },
+        {
+          "name": "changingYourPreparedSpells",
+          "content": "clericChangingYourPreparedSpellsDescription",
+          "type": "subfeature"
+        },
+        {
+          "name": "spellcastingAbility",
+          "content": "clericSpellcastingAbilityDescription",
+          "type": "subfeature"
+        },
+        {
+          "name": "spellcastingFocus",
+          "content": "clericSpellcastingFocusDescription",
+          "type": "subfeature"
+        }
+      ],
+      "modifications": []
+    },
+    {
+      "name": "divineOrder",
+      "level": 1,
+      "description": [
+        {
+          "content": "divineOrder",
+          "type": "general"
+        },
+        {
+          "name": "protector",
+          "content": "protectorDivineOrderDescription",
+          "type": "subfeature"
+        },
+        {
+          "name": "thaumaturge",
+          "content": "thaumaturgeDivineOrderDescription",
+          "type": "subfeature"
+        }
+      ],
+      "modifications": [
+        {
+          "name": "divineOrder",
+          "type": "addClassChoice",
+          "source": "cleric",
+          "targets": [{ "target": "classes", "type": "direct" }],
+          "class": "cleric",
+          "choice": {
+            "key": "divineOrder",
+            "options": [
+              {
+                "name": "protector",
+                "content": "protectorDivineOrderDescription"
+              },
+              {
+                "name": "thaumaturge",
+                "content": "thaumaturgeDivineOrderDescription"
+              }
+            ]
+          },
+          "isActive": false
+        },
+        {
+          "name": "protector",
+          "choseInFeature": { "key": "divineOrder", "class": "cleric" },
+          "type": "addProficiencyToArmor",
+          "source": "cleric",
+          "armorType": "heavy",
+          "targets": [{ "target": "armorClass", "type": "direct" }],
+          "isActive": false
+        },
+        {
+          "name": "protector",
+          "choseInFeature": { "key": "divineOrder", "class": "cleric" },
+          "type": "addProficiencyToWeapon",
+          "source": "cleric",
+          "weaponProficiency": "allMartial",
+          "targets": [{ "target": "weaponProficiency", "type": "direct" }],
+          "isActive": false
+        },
+        {
+          "name": "thaumaturge",
+          "choseInFeature": { "key": "divineOrder", "class": "cleric" },
+          "type": "addExtraCantripKnownToClass",
+          "quantity": 1,
+          "classSpellList": ["cleric"],
+          "class": "cleric",
+          "source": "cleric",
+          "targets": [{ "target": "spellcasting", "type": "direct" }],
+          "isActive": false
+        },
+        {
+          "name": "thaumaturge",
+          "choseInFeature": { "key": "divineOrder", "class": "cleric" },
+          "type": "addBonusAbilityToAddModifierWithChoice",
+          "source": "cleric",
+          "skillChoices": ["arcana", "religion"],
+          "ability": "wisdom",
+          "targets": [{"target": "skills"}]
+        }
+      ]
+    }
+  ]
+}

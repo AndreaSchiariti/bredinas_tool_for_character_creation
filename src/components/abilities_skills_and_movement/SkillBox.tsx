@@ -1,10 +1,10 @@
 import { useMemo, type JSX } from "react";
 import type { AbilitiesAndSkillProp } from "./AbilitiesAndSkills";
 import { useCharacterContext } from "../../context/CharacterContext";
-import { type SkillProp } from "../../types/characterUtils.type";
+import { type SkillProp } from "../../backend/types/character.types/characterUtils.type";
 import { SingleSkill } from "./SingleSkill";
 import { useUserPreferencesContext } from "../../context/UserPreferencesContext";
-import { useSortArrayByLanguage } from "../../custom_hooks/useSortByLanguage";
+import { useSortArrayByLanguage } from "../../frontend/custom_hooks/useSortByLanguage";
 import { useTranslation } from "react-i18next";
 
 export function SkillBox({ ability }: AbilitiesAndSkillProp): JSX.Element {

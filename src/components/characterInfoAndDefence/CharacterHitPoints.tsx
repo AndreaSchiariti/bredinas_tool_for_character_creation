@@ -1,8 +1,8 @@
 import React, { useMemo, type JSX } from "react";
 import { BoxWithTitle } from "../BowWithTitle";
 import { useCharacterContext } from "../../context/CharacterContext";
-import type { Character } from "../../types/character.types";
-import type { Hp } from "../../types/characterUtils.type";
+import type { Character } from "../../backend/types/character.types/character.types";
+import type { Hp } from "../../backend/types/character.types/characterUtils.type";
 
 type HpKey = keyof Hp;
 

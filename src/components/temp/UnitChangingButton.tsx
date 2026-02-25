@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import type { Units } from "../../types/characterUtils.type";
+import type { Units } from "../../backend/types/character.types/characterUtils.type";
 import { useTranslation } from "react-i18next";
 import { useUserPreferencesContext } from "../../context/UserPreferencesContext";
 

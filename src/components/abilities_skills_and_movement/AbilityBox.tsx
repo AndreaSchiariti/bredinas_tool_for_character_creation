@@ -2,7 +2,7 @@ import { useMemo, type JSX } from "react";
 import type { AbilitiesAndSkillProp } from "./AbilitiesAndSkills";
 import { useTranslation } from "react-i18next";
 import { useCharacterContext } from "../../context/CharacterContext";
-import { type AbilityProp } from "../../types/characterUtils.type";
+import { type AbilityProp } from "../../backend/types/character.types/characterUtils.type";
 import { AbilitySavingThrowAndClassDifficulty } from "./AbilitySavingThrowAndClassDifficulty";
 import { useUserPreferencesContext } from "../../context/UserPreferencesContext";
 

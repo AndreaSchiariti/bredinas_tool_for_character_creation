@@ -1,15 +1,13 @@
 import { useMemo, type JSX } from "react";
 import { useCharacterContext } from "../../context/CharacterContext";
 import { InitiativeMovementAndSensesBox } from "./IniziativeMovementAndSensesBox";
-import {
-  type SkillProp,
-} from "../../types/characterUtils.type";
-import { usePreferredUnit } from "../../custom_hooks/usePreferredUnit";
+import { type SkillProp } from "../../backend/types/character.types/characterUtils.type";
+import { usePreferredUnit } from "../../frontend/custom_hooks/usePreferredUnit";
 
 export function InitiativeMovementAndSenses(): JSX.Element {
   const character = useCharacterContext();
 
-  const characterSpeed = usePreferredUnit(character.speed.currentScore)
+  const characterSpeed = usePreferredUnit(character.speed.currentScore);
 
   const characterInitiative = useMemo<SkillProp>(() => {
     const initiative = character.skills.find(
