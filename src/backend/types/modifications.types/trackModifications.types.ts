@@ -9,14 +9,12 @@ import type { ExchangableFeatureWithSpellSlot } from "../features.types/spells.t
 import type {
   ArmorType,
   CoreWeaponProficiency,
-  WeaponProperty,
 } from "../features.types/items.type";
 import type { LimitationsMap } from "../../rules/limitations/limitationResolver";
 import type { ModificationTypeMap } from "../../rules/modifications/modificationTypeResolver";
 import type { ConditionalTargetMap } from "../../rules/target/conditionalTargetResolver";
 import type { DirectTargetMap } from "../../rules/target/directTargetResolver";
 import type { DiceInterface } from "../generalRules.types/dice.types";
-import type { HasArmorTypeProperty, HasWeaponProficiencyProperty, HasQuantityProperty } from "../guardingFunctions/trackModificationsGuards";
 
 
 export type ModificationTarget =
