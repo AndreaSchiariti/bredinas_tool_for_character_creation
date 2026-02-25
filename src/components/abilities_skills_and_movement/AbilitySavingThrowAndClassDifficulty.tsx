@@ -1,5 +1,8 @@
 import { useMemo, type JSX } from "react";
-import type { AbilityProp, SkillProp } from "../../types/characterUtils.type";
+import type {
+  AbilityProp,
+  SkillProp,
+} from "../../backend/types/character.types/characterUtils.type";
 import { useCharacterContext } from "../../context/CharacterContext";
 import { useTranslation } from "react-i18next";
 

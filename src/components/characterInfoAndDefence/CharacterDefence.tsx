@@ -1,5 +1,5 @@
 import { useMemo, type JSX } from "react";
-import type { DamageTypeProp } from "../../types/characterUtils.type";
+import type { DamageTypeProp } from "../../backend/types/character.types/characterUtils.type";
 import { CharacterArmorClass } from "./CharacterArmorClass";
 import { useCharacterContext } from "../../context/CharacterContext";
 import { CharacterResistancesAndImmunities } from "./CharacterResistancesAndImmunities";
