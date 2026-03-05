@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# Bredina's Tool for Character Creation [TTRPG Character Manager (D&D 2024 SRD)]
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a web application for creating and managing tabletop RPG characters, built around the Dungeons & Dragons 2024 SRD ruleset.
+The goal is to provide a flexible and rule-aware system that helps players build characters, track abilities and features, and manage gameplay effects during a session.
 
-Currently, two official plugins are available:
+The application is designed not only as a character sheet generator, but also as an interactive tool that can be used during play, automatically applying rule effects, conditions, and temporary modifiers while keeping the character state consistent.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The project is implemented with a strong focus on modular rule handling, allowing character features, events, and counters to dynamically modify the character without hardcoding specific mechanics.
 
-## React Compiler
+## Features
+### Character Creation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Create characters based on the D&D 2024 SRD rules.
+- Automatic management of:
+  - class features
+  - spells
+  - skills
+  - proficiencies
+  - modifiers
+- Support for dynamic rule interactions through a modular modification system.
+- Interactive Gameplay Support
 
-## Expanding the ESLint configuration
+The application can be used during the game session to track and visualize changes in real time:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- apply conditions
+- trigger events
+- update counters and resources
+- automatically update attacks, abilities, and modifiers
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+All changes are immediately reflected in the character sheet so players can see the active effects and rule interactions at a glance.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Character Sheet Export
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The app will support exporting:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Character Sheet PDF
+- Turn Economy / Action Summary PDF
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+These exports aim to provide players with a clear and printable reference for their characters and available actions.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Custom Rules Support
+
+Users will be able to:
+
+- add custom features
+- define homebrew rules
+- extend the ruleset without modifying the core system
+
+This makes the application adaptable for house rules, homebrew campaigns, or custom classes.
+
+### Local Data Storage
+
+Characters and custom rules are stored locally using IndexedDB, allowing:
+
+- persistent character storage
+- offline usage
+- multiple saved characters and rulesets
+
+### Localization
+
+The application supports:
+
+- English
+- Italian
+
+Both the interface and the rule content are designed to work in either language.
+
+## Project Goals
+
+The main goals of this project are:
+
+- Create a flexible rule engine for tabletop RPG mechanics
+- Provide a dynamic character sheet that updates automatically based on rule effects
+- Support interactive gameplay tracking
+- Allow custom rule extensions
+- Provide clean PDF exports for in-game reference
+- Showcase complex state management and modular game rule handling
+
+## Source Material
+
+This project uses the Dungeons & Dragons 2024 System Reference Document (SRD) as the primary rules reference.
